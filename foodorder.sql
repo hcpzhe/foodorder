@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2014-09-18 18:05:35
+Date: 2014-09-20 18:09:38
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -171,6 +171,7 @@ CREATE TABLE `fdo_member` (
   `last_login` int(10) unsigned DEFAULT '0' COMMENT '上次登录时间',
   `last_ip` varchar(32) DEFAULT NULL COMMENT '上次登录IP',
   `logins` int(10) unsigned DEFAULT '0' COMMENT '登录次数',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '-1删除 0禁用 1正常',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='普通会员表; 与localstorge同步';
 
