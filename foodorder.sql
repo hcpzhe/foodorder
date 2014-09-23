@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2014-09-20 18:09:38
+Date: 2014-09-23 18:04:11
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -22,6 +22,7 @@ DROP TABLE IF EXISTS `fdo_attr`;
 CREATE TABLE `fdo_attr` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `attr_name` varchar(255) NOT NULL COMMENT '属性名称',
+  `sort` smallint(5) unsigned NOT NULL DEFAULT '255',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '-1删除 0禁用 1正常',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='筛选属性表';
@@ -293,7 +294,7 @@ CREATE TABLE `fdo_store` (
   `last_login` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '上次登录时间',
   `last_ip` varchar(32) DEFAULT NULL COMMENT '上次登录IP',
   `logins` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '登录次数',
-  `sort_order` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
+  `sort` smallint(5) unsigned NOT NULL DEFAULT '255' COMMENT '排序',
   `add_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '入驻时间',
   `end_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '到期时间 0-永不到期',
   `is_close` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否暂停营业 0-否 1-是',
@@ -322,3 +323,6 @@ CREATE TABLE `fdo_store_attr` (
 -- ----------------------------
 -- Records of fdo_store_attr
 -- ----------------------------
+INSERT INTO `fdo_store_attr` VALUES ('1', '1');
+INSERT INTO `fdo_store_attr` VALUES ('1', '2');
+INSERT INTO `fdo_store_attr` VALUES ('2', '2');
