@@ -28,7 +28,7 @@ class UserModel extends Model {
 		}
 		
 		/* 登录用户 */
-		$this->autoLogin($user);
+		$this->_myLogin($user);
 		
 		// XXX 行为  用户登录
 		tag('user_login');
@@ -49,7 +49,7 @@ class UserModel extends Model {
 	 * 自动登录用户
 	 * @param  integer $user 用户信息数组
 	 */
-	private function autoLogin($user){
+	private function _myLogin($user){
 		/* 更新登录信息 */
 		$data = array(
 			'id'         => $user['id'],
