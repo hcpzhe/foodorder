@@ -49,6 +49,7 @@ class GoodsModel extends Model {
     		$this->error = '请先选择要更新的商品';
     		return false;
     	}
+    	unset($data['id']);
     	//先create验证数据
     	$data['cate_id'] = (int)$data['cate_id'];
     	if (false ===$this->create($data,self::MODEL_UPDATE)) return false;
