@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2014-09-23 18:04:11
+Date: 2014-09-24 12:05:06
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -81,6 +81,7 @@ CREATE TABLE `fdo_category` (
   `parent_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '父ID',
   `store_id` int(10) unsigned NOT NULL COMMENT '所属店铺ID',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '255',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '-1删除 0-禁用 1-正常',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='店铺内商品分类';
 
@@ -150,7 +151,7 @@ CREATE TABLE `fdo_goods` (
   `cate_id` int(10) unsigned NOT NULL COMMENT '所属分类ID',
   `goods_name` varchar(128) NOT NULL COMMENT '商品名称',
   `image` varchar(255) DEFAULT NULL COMMENT '商品图片',
-  `price` decimal(10,0) unsigned NOT NULL DEFAULT '0' COMMENT '单价',
+  `price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '单价',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '255' COMMENT '排序',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '-1删除 0-禁用 1-正常',
   PRIMARY KEY (`id`)
