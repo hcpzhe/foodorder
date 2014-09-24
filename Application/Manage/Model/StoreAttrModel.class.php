@@ -14,11 +14,13 @@ class StoreAttrModel extends Model {
 	 * @return boolean
 	 */
 	public function update($store_id, $attr_vals) {
-		//先删除该店铺原有的属性, 添加上新属性
+		//先验证store_id , attr_val_id 是否存在别的表
+		
+		//删除该店铺原有的属性, 再添加上新属性
 		$this->startTrans();
 		
 		$this->rollback();
-		return false;
+		return true;
 	}
 	
 	/**
