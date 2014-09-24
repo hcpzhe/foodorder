@@ -8,18 +8,45 @@ use Think\Model;
 class StoreAttrModel extends Model {
 	
 	/**
-	 * TODO 更新指定店铺筛选属性
+	 * 更新指定店铺筛选属性
 	 * @param int $store_id 店铺ID
 	 * @param array $attr_vals 属性值数组
 	 * @return boolean
 	 */
 	public function update($store_id, $attr_vals) {
-		//先验证store_id , attr_val_id 是否存在别的表
-		
+		//验证store_id合法性
+		$store_M = new Model('Store');
+		$store = $store_M->find($store_id);
+		if (false === $store || empty($store)) {
+			$this->error = '所属店铺不存在';
+			return false;
+		}
 		//删除该店铺原有的属性, 再添加上新属性
 		$this->startTrans();
-		
-		$this->rollback();
+		$this->where('`store_id`='.$store_id)->delete();
+		//验证attr_val_id合法性 , 不合法的忽略掉
+		$AttrVal_M = new Model('AttrVal');
+		$attr_vals = (array)$attr_vals;
+		$tmpdata = array();
+		foreach ($attr_vals as $valid) {
+			$tmpid = (int)$valid;
+			if ($tmpid>0) {
+				$AttrVal = $AttrVal_M->find($tmpid);
+				if (false === $AttrVal || empty($AttrVal)) continue; //不合法的忽略掉
+				$tmpdata = array('store_id'=>$store_id,'attr_val_id'=>$tmpid);
+				if (false === $this->data($tmpdata)->add()) {
+					$this->error = '存在非法数据';
+					$this->rollback();
+					return false;
+				}
+			}
+		}
+		if (empty($tmpdata)) {
+			$this->error = '属性值不合法';
+			$this->rollback();
+			return false;
+		}
+		$this->commit();
 		return true;
 	}
 	
