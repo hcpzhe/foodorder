@@ -30,10 +30,46 @@ class CategoryModel extends Model {
     );
 	
     public function myAdd($data) {
-    	
+    	$data['parent_id'] = (int)$data['parent_id'];
+    	$data['store_id'] = (int)$data['store_id'];
+    	if (false === $this->create($data,self::MODEL_INSERT)) return false;
+		//验证 parent_id合法性
+		if ($this->parent_id >0) {
+			$parent = $this->find($this->parent_id);
+			if (false === $parent || empty($parent)) {
+				$this->error = '父级分类不存在';
+				return false;
+			}
+		}
+		//验证store_id合法性
+		$store_M = new Model('Store');
+		$store = $store_M->find($this->store_id);
+		if (false === $store || empty($store)) {
+			$this->error = '所属店铺不存在';
+			return false;
+		}
+		
+		return $this->add();
     }
     
     public function myUpdate($data) {
-    	
+    	$id = (int)$data['id'];
+    	if ($id<=0) {
+    		$this->error = '请先选择要更新的分类';
+    		return false;
+    	}
+    	unset($data['id']);
+    	//验证数据
+    	$data['parent_id'] = (int)$data['parent_id'];
+    	if (false === $this->create($data,self::MODEL_UPDATE)) return false;
+		//验证 parent_id合法性
+		if ($this->parent_id >0) {
+			$parent = $this->find($this->parent_id);
+			if (false === $parent || empty($parent)) {
+				$this->error = '父级分类不存在';
+				return false;
+			}
+		}
+		return $this->where('`id`='.$id)->save();
     }
 }
