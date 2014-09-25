@@ -48,6 +48,14 @@ function pwd_hash($password, $type = 'ripemd128') {
 }
 
 /**
+ * 生成member_id
+ */
+function member_id() {
+	$uniqid = uniqid('',true);
+	return hash ('ripemd160', session_id().$uniqid.microtime());
+}
+
+/**
  * 处理要在数据库中使用的字符串
  */
 function strfordb($string) {
