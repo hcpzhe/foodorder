@@ -5,6 +5,11 @@ use Manage\Model\StoreModel;
 use Manage\Model\StoreAttrModel;
 use Think\Model;
 
+/**
+ * 店铺管理
+ * @author RockSnap
+ *
+ */
 class StoreController extends ManageBaseController {
 	
 	/**
@@ -19,14 +24,13 @@ class StoreController extends ManageBaseController {
 	 * @param  $minsd		起送价
 	 */
 	public function lists($status=1,$id=null,$name=null,$account=null,$attrs=null,$recom=null,$close=null) {
-		$model = New StoreModel();
+		$model = New StoreModel(); $map = array();
 		
 		//查询条件 处理
-		$map['status'] = in_array($status, StoreModel::$status) ? $status : 1;
-		
-		if (isset($id) && $id>0) {
-			$map['id'] = $id;
-		}else {
+		$map['id'] = (int)$id;
+		if (!isset($id) || $map['id']<=0) {
+			unset($map['id']);
+			$map['status'] = in_array($status, StoreModel::$status) ? $status : 1;
 			if (isset($name)) {
 				$map['store_name'] =array('like', '%'.$name.'%');
 			}
@@ -62,12 +66,11 @@ class StoreController extends ManageBaseController {
 		$this->display();
 	}
 	
-	public function read() {
-		$id = (int)I('id');
-		if ($id <= 0) {
+	public function read($id) {
+		$map['id'] = (int)$id;
+		if ($map['id'] <= 0) {
 			$this->error('请选择要查看的店铺');
 		}
-		$map['id'] = $id;
 		$model = New Model('Store');
 		$info = $model->where($map)->find();
 		$this->assign('info',$info);
@@ -76,13 +79,14 @@ class StoreController extends ManageBaseController {
 		$this->display();
 	}
 	
-	public function update() {
-		$id = (int)I('id');
+	public function update($id) {
+		$id = (int)$id;
 		if ($id <= 0) {
 			$this->error('请选择要更新的店铺');
 		}
 		$model = New StoreModel();
-		if (false === $model->create($_POST,Model::MODEL_UPDATE)) {
+		$data = I('post.');
+		if (false === $model->create($data,Model::MODEL_UPDATE)) {
 			$this->error($model->getError());
 		}
 		if (false === $model->where('`id`='.$id)->save()) {
@@ -108,35 +112,40 @@ class StoreController extends ManageBaseController {
 	}
 	
 	/**
-	 * 删除接口, set status=-1
+	 * store status 状态修改接口 删除,禁用,启用
 	 */
-	public function del() {
-		$id = (int)I('id');
-		if ($id <= 0) {
-			$this->error('请选择要删除的店铺');
-		}
-		$model = New Model('Store');
-		if (false === $model->where('`id`='.$id)->setField('status','-1')) {
-			$this->error('删除失败,未知错误!');
-		}
-		$this->success('删除成功');
-	}
-	
-	/**
-	 * 状态的切换
-	 */
-	public function toggle() {
-		$fields = array('recom'=>'is_recom','close'=>'is_close');
-		$id = (int)I('id');
+	public function state($id,$a) {
+		$acts = array('del'=>'-1','forbid'=>'0','allow'=>'1');
+		$id = (int)$id;
 		if ($id <= 0) {
 			$this->error('主要参数非法');
 		}
-		$field_key = I('f');
+		$act_key = $a;
+		if (!key_exists($act_key, $acts)) {
+			$this->error('参数非法');
+		}
+		
+		$model = New Model('Store');
+		if (false === $model->where('`id`='.$id)->setField('status',$acts[$act_key])) {
+			$this->error('更新失败,未知错误!');
+		}
+		$this->success('更新成功');
+	}
+	
+	/**
+	 * store状态的切换
+	 */
+	public function toggle($id,$f) {
+		$fields = array('recom'=>'is_recom','close'=>'is_close');
+		$map['id'] = (int)$id;
+		if ($map['id'] <= 0) {
+			$this->error('主要参数非法');
+		}
+		$field_key = $f;
 		if (!key_exists($field_key, $fields)) {
 			$this->error('参数非法');
 		}
 		$model = New Model('Store');
-		$map = array('id' => $id);
 		$org = $model->where($map)->getField($fields[$field_key]);
 		$new = $org==='1' ? '0' : '1';
 		if (false === $model->where($map)->setField($fields[$field_key],$new)) {
