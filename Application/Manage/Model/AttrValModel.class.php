@@ -6,8 +6,11 @@ use Think\Model;
  * 筛选属性值
  */
 class AttrValModel extends Model {
+	public static $status = array('del'=>'-1','forbid'=>'0','allow'=>'1');
+	public static $ablemap = array('status'=>'1'); //状态正常的查询条件
+	
 	protected $updateFields = array('attr_val','sort','status'); //更新的时候不修改所属属性ID,避免数据混乱
-
+	
 	/**
 	 * MUST_VALIDATE	必须验证 不管表单是否有设置该字段
 	 * VALUE_VALIDATE	值不为空的时候才验证

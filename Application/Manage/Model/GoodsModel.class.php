@@ -6,8 +6,8 @@ use Think\Model;
  * 商品模型
  */
 class GoodsModel extends Model {
-
-	public static $status = array('-1','0','1');
+	public static $status = array('del'=>'-1','forbid'=>'0','allow'=>'1');
+	public static $ablemap = array('status'=>'1'); //状态正常的查询条件
 	
 	/**
 	 * MUST_VALIDATE	必须验证 不管表单是否有设置该字段
