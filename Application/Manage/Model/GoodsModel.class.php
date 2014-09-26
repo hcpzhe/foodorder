@@ -19,9 +19,12 @@ class GoodsModel extends Model {
 	 * self::MODEL_BOTH或者3		全部情况下验证（默认）
 	 */
     protected $_validate = array(
-    		array('cate_id','number','所属分类不合法'),
-	    	array('goods_name','require','商品名称不能为空'),
-	    	array('price','currency','商品价格不合法'),
+    		array('cate_id','/^[1-9]+\d*$/','所属分类不合法',self::MUST_VALIDATE,'regex',self::MODEL_INSERT),
+    		array('cate_id','/^[1-9]+\d*$/','所属分类不合法',self::EXISTS_VALIDATE,'regex',self::MODEL_UPDATE),
+	    	array('goods_name','require','商品名称不能为空',self::MUST_VALIDATE,'regex',self::MODEL_INSERT),
+	    	array('goods_name','require','商品名称不能为空',self::EXISTS_VALIDATE,'regex',self::MODEL_UPDATE),
+	    	array('price','currency','商品价格不合法',self::MUST_VALIDATE,'regex',self::MODEL_INSERT),
+	    	array('price','currency','商品价格不合法',self::EXISTS_VALIDATE,'regex',self::MODEL_UPDATE),
 			
 	    	array('sort',array('0','99999'),'排序值非法',self::EXISTS_VALIDATE,'between'),
 	    	
@@ -30,7 +33,6 @@ class GoodsModel extends Model {
 	
     public function myAdd($data) {
     	//先create验证数据
-    	$data['cate_id'] = (int)$data['cate_id'];
     	if (false ===$this->create($data,self::MODEL_INSERT)) return false;
     
     	//验证 所属分类是否存在
@@ -51,10 +53,9 @@ class GoodsModel extends Model {
     	}
     	unset($data['id']);
     	//先create验证数据
-    	if (isset($data['cate_id'])) $data['cate_id'] = (int)$data['cate_id'];
     	if (false ===$this->create($data,self::MODEL_UPDATE)) return false;
     	
-    	if (isset($this->cate_id)) {
+    	if ($this->cate_id >0) {
 	    	//验证 所属分类是否存在
 	    	$cate_M = new Model('Category');
 	    	$cate = $cate_M->find($this->cate_id);

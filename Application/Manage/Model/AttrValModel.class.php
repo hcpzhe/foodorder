@@ -21,8 +21,9 @@ class AttrValModel extends Model {
 	 * self::MODEL_BOTH或者3		全部情况下验证（默认）
 	 */
 	protected $_validate = array(
-			array('attr_id','number','所属属性不合法',self::MUST_VALIDATE),
-			array('attr_val','require','属性值不能为空',self::MUST_VALIDATE),
+			array('attr_id','/^[1-9]+\d*$/','所属属性不合法',self::MUST_VALIDATE),
+			array('attr_val','require','属性值不能为空',self::MUST_VALIDATE,'regex',self::MODEL_INSERT),
+			array('attr_val','require','属性值不能为空',self::EXISTS_VALIDATE,'regex',self::MODEL_UPDATE),
     		array('sort',array('0','99999'),'排序值非法',self::EXISTS_VALIDATE,'between'),
 			array('status',array('-1','0','1'),'属性状态非法',self::EXISTS_VALIDATE,'in'),//-1-删除 0-禁用 1-正常
 	);
@@ -34,7 +35,6 @@ class AttrValModel extends Model {
 	 */
 	public function myAdd($data) {
 		//先create验证数据
-		$data['attr_id'] = (int)$data['attr_id'];
 		if (false ===$this->create($data,self::MODEL_INSERT)) return false;
 		
 		//验证 所属属性是否存在

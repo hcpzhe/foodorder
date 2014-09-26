@@ -10,7 +10,10 @@ class StoreModel extends Model {
 	public static $status = array('del'=>'-1','forbid'=>'0','allow'=>'1');
 	public static $recom = array('0','1');
 	public static $close = array('0','1');
-	
+
+	protected $updateFields = array('password','store_name','owner_name','owner_card','address','tel',
+			'balance','rating','min_send','is_recom','store_logo','description','im_qq','im_ww',
+			'last_login','last_ip','logins','sort','end_time','is_close','close_reason','status');
 	/**
 	 * MUST_VALIDATE	必须验证 不管表单是否有设置该字段
 	 * VALUE_VALIDATE	值不为空的时候才验证
@@ -21,19 +24,26 @@ class StoreModel extends Model {
 	 * self::MODEL_BOTH或者3		全部情况下验证（默认）
 	 */
     protected $_validate = array(
-			array('account','/^\w{4,16}$/i','帐号格式错误，字母或数字 4-16位'),//  \w等价于[A-Za-z0-9_]
+    		//  \w等价于[A-Za-z0-9_]
+			array('account','/^\w{4,16}$/i','帐号格式错误，字母或数字 4-16位',self::MUST_VALIDATE,'regex',self::MODEL_INSERT),
 			array('account','','帐号已经存在',self::EXISTS_VALIDATE,'unique'),
 			
-    		array('password','require','登录密码必须'),
-    		array('repassword','require','确认登录密码必须'),
-    		array('repassword','password','登录确认密码不一致',self::EXISTS_VALIDATE,'confirm'),
-
-    		array('store_name','require','店铺名必须'),
+    		array('password','require','登录密码必须',self::MUST_VALIDATE,'regex',self::MODEL_INSERT),
+    		array('repassword','require','确认登录密码必须',self::MUST_VALIDATE,'regex',self::MODEL_INSERT),
+    		array('repassword','password','登录确认密码不一致',self::MUST_VALIDATE,'confirm',self::MODEL_INSERT),
+    		
+    		array('password','require','登录密码必须',self::EXISTS_VALIDATE,'regex',self::MODEL_UPDATE),
+    		array('repassword','require','确认登录密码必须',self::EXISTS_VALIDATE,'regex',self::MODEL_UPDATE),
+    		array('repassword','password','登录确认密码不一致',self::EXISTS_VALIDATE,'confirm',self::MODEL_UPDATE),
+			
+    		array('store_name','require','店铺名必须',self::MUST_VALIDATE,'regex',self::MODEL_INSERT),
+    		array('store_name','require','店铺名必须',self::EXISTS_VALIDATE,'regex',self::MODEL_UPDATE),
+    		
 	    	array('balance','currency','店铺余额非法'),
 	    	array('rating',array('1','5'),'评价分数非法',self::EXISTS_VALIDATE,'between'),
 			array('min_send',array('0','99999'),'最低起送价非法',self::EXISTS_VALIDATE,'between'),
-
-    		array('last_login','currency','店铺余额非法'),
+			
+    		array('last_login','number','上次登录时间非法'),
     		array('logins','number','登录次数非法'),
     		array('end_time','number','到期时间非法'),
     		

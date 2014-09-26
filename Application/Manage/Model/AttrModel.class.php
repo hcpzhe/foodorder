@@ -19,7 +19,9 @@ class AttrModel extends Model {
 	 * self::MODEL_BOTH或者3		全部情况下验证（默认）
 	 */
 	protected $_validate = array(
-			array('attr_name','require','属性名必须'),
+			array('attr_name','require','属性名必须',self::MUST_VALIDATE,'regex',self::MODEL_INSERT),
+			array('attr_name','require','属性名必须',self::EXISTS_VALIDATE,'regex',self::MODEL_UPDATE),
+			
     		array('sort',array('0','99999'),'排序值非法',self::EXISTS_VALIDATE,'between'),
 			array('status',array('-1','0','1'),'属性状态非法',self::EXISTS_VALIDATE,'in'),//-1-删除 0-禁用 1-正常
 	);

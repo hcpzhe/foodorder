@@ -21,17 +21,18 @@ class CategoryModel extends Model {
 	 * self::MODEL_BOTH或者3		全部情况下验证（默认）
 	 */
     protected $_validate = array(
-	    	array('cate_name','require','商品分类名称不能为空'),
-    		array('parent_id','number','父级分类不能为空'),
-    		array('store_id','number','所属店铺不能为空'),
+	    	array('cate_name','require','商品分类名称不能为空',self::MUST_VALIDATE,'regex',self::MODEL_INSERT),
+	    	array('cate_name','require','商品分类名称不能为空',self::EXISTS_VALIDATE,'regex',self::MODEL_UPDATE),
+    		array('parent_id','number','父级分类非法',self::MUST_VALIDATE,'regex',self::MODEL_INSERT),
+    		array('parent_id','number','父级分类非法',self::EXISTS_VALIDATE,'regex',self::MODEL_UPDATE),
+    		
+    		array('store_id','/^[1-9]+\d*$/','所属店铺不能为空',self::MUST_VALIDATE,'regex',self::MODEL_INSERT),
     		
 	    	array('sort',array('0','99999'),'排序值非法',self::EXISTS_VALIDATE,'between'),
 			array('status', array('-1','0','1') ,'店铺状态非法',self::EXISTS_VALIDATE,'in'),//-1-删除 0-禁用 1-正常
     );
 	
     public function myAdd($data) {
-    	$data['parent_id'] = (int)$data['parent_id'];
-    	$data['store_id'] = (int)$data['store_id'];
     	if (false === $this->create($data,self::MODEL_INSERT)) return false;
 		//验证 parent_id合法性
 		if ($this->parent_id >0) {
@@ -60,7 +61,6 @@ class CategoryModel extends Model {
     	}
     	unset($data['id']);
     	//验证数据
-    	if (isset($data['parent_id'])) $data['parent_id'] = (int)$data['parent_id'];
     	if (false === $this->create($data,self::MODEL_UPDATE)) return false;
 		//验证 parent_id合法性
 		if ($this->parent_id > 0) {
