@@ -18,7 +18,7 @@ class StoreAttrModel extends Model {
 		$store_M = new Model('Store');
 		$store = $store_M->find($store_id);
 		if (false === $store || empty($store)) {
-			$this->error = '所属店铺不存在';
+			$this->error = '店铺不存在';
 			return false;
 		}
 		//删除该店铺原有的属性, 再添加上新属性

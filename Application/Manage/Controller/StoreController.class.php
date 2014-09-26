@@ -4,6 +4,7 @@ use Common\Controller\ManageBaseController;
 use Manage\Model\StoreModel;
 use Manage\Model\StoreAttrModel;
 use Think\Model;
+use Manage\Model\AttrValModel;
 
 /**
  * 店铺管理
@@ -151,6 +152,42 @@ class StoreController extends ManageBaseController {
 		if (false === $model->where($map)->setField($fields[$field_key],$new)) {
 			$this->error('更新失败,未知错误!');
 		}
+		$this->success('更新成功');
+	}
+	
+	/**
+	 * 店铺属性查看页面
+	 * @param int $id	店铺ID
+	 */
+	public function attrRead($id) {
+		$map['store_id'] = (int)$id;
+		if ($map['store_id'] <= 0) {
+			$this->error('请选择店铺');
+		}
+		$AttrVal_M = new AttrValModel();
+		$attr_hash = $AttrVal_M->hashList();
+		$this->assign('attr_hash',$attr_hash);//属性-属性值 的hash数组
+		
+		$StoreAttr_M = new StoreAttrModel();
+		$store_attrs = $StoreAttr_M->where($map)->getField('attr_val_id',true);
+		$this->assign('store_attrs',$store_attrs);//该店铺所有的属性值数组
+		
+		cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
+		$this->display();
+	}
+	
+	/**
+	 * 店铺属性更新接口
+	 * @param int $id		店铺ID
+	 * @param array $vals	属性值id数组
+	 */
+	public function attrUpdate($id,$vals) {
+		$id = (int)$id;
+		if ($id <= 0) $this->error('店铺非法');
+		if (!is_array($vals)) $this->error('属性非法');
+		
+		$model = new StoreAttrModel();
+		if (false === $model->update($id, $vals)) $this->error($model->getError());
 		$this->success('更新成功');
 	}
 }
