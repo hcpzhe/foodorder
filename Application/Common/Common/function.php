@@ -56,6 +56,21 @@ function member_id() {
 }
 
 /**
+ * 生成10位order_sn
+ */
+function order_sn() {
+	static $seed=array();
+	if (empty($seed)) $seed = range(1000000000, 9999999999);
+	shuffle($seed);
+	
+	$max = count($seed) - 1;
+	$seed_k = mt_rand(0, $max);
+	$rs = $seed[$seed_k];
+	unset($seed[$seed_k]);
+	return $rs;
+}
+
+/**
  * 处理要在数据库中使用的字符串
  */
 function strfordb($string) {
