@@ -60,10 +60,10 @@ class CategoryModel extends Model {
     	}
     	unset($data['id']);
     	//验证数据
-    	$data['parent_id'] = (int)$data['parent_id'];
+    	if (isset($data['parent_id'])) $data['parent_id'] = (int)$data['parent_id'];
     	if (false === $this->create($data,self::MODEL_UPDATE)) return false;
 		//验证 parent_id合法性
-		if ($this->parent_id >0) {
+		if ($this->parent_id > 0) {
 			$parent = $this->find($this->parent_id);
 			if (false === $parent || empty($parent)) {
 				$this->error = '父级分类不存在';

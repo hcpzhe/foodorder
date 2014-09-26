@@ -27,7 +27,7 @@ class GoodsModel extends Model {
 	    	
 			array('status', array('-1','0','1') ,'店铺状态非法',self::EXISTS_VALIDATE,'in'),//-1-删除 0-禁用 1-正常
     );
-
+	
     public function myAdd($data) {
     	//先create验证数据
     	$data['cate_id'] = (int)$data['cate_id'];
@@ -51,15 +51,17 @@ class GoodsModel extends Model {
     	}
     	unset($data['id']);
     	//先create验证数据
-    	$data['cate_id'] = (int)$data['cate_id'];
+    	if (isset($data['cate_id'])) $data['cate_id'] = (int)$data['cate_id'];
     	if (false ===$this->create($data,self::MODEL_UPDATE)) return false;
-    
-    	//验证 所属分类是否存在
-    	$cate_M = new Model('Category');
-    	$cate = $cate_M->find($this->cate_id);
-    	if (false === $cate || empty($cate)) {
-    		$this->error = '所属商品分类不存在';
-    		return false;
+    	
+    	if (isset($this->cate_id)) {
+	    	//验证 所属分类是否存在
+	    	$cate_M = new Model('Category');
+	    	$cate = $cate_M->find($this->cate_id);
+	    	if (false === $cate || empty($cate)) {
+	    		$this->error = '所属商品分类不存在';
+	    		return false;
+	    	}
     	}
     	return $this->where('`id`='.$id)->save();
     }
