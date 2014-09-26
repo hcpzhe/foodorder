@@ -48,17 +48,10 @@ class MemberController extends ManageBaseController {
 		$this->display();
 	}
 	
-	public function update($id) {
-		$id = (int)$id;
-		if ($id <= 0) {
-			$this->error('请选择要更新的分类');
-		}
+	public function update() {
 		$model = New MemberModel();
 		$data = I('post.');
-		if (false === $model->create($data,Model::MODEL_UPDATE)) {
-			$this->error($model->getError());
-		}
-		if (false === $model->where('`id`='.$id)->save()) {
+		if (false === $model->myUpdate($data)) {
 			$this->error($model->getError());
 		}
 		$this->success('更新成功',C('CURRENT_URL_NAME'));
