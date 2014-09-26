@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2014-09-24 12:05:06
+Date: 2014-09-26 18:19:14
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -54,7 +54,7 @@ CREATE TABLE `fdo_attr_val` (
 DROP TABLE IF EXISTS `fdo_cart`;
 CREATE TABLE `fdo_cart` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `member_id` char(32) NOT NULL COMMENT '用户ID',
+  `member_id` char(40) NOT NULL COMMENT '用户ID',
   `store_id` int(10) unsigned NOT NULL COMMENT '店铺ID 标识哪个店铺的订单',
   `goods_id` int(10) unsigned NOT NULL COMMENT '商品ID',
   `goods_name` varchar(255) DEFAULT NULL,
@@ -166,7 +166,7 @@ CREATE TABLE `fdo_goods` (
 -- ----------------------------
 DROP TABLE IF EXISTS `fdo_member`;
 CREATE TABLE `fdo_member` (
-  `id` char(32) NOT NULL COMMENT '使用unqid函数生成,md5处理',
+  `id` char(40) NOT NULL COMMENT '使用unqid函数生成,md5处理',
   `account` varchar(32) DEFAULT NULL COMMENT '帐号',
   `password` char(32) DEFAULT NULL COMMENT '密码',
   `reg_time` int(10) unsigned DEFAULT '0' COMMENT '注册时间',
@@ -180,6 +180,8 @@ CREATE TABLE `fdo_member` (
 -- ----------------------------
 -- Records of fdo_member
 -- ----------------------------
+INSERT INTO `fdo_member` VALUES ('1', null, null, '0', '0', null, '0', '1');
+INSERT INTO `fdo_member` VALUES ('2', '2', '2', '0', '0', null, '0', '1');
 
 -- ----------------------------
 -- Table structure for `fdo_order`
@@ -189,7 +191,7 @@ CREATE TABLE `fdo_order` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '订单ID',
   `order_sn` varchar(32) NOT NULL DEFAULT '' COMMENT '订单编号',
   `sotre_id` int(10) unsigned NOT NULL COMMENT '所属店铺ID',
-  `member_id` char(32) NOT NULL COMMENT '购买用户编号',
+  `member_id` char(40) NOT NULL COMMENT '购买用户编号',
   `buyer_name` varchar(32) NOT NULL COMMENT '购买者姓名',
   `address` varchar(255) NOT NULL COMMENT '地址',
   `phone` varchar(32) NOT NULL COMMENT '电话',
@@ -201,7 +203,7 @@ CREATE TABLE `fdo_order` (
   `pay_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '付款时间',
   `pay_status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '支付状态 0-否 1-是',
   `phone_status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '手机验证状态 0-否 1-是',
-  `store_status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '店铺接受状态 0-否 1-是',
+  `store_status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '店铺接收订单状态 0-否 1-是',
   `ship_status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '配送状态 0-未开始 1-配送中',
   `confirm` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '客户收货确认 0-否 1-是',
   `ship_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发货时间',
