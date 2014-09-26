@@ -16,7 +16,9 @@ class OrderModel extends Model {
 	public static $confirm = array('0','1'); //客户收货确认 0-否 1-是
 	public static $unreceived = array('0','1'); //用户未收货申请1-是,0-否;必须在收货截止时间内才能申请
 	
-	protected $updateFields = array('buyer_name','address','phone','payment_id');//TODO
+	protected $updateFields = array('buyer_name','address','phone','order_note','amount','payment_id',
+			'update_time','pay_time','pay_status','phone_status','store_status','ship_status','confirm',
+			'ship_time','confirm_time','confirm_expired','unreceived','finish_time','status');
 	/**
 	 * MUST_VALIDATE	必须验证 不管表单是否有设置该字段
 	 * VALUE_VALIDATE	值不为空的时候才验证
