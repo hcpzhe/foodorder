@@ -84,21 +84,7 @@ class AttrController extends ManageBaseController {
 	 * attr status状态修改接口 删除,禁用,启用
 	 */
 	public function state($id,$a) {
-		$acts = AttrModel::$status;
-		$id = (int)$id;
-		if ($id <= 0) {
-			$this->error('主要参数非法');
-		}
-		$act_key = $a;
-		if (!key_exists($act_key, $acts)) {
-			$this->error('参数非法');
-		}
-		
-		$model = New Model('Attr');
-		if (false === $model->where('`id`='.$id)->setField('status',$acts[$act_key])) {
-			$this->error('更新失败,未知错误!');
-		}
-		$this->success('更新成功');
+		$this->_state($id, $a, 'Attr');
 	}
 	
 	/**
@@ -183,20 +169,6 @@ class AttrController extends ManageBaseController {
 	 * attr_val status状态修改接口 删除,禁用,启用
 	 */
 	public function valState($id,$a) {
-		$acts = AttrValModel::$status;
-		$id = (int)$id;
-		if ($id <= 0) {
-			$this->error('主要参数非法');
-		}
-		$act_key = $a;
-		if (!key_exists($act_key, $acts)) {
-			$this->error('参数非法');
-		}
-	
-		$model = New Model('AttrVal');
-		if (false === $model->where('`id`='.$id)->setField('status',$acts[$act_key])) {
-			$this->error('更新失败,未知错误!');
-		}
-		$this->success('更新成功');
+		$this->_state($id, $a, 'AttrVal');
 	}
 }

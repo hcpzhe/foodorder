@@ -103,7 +103,8 @@ class StoreController extends ManageBaseController {
 	
 	public function insert() {
 		$model = New StoreModel();
-		if (false === $model->create($_POST,Model::MODEL_INSERT)) {
+		$data = I('post.');
+		if (false === $model->create($data,Model::MODEL_INSERT)) {
 			$this->error($model->getError());
 		}
 		if (false === $model->add()) {
@@ -116,21 +117,7 @@ class StoreController extends ManageBaseController {
 	 * store status 状态修改接口 删除,禁用,启用
 	 */
 	public function state($id,$a) {
-		$acts = array('del'=>'-1','forbid'=>'0','allow'=>'1');
-		$id = (int)$id;
-		if ($id <= 0) {
-			$this->error('主要参数非法');
-		}
-		$act_key = $a;
-		if (!key_exists($act_key, $acts)) {
-			$this->error('参数非法');
-		}
-		
-		$model = New Model('Store');
-		if (false === $model->where('`id`='.$id)->setField('status',$acts[$act_key])) {
-			$this->error('更新失败,未知错误!');
-		}
-		$this->success('更新成功');
+		$this->_state($id, $a, 'Store');
 	}
 	
 	/**

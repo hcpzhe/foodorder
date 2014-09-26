@@ -77,4 +77,21 @@ abstract class ManageBaseController extends Controller {
 		}
 		return true;
 	}
+	
+	protected function _state($id,$act,$modelname) {
+		$id = (int)$id;
+		if ($id <= 0) {
+			$this->error('主要参数非法');
+		}
+		$class = '\\Manage\\Model\\'.$modelname;
+		$acts = $class::$status;
+		if (!key_exists($act, $acts)) {
+			$this->error('参数非法');
+		}
+		$model = M($modelname);
+		if (false === $model->where('`id`='.$id)->setField('status',$acts[$act])) {
+			$this->error('更新失败,未知错误!');
+		}
+		$this->success('更新成功');
+	}
 }
