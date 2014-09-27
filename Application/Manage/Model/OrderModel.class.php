@@ -62,6 +62,7 @@ class OrderModel extends Model {
         	array('add_time', NOW_TIME, self::MODEL_INSERT),//订单创建时间
         	array('update_time', NOW_TIME, self::MODEL_UPDATE),//订单更新时间
         	array('pay_time', 0, self::MODEL_INSERT),//付款时间
+        	array('unreceived', 0, self::MODEL_INSERT),//用户未收货申请  必须在收货截止时间内才能申请
     );
 
     /**
@@ -150,10 +151,57 @@ class OrderModel extends Model {
     		return false;
     	}
     	$this->commit();
-    	return true;
+    	return $newid;
     }
     
+    // 订单中的商品不在此进行更新
     public function myUpdate($data) {
-    	//TODO
+    	$order_id = (int)$data['id']; unset($data['id']);
+    	// 检测订单是否存在
+    	$order = $this->where('`id`='.$order_id)->find();
+    	if (empty($order)) {
+    		$this->error = '订单不存在';
+    		return false;
+    	}
+    	if ($order['pay_status'] == '1') {
+    		//已经付款的订单, 不允许修改支付方式
+    		unset($data['payment_id']);
+    	}
+    	
+    	if (false === $this->create($data,self::MODEL_UPDATE)) return false;
+    	// payment_id 合法性
+    	if ($this->payment_id >0) {
+	    	$payment_M = new Model('Payment');
+	    	$payment = $payment_M->where("`id`='".$this->payment_id."'")->find();
+	    	if (false === $payment || empty($payment)) {
+	    		$this->error = '支付方式不存在';
+	    		return false;
+	    	}
+    	}
+    	return $this->where('`id`='.$order_id)->save();
+    }
+    
+    /**
+     * 删除订单内的某个商品
+     * @param int $order_id
+     * @param int $goods_id
+     * @return boolean
+     */
+    public function delGoods($order_id,$goods_id) {
+    	// 检测订单是否存在
+    	$order = $this->where('`id`='.$order_id)->find();
+    	if (empty($order)) {
+    		$this->error = '订单不存在';
+    		return false;
+    	}
+    	$this->startTrans();
+    	$og_M = new OrderGoodsModel();
+    	$new_amount = $og_M->myDel($order_id, $goods_id);
+    	if (false === $new_amount) {
+    		$this->error = '订单的总价计算错误';
+    		$this->rollback();
+    		return false;
+    	}
+    	return $this->where('order_id='.$order_id)->setField('amount',$new_amount);
     }
 }
