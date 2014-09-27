@@ -7,7 +7,7 @@ use Think\Model;
  */
 class OrderModel extends Model {
 	public static $ablemap = array('status'=>'1'); //状态正常的查询条件
-	public static $status = array('del'=>'-1','forbid'=>'0','allow'=>'1');
+	public static $mystat = array('del'=>'-1','forbid'=>'0','allow'=>'1');
 	
 	public static $pay_status = array('0','1'); //支付状态 0-否 1-是
 	public static $phone_status = array('0','1'); //手机验证状态 0-否 1-是

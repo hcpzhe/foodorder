@@ -6,7 +6,7 @@ use Think\Model;
  * 商品分类模型
  */
 class CategoryModel extends Model {
-	public static $status = array('del'=>'-1','forbid'=>'0','allow'=>'1');
+	public static $mystat = array('del'=>'-1','forbid'=>'0','allow'=>'1');
 	public static $ablemap = array('status'=>'1'); //状态正常的查询条件
 	
 	protected $updateFields = array('cate_name','parent_id','sort','status'); //更新的时候不修改所属店铺ID,避免数据混乱

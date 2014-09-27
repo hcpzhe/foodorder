@@ -18,7 +18,7 @@ class AttrController extends ManageBaseController {
 		$map['id'] = (int)$id;
 		if (!isset($id) || $map['id']<=0) {
 			unset($map['id']);
-			$map['status'] = in_array($status, AttrModel::$status) ? $status : 1;
+			$map['status'] = in_array($status, AttrModel::$mystat) ? $status : 1;
 			if (isset($name)) {
 				$map['attr_name'] =array('like', '%'.$name.'%');
 			}
@@ -99,7 +99,7 @@ class AttrController extends ManageBaseController {
 			unset($map['id']);
 			$map['attr_id'] = (int)$atid;
 			if ($map['attr_id'] <= 0) $this->error('参数非法');
-			$map['status'] = in_array($status, AttrValModel::$status) ? $status : 1;
+			$map['status'] = in_array($status, AttrValModel::$mystat) ? $status : 1;
 		}
 		/******************/
 		

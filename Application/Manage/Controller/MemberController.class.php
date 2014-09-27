@@ -22,7 +22,7 @@ class MemberController extends ManageBaseController {
 			if (isset($reg)) {
 				$map['account'] = $reg==='0' ? array('exp',' is NULL ') : array('exp',' is not NULL ');
 			}
-			$map['status'] = in_array($status, CategoryModel::$status) ? $status : 1;
+			$map['status'] = in_array($status, CategoryModel::$mystat) ? $status : 1;
 			if (isset($acu)) {
 				$map['account'] =array('like', '%'.$acu.'%');
 			}
@@ -78,7 +78,7 @@ class MemberController extends ManageBaseController {
 	 * member status 状态修改接口 删除,禁用,启用
 	 */
 	public function state($id,$a) {
-		$acts = MemberModel::$status;
+		$acts = MemberModel::$mystat;
 		if (!key_exists($a, $acts)) {
 			$this->error('参数非法');
 		}

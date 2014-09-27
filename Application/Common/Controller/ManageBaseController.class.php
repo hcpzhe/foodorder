@@ -84,7 +84,7 @@ abstract class ManageBaseController extends Controller {
 			$this->error('主要参数非法');
 		}
 		$class = '\\Manage\\Model\\'.$modelname;
-		$acts = $class::$status;
+		$acts = $class::$mystat;
 		if (!key_exists($act, $acts)) {
 			$this->error('参数非法');
 		}

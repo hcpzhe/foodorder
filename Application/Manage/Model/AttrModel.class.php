@@ -6,7 +6,7 @@ use Think\Model;
  * 筛选属性
  */
 class AttrModel extends Model {
-	public static $status = array('del'=>'-1','forbid'=>'0','allow'=>'1');
+	public static $mystat = array('del'=>'-1','forbid'=>'0','allow'=>'1');
 	public static $ablemap = array('status'=>'1'); //状态正常的查询条件
 
 	/**
@@ -39,7 +39,7 @@ class AttrModel extends Model {
 			$where = $options;
 		}
 		
-		if ($where['status']===null||$where['status']===''||!in_array($where['status'],self::$status)) $where['status'] = '1';
+		if ($where['status']===null||$where['status']===''||!in_array($where['status'],self::$mystat)) $where['status'] = '1';
 		return $this->where($where)->find();
 	}
 	

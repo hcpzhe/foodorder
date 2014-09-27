@@ -7,7 +7,7 @@ use Think\Model;
  * insert,update 直接create操作数据即可
  */
 class MemberModel extends Model {
-	public static $status = array('del'=>'-1','forbid'=>'0','allow'=>'1');
+	public static $mystat = array('del'=>'-1','forbid'=>'0','allow'=>'1');
 	public static $ablemap = array('status'=>'1'); //状态正常的查询条件
 	
 	protected $updateFields = array('password','status'); //create时可更新字段,避免数据混乱

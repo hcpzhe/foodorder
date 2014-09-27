@@ -31,7 +31,7 @@ class StoreController extends ManageBaseController {
 		$map['id'] = (int)$id;
 		if (!isset($id) || $map['id']<=0) {
 			unset($map['id']);
-			$map['status'] = in_array($status, StoreModel::$status) ? $status : 1;
+			$map['status'] = in_array($status, StoreModel::$mystat) ? $status : 1;
 			if (isset($name)) {
 				$map['store_name'] =array('like', '%'.$name.'%');
 			}

@@ -30,7 +30,7 @@ class CategoryController extends ManageBaseController {
 				$this->error('参数非法');
 			}
 			
-			$map['status'] = in_array($status, CategoryModel::$status) ? $status : 1;
+			$map['status'] = in_array($status, CategoryModel::$mystat) ? $status : 1;
 			if (isset($name)) {
 				$map['cate_name'] =array('like', '%'.$name.'%');
 			}

@@ -6,7 +6,7 @@ use Think\Model;
  * 商品模型
  */
 class GoodsModel extends Model {
-	public static $status = array('del'=>'-1','forbid'=>'0','allow'=>'1');
+	public static $mystat = array('del'=>'-1','forbid'=>'0','allow'=>'1');
 	public static $ablemap = array('status'=>'1'); //状态正常的查询条件
 	
 	/**

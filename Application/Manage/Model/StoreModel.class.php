@@ -7,7 +7,7 @@ use Think\Model;
  */
 class StoreModel extends Model {
 	public static $ablemap = array('status'=>'1'); //状态正常的查询条件
-	public static $status = array('del'=>'-1','forbid'=>'0','allow'=>'1');
+	public static $mystat = array('del'=>'-1','forbid'=>'0','allow'=>'1');
 	public static $recom = array('0','1');
 	public static $close = array('0','1');
 
