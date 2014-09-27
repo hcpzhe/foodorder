@@ -80,7 +80,77 @@ class OrderModel extends Model {
     }
     
     public function myAdd($data) {
-    	//TODO
+    	/**
+    	 * $data['goods'][商品id] = array(id=>商品id,num=>购买数量);
+    	 */
+    	$goods = $data['goods']; unset($data['goods']);
+    	if (!is_array($goods) || empty($goods)) {
+    		$this->error = '新增失败,订单内必须有商品';
+    		return false;
+    	}
+    	// 计算合计总金额 amount
+    	$goods_ids = array_keys($goods);
+    	$goods_M = new Model('Goods');
+    	$goods_list = $goods_M->where(array('goods_id'=>array('in',$goods_ids)))->getField('id,cate_id,goods_name,image,price');
+    	$data['amount'] = 0;
+    	foreach ($goods as &$row) {
+    		$row['price'] = $goods_list[$row['id']]['price'];
+    		$row['amount'] = $row['price']*$row['num'];
+    		$data['amount'] += $row['amount'];
+    	}
+    	unset($row); //清除指针
+    	/********数据验证*******************************/
+    	if (false === $this->create($data,self::MODEL_INSERT)) return false;
+    	// store_id 合法性
+    	$store_M = new Model('Store');
+    	$store = $store_M->where("`id`='".$this->store_id."'")->find();
+    	if (false === $store || empty($store)) {
+    		$this->error = '新增失败,店铺不存在';
+    		return false;
+    	}
+    	// member_id 合法性
+    	$member_M = new Model('Member');
+    	$member = $member_M->where("`id`='".$this->member_id."'")->find();
+    	if (false === $member || empty($member)) {
+    		$this->error = '新增失败,购买用户不存在';
+    		return false;
+    	}
+    	// payment_id 合法性
+    	$payment_M = new Model('Payment');
+    	$payment = $payment_M->where("`id`='".$this->payment_id."'")->find();
+    	if (false === $payment || empty($payment)) {
+    		$this->error = '新增失败,支付方式不存在';
+    		return false;
+    	}
+    	/*************************************************/
+    	$this->startTrans();
+    	$newid = $this->add();
+    	if (!$newid) {
+    		$this->error = '新增失败,数据库错误';
+    		$this->rollback();
+    		return false;
+    	}
+    	$og_M = new OrderGoodsModel(); $og_flag = 0;
+    	foreach ($goods as $row) {
+    		if (!empty($goods_list[$row['id']])) {
+    			//商品必须存在
+    			$order_goods_data = array();
+    			$order_goods_data['order_id'] = $newid;
+    			$order_goods_data['goods_id'] = $row['id'];
+    			$order_goods_data['quantity'] = $row['num'];
+    			$order_goods_data['price'] = $row['price'];
+    			$order_goods_data['amount'] = $row['amount'];
+    			if (false === $og_M->myAdd($order_goods_data)) continue;
+    			$og_flag++;
+    		}
+    	}
+    	if ($og_flag <= 0) {
+    		$this->error = '新增失败,订单内没有合法的商品';
+    		$this->rollback();
+    		return false;
+    	}
+    	$this->commit();
+    	return true;
     }
     
     public function myUpdate($data) {
