@@ -62,20 +62,42 @@ class OrderGoodsModel extends Model {
      * 不验证 goods_id 和 order_id 的合法性
      */
     public function myUpdate($data) {
-    	$id = (int)$data['id'];
-    	if ($id<=0) {
+    	$map['order_id'] = (int)$data['order_id'];
+    	if ($map['order_id']<=0) {
+    		$this->error = '请先选择要更新的订单';
+    		return false;
+    	}
+    	unset($data['order_id']);
+    	$map['goods_id'] = (int)$data['goods_id'];
+    	if ($map['goods_id']<=0) {
     		$this->error = '请先选择要更新的订单商品';
     		return false;
     	}
-    	unset($data['id']);
+    	unset($data['goods_id']);
     	
     	//先create验证数据
     	if (false ===$this->create($data,self::MODEL_UPDATE)) return false;
     	if (!isset($this->amount) || !is_null($this->amount)) {
-    		//如果没有给出指定的商品总价, 那么进行自动计算
-    		$this->amount = $this->price * $this->quantity;
+    		// 如果没有给出指定的商品总价, 那么进行自动计算
+    		if (false === $this->where($map)->save()) {
+    			$this->error = '数据库错误,更新失败';
+    			return false;
+    		}
+    		return $this->where($map)->setField('amount','quantity*price');
+    	}else {
+    		return $this->where($map)->save();
     	}
-    	
-    	return $this->where('`id`='.$id)->save();
+    }
+    
+    public function myDel($order_id,$goods_id) {
+    	$map = array('order_id'=>$order_id,'goods_id'=>$goods_id);
+    	if (false === $this->where($map)->delete()) {
+    		$this->error = '数据库错误';
+    		return false;
+    	}
+    	//删除成功, 返回当前订单的总价
+    	$fields = array('order_id','sum(amount)'=>'amount');
+    	$info = $this->where('`order_id`='.$order_id)->field($fields)->group('goods_id')->find();
+    	return $info['amount'];
     }
 }
