@@ -9,12 +9,12 @@ class OrderModel extends Model {
 	public static $ablemap = array('status'=>'1'); //状态正常的查询条件
 	public static $mystat = array('del'=>'-1','forbid'=>'0','allow'=>'1');
 	
-	public static $pay_status = array('0','1'); //支付状态 0-否 1-是
-	public static $phone_status = array('0','1'); //手机验证状态 0-否 1-是
-	public static $store_status = array('0','1'); //店铺接收订单状态 0-否 1-是
-	public static $ship_status = array('0','1'); //配送状态 0-未开始 1-配送中
-	public static $confirm = array('0','1'); //客户收货确认 0-否 1-是
-	public static $unreceived = array('0','1'); //用户未收货申请1-是,0-否;必须在收货截止时间内才能申请
+	public static $S_pay_status = array('0','1'); //支付状态 0-否 1-是
+	public static $S_phone_status = array('0','1'); //手机验证状态 0-否 1-是
+	public static $S_store_status = array('0','1'); //店铺接收订单状态 0-否 1-是
+	public static $S_ship_status = array('0','1'); //配送状态 0-未开始 1-配送中
+	public static $S_confirm = array('0','1'); //客户收货确认 0-否 1-是
+	public static $S_unreceived = array('0','1'); //用户未收货申请1-是,0-否;必须在收货截止时间内才能申请
 	
 	protected $updateFields = array('buyer_name','address','phone','order_note','amount','payment_id',
 			'update_time','pay_time','pay_status','phone_status','store_status','ship_status','confirm',
