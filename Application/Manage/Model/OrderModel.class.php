@@ -31,6 +31,7 @@ class OrderModel extends Model {
     protected $_validate = array(
     		array('sotre_id','/^[1-9]+\d*$/','所属店铺必须',self::MUST_VALIDATE,'regex',self::MODEL_INSERT),
     		array('member_id','40','购买用户编号非法',self::MUST_VALIDATE,'length',self::MODEL_INSERT),
+    		array('order_sn','','订单编号已存在',self::EXISTS_VALIDATE,'unique'),
 			
     		array('buyer_name','require','购买者姓名必须',self::MUST_VALIDATE,'regex',self::MODEL_INSERT),
     		array('buyer_name','require','购买者姓名必须',self::EXISTS_VALIDATE,'regex',self::MODEL_UPDATE),
@@ -93,14 +94,28 @@ class OrderModel extends Model {
     	$goods_ids = array_keys($goods);
     	$goods_M = new Model('Goods');
     	$goods_list = $goods_M->where(array('goods_id'=>array('in',$goods_ids)))->getField('id,cate_id,goods_name,image,price');
-    	$data['amount'] = 0;
-    	foreach ($goods as &$row) {
-    		$row['price'] = $goods_list[$row['id']]['price'];
-    		$row['amount'] = $row['price']*$row['num'];
-    		$data['amount'] += $row['amount'];
+    	$data['amount'] = 0; $newgoods = array();
+    	foreach ($goods as $row) {
+    		$tmparr = $row;
+    		$tmparr['num'] = (int)$tmparr['num'];
+    		if ($tmparr['num'] > 0) {
+	    		$tmparr['price'] = $goods_list[$tmparr['id']]['price'];
+	    		$tmparr['amount'] = $tmparr['price']*$tmparr['num'];
+	    		$data['amount'] += $tmparr['amount'];
+	    		$newgoods[] = $tmparr;
+    		}
     	}
-    	unset($row); //清除指针
+    	if (empty($newgoods)) {
+    		$this->error = '新增失败,商品数量必须存在';
+    		return false;
+    	}
     	/********数据验证*******************************/
+    	if (preg_match('/^\w+$/',$data['order_sn'])) {
+    		//如果传入的参数有订单编号
+    		$tmp_auto = $this->_auto;
+    		unset($tmp_auto[0]);//除去自动填充订单编号
+    		$this->auto($tmp_auto);
+    	}
     	if (false === $this->create($data,self::MODEL_INSERT)) return false;
     	// store_id 合法性
     	$store_M = new Model('Store');
@@ -132,15 +147,16 @@ class OrderModel extends Model {
     		return false;
     	}
     	$og_M = new OrderGoodsModel(); $og_flag = 0;
-    	foreach ($goods as $row) {
+    	foreach ($newgoods as $row) {
     		if (!empty($goods_list[$row['id']])) {
     			//商品必须存在
-    			$order_goods_data = array();
-    			$order_goods_data['order_id'] = $newid;
-    			$order_goods_data['goods_id'] = $row['id'];
-    			$order_goods_data['quantity'] = $row['num'];
-    			$order_goods_data['price'] = $row['price'];
-    			$order_goods_data['amount'] = $row['amount'];
+    			$order_goods_data = array(
+	    				'order_id' => $newid,
+	    				'goods_id' => $row['id'],
+	    				'quantity' => $row['num'],
+	    				'price' => $row['price'],
+	    				'amount' => $row['amount']
+    			);
     			if (false === $og_M->myAdd($order_goods_data)) continue;
     			$og_flag++;
     		}
