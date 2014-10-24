@@ -2,6 +2,7 @@
 namespace Manage\Controller;
 use Common\Controller\ManageBaseController;
 use Manage\Model\MemberModel;
+use Manage\Model\CategoryModel;
 
 class MemberController extends ManageBaseController {
 	/**
