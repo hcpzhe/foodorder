@@ -93,109 +93,54 @@
 <div class="row">
 	<div class="col-sm-12">
 		<div class="widget-box transparent">
+			
 			<div class="widget-header widget-header-flat">
-				<h4 class="widget-title lighter">
-					<i class="ace-icon fa fa-star orange"></i>
-					统计信息
-				</h4>
+					<button class="RShandle_btn btn btn-sm btn-primary" data-call="RSread">查看详细</button>
 			</div>
-
+			
 			<div class="widget-body">
 				<div class="widget-main no-padding">
-					<table class="table table-bordered table-striped">
+					<table class="table table-bordered table-striped table-hover">
 						<thead class="thin-border-bottom">
 						<tr>
-							<th>
-								<i class="ace-icon fa fa-caret-right blue"></i>name
-							</th>
-
-							<th>
-								<i class="ace-icon fa fa-caret-right blue"></i>price
-							</th>
-
-							<th class="hidden-480">
-								<i class="ace-icon fa fa-caret-right blue"></i>status
-							</th>
+							<th class="center"></th>
+							<th>会员编号</th>
+							<th>帐号</th>
+							<th>注册时间</th>
+							<th>登录次数</th>
+							<th>已注册</th>
+							<th>状态</th>
 						</tr>
 						</thead>
-
 						<tbody>
+						<!-- <foreach name="list" item="vo"> -->
 						<tr>
-							<td>internet.com</td>
-
-							<td>
-								<small>
-									<s class="red">$29.99</s>
-								</small>
-								<b class="green">$19.99</b>
+							<td class="center">
+								<input type="checkbox" class="ace RSckedit"><span class="lbl"></span>
+								<div class="hidden">
+									<a class="RSread a_jump" href="{:U('Member/read?id='.$vo['id'])}"></a>
+								</div>
 							</td>
-
-							<td class="hidden-480">
-								<span class="label label-info arrowed-right arrowed-in">on sale</span>
+							<td>{$vo['id']}</td>
+							<td>{$vo['account']}</td>
+							<td>{:date('Y-m-d',$vo['reg_time'])}</td>
+							<td>{$vo['logins']}</td>
+							<td>
+								<!-- <if condition="is_null($vo['account'])"> -->
+								<i class="fa fa-times red"></i>
+								<!-- <else /> -->
+								<i class="fa fa-check green"></i>
+								<!-- </if> -->
+							</td>
+							<td>
+								<!-- <if condition="$vo['status'] eq 1"> -->
+								<i class="fa fa-check green"></i>
+								<!-- <else /> -->
+								<i class="fa fa-times red"></i>
+								<!-- </if> -->
 							</td>
 						</tr>
-
-						<tr>
-							<td>online.com</td>
-
-							<td>
-								<small>
-									<s class="red"></s>
-								</small>
-								<b class="green">$16.45</b>
-							</td>
-
-							<td class="hidden-480">
-								<span class="label label-success arrowed-in arrowed-in-right">approved</span>
-							</td>
-						</tr>
-
-						<tr>
-							<td>newnet.com</td>
-
-							<td>
-								<small>
-									<s class="red"></s>
-								</small>
-								<b class="green">$15.00</b>
-							</td>
-
-							<td class="hidden-480">
-								<span class="label label-danger arrowed">pending</span>
-							</td>
-						</tr>
-
-						<tr>
-							<td>web.com</td>
-
-							<td>
-								<small>
-									<s class="red">$24.99</s>
-								</small>
-								<b class="green">$19.95</b>
-							</td>
-
-							<td class="hidden-480">
-																	<span class="label arrowed">
-																		<s>out of stock</s>
-																	</span>
-							</td>
-						</tr>
-
-						<tr>
-							<td>domain.com</td>
-
-							<td>
-								<small>
-									<s class="red"></s>
-								</small>
-								<b class="green">$12.00</b>
-							</td>
-
-							<td class="hidden-480">
-								<span class="label label-warning arrowed arrowed-right">SOLD</span>
-							</td>
-						</tr>
+						<!-- </foreach> -->
 						</tbody>
 					</table>
 				</div><!-- /.widget-main -->
@@ -240,6 +185,32 @@
 <!-- ace scripts -->
 <script src="__PUBLIC__/assets/js/ace-elements.min.js"></script>
 <script src="__PUBLIC__/assets/js/ace.min.js"></script>
+<script src="__JS__/RSsubmit.js"></script>
+<script type="text/javascript">
+jQuery(function($) {
+	$(".RSckedit").on('click',function(){
+		if (this.checked === true) {
+			$(".RSckedit").not($(this)).prop("checked",false);
+		}
+	});
+	
+	$(".RShandle_btn").on('click',function(){
+		var checkedbox = $(".RSckedit:checked:first");
+		if (checkedbox.length == 1) {
+			checkedbox.parent().find("."+$(this).attr('data-call')).click();
+		}
+	});
+	
+	$(".bat_a_handle").click(function(){
+		$(this).RSsubmit({success_alert:true,reload:true});
+		return false;
+	});
+	$(".a_jump").click(function(){
+		window.location.href = $(this).attr('href');
+	})
+})
+</script>
+
 
 </body>
 </html>
