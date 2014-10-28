@@ -49,7 +49,7 @@ class MemberModel extends Model {
 	 * 生成唯一的member_id,并验证数据库中不存在此member_id
 	 * @return member_id
 	 */
-	private function _memberId() {
+	protected function _memberId() {
 		$map = array();
 		$map['id'] = member_id();
 		if($this->where($map)->find()) {

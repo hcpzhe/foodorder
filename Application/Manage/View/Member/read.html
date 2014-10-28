@@ -79,7 +79,8 @@
 			<i class="ace-icon fa fa-home home-icon"></i>
 			<a href="{:U('Index/index')}">首页</a>
 		</li>
-		<li class="active">会员管理</li>
+		<li><a href="{:U('Member/lists')}">会员管理</a></li>
+		<li class="active">详细</li>
 	</ul><!-- /.breadcrumb -->
 </div>
 
@@ -87,88 +88,59 @@
 
 <div class="page-content-area">
 <div class="page-header">
-	<h1>会员管理</h1>
+	<h1>会员编号 {$info['id']}</h1>
 </div><!-- /.page-header -->
 
 <div class="row">
-	<div class="col-sm-12">
-		<div class="widget-box transparent">
-			
-			<div class="widget-header widget-header-flat">
-				<div class="btn-group open">
-					<button data-toggle="dropdown" class="btn btn-primary btn-white dropdown-toggle">
-						{$now_status}会员
-						<i class="ace-icon fa fa-angle-down icon-on-right"></i>
-					</button>
-					<ul class="dropdown-menu">
-						<li>
-							<a href="{:U('Member/lists')}">所有会员</a>
-						</li>
-						<li>
-							<a href="{:U('Member/lists?status=allow')}">正常会员</a>
-						</li>
-						<li>
-							<a href="{:U('Member/lists?status=forbid')}">禁用会员</a>
-						</li>
-						<li>
-							<a href="{:U('Member/lists?status=del')}">已删除会员</a>
-						</li>
-					</ul>
-				</div>
-				<button class="RShandle_btn btn btn-sm btn-primary" data-call="RSread">查看详细</button>
+
+	<div class="col-xs-12">
+	<form class="form-horizontal" role="form">
+		<div class="form-group">
+			<label class="col-sm-3 control-label"> 会员编号 </label>
+			<label class="col-sm-9">{$info['id']}</label>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label"> 会员帐号 </label>
+			<label class="col-sm-9">{$info['account']}</label>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label"> 注册时间 </label>
+			<label class="col-sm-9">{:date('Y-m-d H:i',$info['reg_time'])}</label>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label"> 上次登录时间 </label>
+			<label class="col-sm-9">{:date('Y-m-d H:i',$info['last_login'])}</label>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label"> 上次登录IP </label>
+			<label class="col-sm-9">{$info['last_ip']}</label>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label"> 登录次数 </label>
+			<label class="col-sm-9">{$info['logins']}</label>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label"> 状态 </label>
+			<label class="col-sm-9">
+				<!-- <if condition="$info['status'] eq 1"> -->
+				<span class="label label-success">正常</span>
+				<!-- <elseif condition="$info['status'] eq 0" /> -->
+				<span class="label label-danger">禁用</span>
+				<!-- <else /> -->
+				<span class="label label-grey">删除</span>
+				<!-- </if> -->
+			</label>
+		</div>
+		<div class="clearfix form-actions">
+			<div class="col-md-offset-3 col-md-9">
+				<button class="btn" type="button" onclick="window.history.go(-1)">
+					<i class="ace-icon fa fa-undo bigger-110"></i>
+					返回
+				</button>
 			</div>
-			
-			<div class="widget-body">
-				<div class="widget-main no-padding">
-					<table class="table table-bordered table-striped table-hover">
-						<thead class="thin-border-bottom">
-						<tr>
-							<th class="center"></th>
-							<th>会员编号</th>
-							<th>帐号</th>
-							<th>注册时间</th>
-							<th>登录次数</th>
-							<th>已注册</th>
-							<th>状态</th>
-						</tr>
-						</thead>
-						<tbody>
-						<!-- <foreach name="list" item="vo"> -->
-						<tr>
-							<td class="center">
-								<input type="checkbox" class="ace RSckedit"><span class="lbl"></span>
-								<div class="hidden">
-									<a class="RSread a_jump" href="{:U('Member/read?id='.$vo['id'])}"></a>
-								</div>
-							</td>
-							<td>{$vo['id']}</td>
-							<td>{$vo['account']}</td>
-							<td>{:date('Y-m-d',$vo['reg_time'])}</td>
-							<td>{$vo['logins']}</td>
-							<td>
-								<!-- <if condition="is_null($vo['account'])"> -->
-								<i class="fa fa-times red"></i>
-								<!-- <else /> -->
-								<i class="fa fa-check green"></i>
-								<!-- </if> -->
-							</td>
-							<td>
-								<!-- <if condition="$vo['status'] eq 1"> -->
-								<a class="bat_a_handle" href="{:U('Member/state?id='.$vo['id'].'&act=forbid')}"><span class="label label-success">正常</span></a>
-								<!-- <elseif condition="$vo['status'] eq 0" /> -->
-								<a class="bat_a_handle" href="{:U('Member/state?id='.$vo['id'].'&act=allow')}"><span class="label label-danger">禁用</span></a>
-								<!-- <else /> -->
-								<span class="label label-grey">删除</span>
-								<!-- </if> -->
-							</td>
-						</tr>
-						<!-- </foreach> -->
-						</tbody>
-					</table>
-				</div><!-- /.widget-main -->
-			</div><!-- /.widget-body -->
-		</div><!-- /.widget-box -->
-	</div><!-- /.col -->
+		</div>
+	</form>
+	</div>
 </div><!-- /.row -->
 	
 {$_page}
