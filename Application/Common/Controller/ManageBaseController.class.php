@@ -9,8 +9,8 @@ use Common\Model\ConfigModel;
 abstract class ManageBaseController extends Controller {
 	
 	protected function _initialize() {
-		//define('UID',is_login());
-		define('UID',1); //调试使用
+		//defined('UID') or define('UID',is_login());
+		defined('UID') or define('UID',1); //调试使用
         if( !UID ){// 还没登录 跳转到登录页面
             $this->redirect(C('LOGIN_URL'));
         }
@@ -18,7 +18,7 @@ abstract class ManageBaseController extends Controller {
 		$model = new ConfigModel();
 		$model->loadConfig();
 		
-		define('IS_ROOT',   is_administrator());
+		defined('IS_ROOT') or define('IS_ROOT',   is_administrator());
 		
 		// 检测访问权限
 		$access =   $this->accessControl();
@@ -156,10 +156,10 @@ abstract class ManageBaseController extends Controller {
 		}else{
 			$listRows = C('LIST_ROWS') > 0 ? C('LIST_ROWS') : 10;
 		}
-		$page = new \Think\Page($total, $listRows, $REQUEST);
-		if($total>$listRows){
-			$page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
-		}
+		$page = new \Manage\Lib\Page($total, $listRows, $REQUEST);
+// 		if($total>$listRows){
+// 			$page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
+// 		}
 		$p =$page->show();
 		$this->assign('_page', $p? $p: '');
 		$this->assign('_total',$total);
