@@ -8,7 +8,7 @@ class Page{
     public $totalRows; // 总行数
     public $totalPages; // 分页总页面数
     public $rollPage   = 11;// 分页栏每页显示的页数
-	public $lastSuffix = true; // 最后一页是否显示总页数
+	public $lastSuffix = false; // 最后一页是否显示总页数
 
     private $p       = 'p'; //分页参数名
     private $url     = ''; //当前链接URL
@@ -16,12 +16,26 @@ class Page{
 
 	// 分页显示定制
     private $config  = array(
-        'header' => '<span class="rows">共 %TOTAL_ROW% 条记录</span>',
-        'prev'   => '<<',
-        'next'   => '>>',
-        'first'  => '1...',
-        'last'   => '...%TOTAL_PAGE%',
-        'theme'  => '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END%',
+        'header' => '',
+        'prev'   => '<i class="fa fa-angle-left"></i>',
+        'next'   => '<i class="fa fa-angle-right"></i>',
+        'first'  => '<i class="fa fa-angle-double-left"></i>',
+        'last'   => '<i class="fa fa-angle-double-right"></i>',
+        'theme'  => 
+'<div class="row">
+	<div class="col-xs-6">
+		<div class="dataTables_paginate">
+			<ul class="pagination">
+				%FIRST%
+				%UP_PAGE%
+				%LINK_PAGE%
+				%DOWN_PAGE%
+				%END%
+			</ul>
+		</div>
+	</div>
+	<div class="col-xs-6"><div class="dataTables_info">共  %TOTAL_PAGE%页, %TOTAL_ROW%条记录</div></div>
+</div>'
     );
 
     /**
@@ -84,22 +98,26 @@ class Page{
 
         //上一页
         $up_row  = $this->nowPage - 1;
-        $up_page = $up_row > 0 ? '<a class="prev" href="' . $this->url($up_row) . '">' . $this->config['prev'] . '</a>' : '';
+        $tmp_up_page = $up_row > 0 ? '':' disabled';
+        $up_page = '<li class="prev'.$tmp_up_page.'"><a href="'.$this->url($up_row).'">'.$this->config['prev'].'</a></li>';
 
         //下一页
         $down_row  = $this->nowPage + 1;
-        $down_page = ($down_row <= $this->totalPages) ? '<a class="next" href="' . $this->url($down_row) . '">' . $this->config['next'] . '</a>' : '';
-
+        $tmp_down_page = ($down_row <= $this->totalPages) ? '':' disabled';
+        $down_page = '<li class="next'.$tmp_down_page.'"><a href="'.$this->url($down_row).'">'.$this->config['next'].'</a></li>';
+        
         //第一页
-        $the_first = '';
-        if($this->totalPages > $this->rollPage && ($this->nowPage - $now_cool_page) >= 1){
-            $the_first = '<a class="first" href="' . $this->url(1) . '">' . $this->config['first'] . '</a>';
+        if ($this->nowPage > 1) {
+        	$the_first = '<li class="prev"><a href="'.$this->url(1).'">'.$this->config['first'].'</a></li>';
+        }else {
+        	$the_first = '<li class="prev disabled"><a href="#">'.$this->config['first'].'</a></li>';
         }
-
+        
         //最后一页
-        $the_end = '';
-        if($this->totalPages > $this->rollPage && ($this->nowPage + $now_cool_page) < $this->totalPages){
-            $the_end = '<a class="end" href="' . $this->url($this->totalPages) . '">' . $this->config['last'] . '</a>';
+        if ($this->nowPage < $this->totalPages) {
+        	$the_end = '<li class="next"><a href="'.$this->url($this->totalPages).'">'.$this->config['last'].'</a></li>';
+        }else {
+        	$the_end = '<li class="next disabled"><a href="#">'.$this->config['last'].'</a></li>';
         }
 
         //数字连接
@@ -115,13 +133,13 @@ class Page{
             if($page > 0 && $page != $this->nowPage){
 
                 if($page <= $this->totalPages){
-                    $link_page .= '<a class="num" href="' . $this->url($page) . '">' . $page . '</a>';
+                	$link_page .= '<li><a href="'.$this->url($page).'">'.$page.'</a></li>';
                 }else{
                     break;
                 }
             }else{
                 if($page > 0 && $this->totalPages != 1){
-                    $link_page .= '<span class="current">' . $page . '</span>';
+                	$link_page .= '<li class="active"><a href="#">'.$page.'</a></li>';
                 }
             }
         }
@@ -131,6 +149,6 @@ class Page{
             array('%HEADER%', '%NOW_PAGE%', '%UP_PAGE%', '%DOWN_PAGE%', '%FIRST%', '%LINK_PAGE%', '%END%', '%TOTAL_ROW%', '%TOTAL_PAGE%'),
             array($this->config['header'], $this->nowPage, $up_page, $down_page, $the_first, $link_page, $the_end, $this->totalRows, $this->totalPages),
             $this->config['theme']);
-        return "<div>{$page_str}</div>";
+        return $page_str;
     }
 }
