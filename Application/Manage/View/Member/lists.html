@@ -95,27 +95,23 @@
 		<div class="widget-box transparent">
 			
 			<div class="widget-header widget-header-flat">
-				<div class="btn-group open">
-					<button data-toggle="dropdown" class="btn btn-primary btn-white dropdown-toggle">
-						{$now_status}会员
-						<i class="ace-icon fa fa-angle-down icon-on-right"></i>
-					</button>
-					<ul class="dropdown-menu">
-						<li>
-							<a href="{:U('Member/lists')}">所有会员</a>
-						</li>
-						<li>
-							<a href="{:U('Member/lists?status=allow')}">正常会员</a>
-						</li>
-						<li>
-							<a href="{:U('Member/lists?status=forbid')}">禁用会员</a>
-						</li>
-						<li>
-							<a href="{:U('Member/lists?status=del')}">已删除会员</a>
-						</li>
-					</ul>
+				<div class="col-sm-2">
+					<div class="btn-group open">
+						<button data-toggle="dropdown" class="btn btn-primary btn-white dropdown-toggle">
+							{$now_status}会员
+							<i class="ace-icon fa fa-angle-down icon-on-right"></i>
+						</button>
+						<ul class="dropdown-menu">
+							<li><a href="{:U('Member/lists')}">所有会员</a></li>
+							<li><a href="{:U('Member/lists?status=allow')}">正常会员</a></li>
+							<li><a href="{:U('Member/lists?status=forbid')}">禁用会员</a></li>
+							<li><a href="{:U('Member/lists?status=del')}">已删除会员</a></li>
+						</ul>
+					</div>
 				</div>
-				<button class="RShandle_btn btn btn-sm btn-primary" data-call="RSread">查看详细</button>
+				<div class="col-sm-10">
+					<button class="RShandle_btn btn btn-sm btn-primary" data-call="RSread">查看详细</button>
+				</div>
 			</div>
 			
 			<div class="widget-body">

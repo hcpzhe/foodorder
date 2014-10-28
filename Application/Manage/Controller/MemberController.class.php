@@ -61,7 +61,7 @@ class MemberController extends ManageBaseController {
 		if (false === $model->myUpdate($data)) {
 			$this->error($model->getError());
 		}
-		$this->success('更新成功',C('CURRENT_URL_NAME'));
+		$this->success('更新成功',cookie(C('CURRENT_URL_NAME')));
 	}
 	
 	public function add() {

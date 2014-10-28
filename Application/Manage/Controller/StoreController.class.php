@@ -5,6 +5,7 @@ use Manage\Model\StoreModel;
 use Manage\Model\StoreAttrModel;
 use Think\Model;
 use Manage\Model\AttrValModel;
+use Manage\Model\CategoryModel;
 
 /**
  * 店铺管理
@@ -24,14 +25,20 @@ class StoreController extends ManageBaseController {
 	 * @param  $close		是否暂停营业
 	 * @param  $minsd		起送价
 	 */
-	public function lists($status=1,$id=null,$name=null,$account=null,$attrs=null,$recom=null,$close=null) {
+	public function lists($status=null,$id=null,$name=null,$account=null,$attrs=null,$recom=null,$close=null) {
 		$model = New StoreModel(); $map = array();
+		$status_view = array('default'=>'所有','del'=>'已删除','forbid'=>'禁用','allow'=>'正常');
 		
 		//查询条件 处理
-		$map['id'] = (int)$id;
+		$map['id'] = (int)$id; $now_status = $status_view['default'];
 		if (!isset($id) || $map['id']<=0) {
 			unset($map['id']);
-			$map['status'] = in_array($status, StoreModel::$mystat) ? $status : 1;
+			if (isset($status) && key_exists($status, CategoryModel::$mystat)) { //指定查询状态
+				$map['status'] = CategoryModel::$mystat[$status];
+				$now_status = $status_view[$status];
+			}else {
+				$map['status'] = array('EGT',0); //默认查询状态为未删除的数据
+			}
 			if (isset($name)) {
 				$map['store_name'] =array('like', '%'.$name.'%');
 			}
@@ -60,6 +67,7 @@ class StoreController extends ManageBaseController {
 		
 		$list = $this->_lists($model,$map);
 		$this->assign('list', $list); //列表
+		$this->assign('now_status',$now_status); //当前页面筛选的状态
 		
 		// 记录当前列表页的cookie
 		cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
@@ -93,7 +101,7 @@ class StoreController extends ManageBaseController {
 		if (false === $model->where('`id`='.$id)->save()) {
 			$this->error($model->getError());
 		}
-		$this->success('更新成功',C('CURRENT_URL_NAME'));
+		$this->success('更新成功',cookie(C('CURRENT_URL_NAME')));
 	}
 	
 	public function add() {
@@ -116,20 +124,20 @@ class StoreController extends ManageBaseController {
 	/**
 	 * store status 状态修改接口 删除,禁用,启用
 	 */
-	public function state($id,$a) {
-		$this->_state($id, $a, 'Store');
+	public function state($id,$act) {
+		$this->_state($id, $act, 'Store');
 	}
 	
 	/**
 	 * store状态的切换
 	 */
-	public function toggle($id,$f) {
+	public function toggle($id,$fd) {
 		$fields = array('recom'=>'is_recom','close'=>'is_close');
 		$map['id'] = (int)$id;
 		if ($map['id'] <= 0) {
 			$this->error('主要参数非法');
 		}
-		$field_key = $f;
+		$field_key = $fd;
 		if (!key_exists($field_key, $fields)) {
 			$this->error('参数非法');
 		}
