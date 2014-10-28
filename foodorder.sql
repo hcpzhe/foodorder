@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2014-10-23 17:45:01
+Date: 2014-10-28 17:38:59
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -399,7 +399,7 @@ INSERT INTO `fdo_config` VALUES ('20', 'CONFIG_GROUP_LIST', '3', '配置分组',
 INSERT INTO `fdo_config` VALUES ('21', 'HOOKS_TYPE', '3', '钩子的类型', '4', '', '类型 1-用于扩展显示内容，2-用于扩展业务处理', '1379313397', '1379313407', '1', '1:视图\r\n2:控制器', '6');
 INSERT INTO `fdo_config` VALUES ('23', 'OPEN_DRAFTBOX', '4', '是否开启草稿功能', '2', '0:关闭草稿功能\r\n1:开启草稿功能\r\n', '新增文章时的草稿功能配置', '1379484332', '1379484591', '1', '1', '1');
 INSERT INTO `fdo_config` VALUES ('24', 'DRAFT_AOTOSAVE_INTERVAL', '0', '自动保存草稿时间', '2', '', '自动保存草稿的时间间隔，单位：秒', '1379484574', '1386143323', '1', '60', '2');
-INSERT INTO `fdo_config` VALUES ('25', 'LIST_ROWS', '0', '后台每页记录数', '2', '', '后台数据每页显示记录数', '1379503896', '1380427745', '1', '10', '10');
+INSERT INTO `fdo_config` VALUES ('25', 'LIST_ROWS', '0', '后台每页记录数', '2', '', '后台数据每页显示记录数', '1379503896', '1380427745', '1', '20', '10');
 INSERT INTO `fdo_config` VALUES ('26', 'USER_ALLOW_REGISTER', '4', '是否允许用户注册', '3', '0:关闭注册\r\n1:允许注册', '是否开放用户注册', '1379504487', '1379504580', '1', '1', '3');
 INSERT INTO `fdo_config` VALUES ('27', 'CODEMIRROR_THEME', '4', '预览插件的CodeMirror主题', '4', '3024-day:3024 day\r\n3024-night:3024 night\r\nambiance:ambiance\r\nbase16-dark:base16 dark\r\nbase16-light:base16 light\r\nblackboard:blackboard\r\ncobalt:cobalt\r\neclipse:eclipse\r\nelegant:elegant\r\nerlang-dark:erlang-dark\r\nlesser-dark:lesser-dark\r\nmidnight:midnight', '详情见CodeMirror官网', '1379814385', '1384740813', '1', 'ambiance', '3');
 INSERT INTO `fdo_config` VALUES ('28', 'DATA_BACKUP_PATH', '1', '数据库备份根路径', '4', '', '路径必须以 / 结尾', '1381482411', '1381482411', '1', './Data/', '5');
@@ -452,7 +452,11 @@ CREATE TABLE `fdo_member` (
 -- Records of fdo_member
 -- ----------------------------
 INSERT INTO `fdo_member` VALUES ('1', null, null, '0', '0', null, '0', '1');
-INSERT INTO `fdo_member` VALUES ('2', '2', '2', '0', '0', null, '0', '1');
+INSERT INTO `fdo_member` VALUES ('2', '2', '2', '0', '0', null, '0', '0');
+INSERT INTO `fdo_member` VALUES ('3', '3', '3', '0', '0', null, '0', '1');
+INSERT INTO `fdo_member` VALUES ('4', '4', '4', '0', '0', null, '0', '1');
+INSERT INTO `fdo_member` VALUES ('5', '5', '5', '0', '0', null, '0', '1');
+INSERT INTO `fdo_member` VALUES ('85fce697249c4be2c1f86418da3b4842683afc65', 'haha', 'cd679c70e94a01dd1bc71e53d76ab7d6', '1414466311', '0', null, '0', '1');
 
 -- ----------------------------
 -- Table structure for `fdo_menu`
@@ -606,12 +610,13 @@ CREATE TABLE `fdo_store` (
   PRIMARY KEY (`id`),
   KEY `store_name` (`store_name`),
   KEY `account` (`account`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of fdo_store
 -- ----------------------------
-INSERT INTO `fdo_store` VALUES ('2', '', '', '演示店铺', '张老板', '123456789012345678', '人民大街16号', '010-88886666-8866', '6.00', '85.7', '0', '1', null, '', '', '', '0', null, '0', '0', '1249543819', '0', '0', '', '1');
+INSERT INTO `fdo_store` VALUES ('2', 'aaa', '', '演示店铺', '张老板', '123456789012345678', '人民大街16号', '010-88886666-8866', '6.00', '2.7', '10', '0', null, '', '', '', '0', null, '0', '22', '1249543819', '0', '0', '', '1');
+INSERT INTO `fdo_store` VALUES ('3', 'aaaa', '123456', 'aaaa', 'aaaa', '', 'aaaaaaaaaaaa', '', '0.00', '3.0', '0', '0', null, null, null, null, '0', null, '0', '255', '1414482653', '0', '0', '', '1');
 
 -- ----------------------------
 -- Table structure for `fdo_store_attr`
