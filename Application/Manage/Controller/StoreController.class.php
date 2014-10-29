@@ -159,6 +159,8 @@ class StoreController extends ManageBaseController {
 		if ($map['store_id'] <= 0) {
 			$this->error('请选择店铺');
 		}
+		$this->assign('store_id',$id);
+		
 		$AttrVal_M = new AttrValModel();
 		$attr_hash = $AttrVal_M->hashList();
 		$this->assign('attr_hash',$attr_hash);//属性-属性值 的hash数组
@@ -176,7 +178,7 @@ class StoreController extends ManageBaseController {
 	 * @param int $id		店铺ID
 	 * @param array $vals	属性值id数组
 	 */
-	public function attrUpdate($id,$vals) {
+	public function attrUpdate($id,$vals=array()) {
 		$id = (int)$id;
 		if ($id <= 0) $this->error('店铺非法');
 		if (!is_array($vals)) $this->error('属性非法');

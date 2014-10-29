@@ -41,11 +41,13 @@ class StoreAttrModel extends Model {
 				}
 			}
 		}
+		/* 允许清空店铺属性值
 		if (empty($tmpdata)) {
 			$this->error = '属性值不合法';
 			$this->rollback();
 			return false;
 		}
+		*/
 		$this->commit();
 		return true;
 	}

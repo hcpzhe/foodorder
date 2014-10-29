@@ -61,12 +61,12 @@ class AttrValModel extends Model {
 	public function hashList() {
 		$return = array();
 		$attr_M = new AttrModel();
-		$attrs = $attr_M->where(AttrModel::$ablemap)->select();
+		$attrs = $attr_M->where(AttrModel::$ablemap)->order('sort asc,id desc')->select();
 		foreach ($attrs as $atrow) {
 			$return[$atrow['id']] = $atrow;
 			$tmpmap = array('attr_id'=>$atrow['id']);
 			$tmpmap = array_merge(self::$ablemap,$tmpmap);
-			$return[$atrow['id']]['vals'] = $this->where($tmpmap)->select();
+			$return[$atrow['id']]['vals'] = $this->where($tmpmap)->order('sort asc,id desc')->select();
 		}
 		return $return;
 	}
