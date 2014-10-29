@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2014-10-28 17:38:59
+Date: 2014-10-29 12:01:27
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -25,11 +25,12 @@ CREATE TABLE `fdo_attr` (
   `sort` smallint(5) unsigned NOT NULL DEFAULT '255',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '-1删除 0禁用 1正常',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='筛选属性表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='筛选属性表';
 
 -- ----------------------------
 -- Records of fdo_attr
 -- ----------------------------
+INSERT INTO `fdo_attr` VALUES ('1', '美食分类', '255', '1');
 
 -- ----------------------------
 -- Table structure for `fdo_attr_val`
@@ -42,11 +43,16 @@ CREATE TABLE `fdo_attr_val` (
   `sort` smallint(5) unsigned NOT NULL DEFAULT '255' COMMENT '排序',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '-1删除 0禁用 1正常',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='筛选属性可选值表;  `筛选属性表`一对多的关系';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='筛选属性可选值表;  `筛选属性表`一对多的关系';
 
 -- ----------------------------
 -- Records of fdo_attr_val
 -- ----------------------------
+INSERT INTO `fdo_attr_val` VALUES ('1', '1', '炒菜', '255', '1');
+INSERT INTO `fdo_attr_val` VALUES ('2', '1', '面食', '255', '1');
+INSERT INTO `fdo_attr_val` VALUES ('3', '1', '盖浇饭', '255', '1');
+INSERT INTO `fdo_attr_val` VALUES ('4', '1', '甜品', '255', '1');
+INSERT INTO `fdo_attr_val` VALUES ('5', '1', '快餐', '255', '1');
 
 -- ----------------------------
 -- Table structure for `fdo_auth_group`
@@ -634,6 +640,8 @@ CREATE TABLE `fdo_store_attr` (
 INSERT INTO `fdo_store_attr` VALUES ('1', '1');
 INSERT INTO `fdo_store_attr` VALUES ('1', '2');
 INSERT INTO `fdo_store_attr` VALUES ('2', '2');
+INSERT INTO `fdo_store_attr` VALUES ('3', '4');
+INSERT INTO `fdo_store_attr` VALUES ('3', '5');
 
 -- ----------------------------
 -- Table structure for `fdo_user`
