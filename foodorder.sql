@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2014-10-29 12:01:27
+Date: 2014-10-30 18:02:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -360,11 +360,13 @@ CREATE TABLE `fdo_category` (
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '255',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '-1删除 0-禁用 1-正常',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='店铺内商品分类';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='店铺内商品分类';
 
 -- ----------------------------
 -- Records of fdo_category
 -- ----------------------------
+INSERT INTO `fdo_category` VALUES ('1', 'haha', '0', '3', '255', '1');
+INSERT INTO `fdo_category` VALUES ('2', 'wqdsf', '0', '3', '255', '1');
 
 -- ----------------------------
 -- Table structure for `fdo_config`
