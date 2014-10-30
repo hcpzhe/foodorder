@@ -45,7 +45,66 @@ class CategoryController extends ManageBaseController {
 		
 		$this->display();
 	}
-
+	
+	/**
+	 * 指定店铺的 商品分类 树
+	 * @param number $sid		店铺ID
+	 * @param string $status	状态
+	 */
+	public function tree($sid,$status=null) {
+		$status_view = array('default'=>'所有','del'=>'已删除','forbid'=>'禁用','allow'=>'正常'); //默认是 所有 未删除
+		
+		//店铺id必须有
+		$map['store_id'] = (int)$sid;
+		if ($map['store_id']<=0) $this->error('参数非法');
+		$store_M = new Model('Store');
+		$store_info = $store_M->find($map['store_id']);
+		if (empty($store_info)) $this->error('店铺不存在');
+		$this->assign('store_info',$store_info);
+		
+		$now_status = $status_view['default'];
+		if (isset($status) && key_exists($status, CategoryModel::$mystat)) { //指定查询状态
+			$map['status'] = CategoryModel::$mystat[$status];
+			$now_status = $status_view[$status];
+		}else {
+			$map['status'] = array('EGT',0); //默认查询状态为未删除的数据
+		}
+		
+		$model = new CategoryModel(); $cate_tree = array();
+		$list = $model->where($map)->order('sort asc,id desc')->select();
+		foreach ($list as $row) {
+			$tmp = array(
+					'id' => $row['id'],
+					'pId' => $row['pid'],
+					'name' => $row['cate_name'],
+					'open' => true,
+					'url' => U(__CONTROLLER__.'/readAjax',array('id'=>$row['id'])),
+					'sort' => $row['sort'],
+					'status' => $row['status']
+			);
+			$tmp['pname'] = $tmp['pId'] > 0? $model->where('id='.$tmp['pId'])->getField('cate_name') : '顶级分类';
+			
+			$cate_tree[] = $tmp;
+		}
+		$cate_tree = json_encode($cate_tree);
+		
+		$this->assign('tree_json', $cate_tree); //
+		$this->assign('now_status',$now_status); //当前页面筛选的状态
+		// 记录当前列表页的cookie
+		cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
+		$this->display();
+	}
+	
+	public function readAjax($id) {
+		$map['id'] = (int)$id;
+		if ($map['id'] <= 0) {
+			$this->error('请选择要查看的分类');
+		}
+		$model = New Model('Category');
+		$info = $model->where($map)->find();
+		$this->success($info);
+	}
+	
 	public function read($id) {
 		$map['id'] = (int)$id;
 		if ($map['id'] <= 0) {
