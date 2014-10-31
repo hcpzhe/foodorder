@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2014-10-30 18:02:46
+Date: 2014-10-31 17:31:05
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -360,13 +360,16 @@ CREATE TABLE `fdo_category` (
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '255',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '-1删除 0-禁用 1-正常',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='店铺内商品分类';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='店铺内商品分类';
 
 -- ----------------------------
 -- Records of fdo_category
 -- ----------------------------
 INSERT INTO `fdo_category` VALUES ('1', 'haha', '0', '3', '255', '1');
-INSERT INTO `fdo_category` VALUES ('2', 'wqdsf', '0', '3', '255', '1');
+INSERT INTO `fdo_category` VALUES ('2', '测试1', '0', '3', '255', '1');
+INSERT INTO `fdo_category` VALUES ('3', '测试1_1', '2', '3', '255', '1');
+INSERT INTO `fdo_category` VALUES ('4', 'haha_1', '1', '3', '255', '1');
+INSERT INTO `fdo_category` VALUES ('5', '饮料', '0', '3', '255', '1');
 
 -- ----------------------------
 -- Table structure for `fdo_config`
@@ -427,18 +430,20 @@ INSERT INTO `fdo_config` VALUES ('37', 'SHOW_PAGE_TRACE', '4', '是否显示页�
 DROP TABLE IF EXISTS `fdo_goods`;
 CREATE TABLE `fdo_goods` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `cate_id` int(10) unsigned NOT NULL COMMENT '所属分类ID',
-  `goods_name` varchar(128) NOT NULL COMMENT '商品名称',
+  `store_id` int(10) unsigned NOT NULL COMMENT '所属店铺ID',
+  `cate_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '所属分类ID; 0-无分类',
+  `goods_name` varchar(128) NOT NULL DEFAULT '' COMMENT '商品名称',
   `image` varchar(255) DEFAULT NULL COMMENT '商品图片',
   `price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '单价',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '255' COMMENT '排序',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '-1删除 0-禁用 1-正常',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='商品表';
 
 -- ----------------------------
 -- Records of fdo_goods
 -- ----------------------------
+INSERT INTO `fdo_goods` VALUES ('1', '3', '0', '测试商品12', null, '10.00', '255', '1');
 
 -- ----------------------------
 -- Table structure for `fdo_member`
