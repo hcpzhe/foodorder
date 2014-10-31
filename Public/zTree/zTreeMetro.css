@@ -52,7 +52,7 @@ website:    http://code.google.com/p/jquerytree/
 .ztree li span.button.chk.radio_true_part_focus {background-position: -68px -68px;}
 .ztree li span.button.chk.radio_true_disable {background-position: -68px -89px;}
 
-.ztree li span.button.switch {width:21px; height:21px}
+.ztree li span.button.switch {width:21px; height:24px}
 .ztree li span.button.root_open{background-position:-92px -54px}
 .ztree li span.button.root_close{background-position:-74px -54px}
 .ztree li span.button.roots_open{background-position: -105px 0;}

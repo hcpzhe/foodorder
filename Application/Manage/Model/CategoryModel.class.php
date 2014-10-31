@@ -33,10 +33,12 @@ class CategoryModel extends Model {
     );
 	
     public function myAdd($data) {
+    	unset($data['id']);
     	if (false === $this->create($data,self::MODEL_INSERT)) return false;
 		//验证 parent_id合法性
 		if ($this->parent_id >0) {
-			$parent = $this->find($this->parent_id);
+			$this_M = new Model('Category'); //避免create的数据混淆
+			$parent = $this_M->find($this->parent_id);
 			if (false === $parent || empty($parent)) {
 				$this->error = '父级分类不存在';
 				return false;
@@ -49,7 +51,6 @@ class CategoryModel extends Model {
 			$this->error = '所属店铺不存在';
 			return false;
 		}
-		
 		return $this->add();
     }
     

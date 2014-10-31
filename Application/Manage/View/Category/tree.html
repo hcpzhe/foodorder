@@ -120,10 +120,14 @@
 		<div class="widget-box">
 			<div class="widget-header">
 				<h4 class="widget-title">编辑设置</h4>
+				<span id="formtip" class="label label-warning label-lg arrowed-in">
+					<i class="ace-icon fa fa-exclamation-triangle bigger-110"></i>
+					新建
+				</span>
 				<span class="widget-toolbar">
-					<a href="#" data-action="">
+					<a href="#" onclick="formnew();">
 						<i class="ace-icon fa fa-plus-square"></i>
-						新增分类
+						新建分类
 					</a>
 				</span>
 			</div>
@@ -132,18 +136,18 @@
 				<form id="cate_edit" action="#" role="form" method="post">
 					<fieldset>
 						<label>所属分类</label>
-						<div>
-							<input id="cate_parent_name" onclick="showcate();" name="parent_name" value="顶级分类" readonly="readonly" class="input-large" type="text">
-							<input id="cate_parent_id" type="hidden" name="parent_id" value="0">
-						</div>
+						<div><input id="cate_parent_name" onclick="showcate();" name="parent_name" value="顶级分类" readonly="readonly" class="input-large" type="text"></div>
+						<input id="cate_parent_id" type="hidden" name="parent_id" value="0">
+						<input id="cate_store_id" type="hidden" name="store_id" value="{$store_info['id']}">
 					</fieldset>
 					<fieldset>
 						<label>分类名称</label>
 						<div><input id="cate_cate_name" class="input-large" type="text" name="cate_name" value=""></div>
+						<input id="cate_id" type="hidden" name="id" value="0" />
 					</fieldset>
 					<fieldset>
 						<label>排序</label>
-						<div><input id="cate_sort" class="input-mini" type="text" name="sort" value=""></div>
+						<div><input id="cate_sort" class="input-mini" type="text" name="sort" value="255"></div>
 					</fieldset>
 					<fieldset>
 						<label>状态</label>
@@ -163,11 +167,6 @@
 						</div>
 					</fieldset>
 					<div class="form-actions center">
-						<span class="label label-warning label-xlg arrowed-in">
-							<i class="ace-icon fa fa-exclamation-triangle bigger-110"></i>
-							新建
-						</span>
-						&nbsp;&nbsp;&nbsp;
 						<button type="submit" class="btn btn-sm btn-success">
 							<i class="ace-icon fa fa-check bigger-110"></i>
 							提交
@@ -248,29 +247,40 @@ function onBodyDown(event) {
 		hidecate();
 	}
 }
+function formnew(){
+	$.fn.zTree.getZTreeObj("catetree").cancelSelectedNode();
+	$.fn.zTree.getZTreeObj("selectcate").cancelSelectedNode();
+	document.getElementById("cate_edit").reset();
+	$("#cate_edit").attr("action","{:U('Category/insert')}");
+	$("#formtip").removeClass("label-purple").addClass("label-warning").html('<i class="ace-icon fa fa-exclamation-triangle bigger-110"></i> 新建');
+}
 
 var setting = {
 	view: {
-		dblClickExpand: false,
+		dblClickExpand: true,
 		showLine: true,
 		selectedMulti: false,
 		expandSpeed: ""
 	},
+	data: {
+		simpleData: {
+			enable: true
+		}
+	},
 	callback: {
 		beforeClick: function(treeId, treeNode) {
 			event.preventDefault();
-			
-			var zTree = $.fn.zTree.getZTreeObj(treeId);
-			if (treeNode.isParent) {
-				zTree.expandNode(treeNode);
-				return false;
-			} else {
-				$("#cate_parent_name").val(treeNode.pname);
-				$("#cate_parent_id").val(treeNode.pId);
-				$("#cate_cate_name").val(treeNode.name);
-				$("#cate_sort").val(treeNode.sort);
-				return true;
-			}
+			$("#cate_id").val(treeNode.id);
+			$("#cate_parent_name").val(treeNode.pname);
+			if (treeNode.pId > 0) $("#cate_parent_id").val(treeNode.pId);
+			else $("#cate_parent_id").val('0');
+			$("#cate_cate_name").val(treeNode.name);
+			$("#cate_sort").val(treeNode.sort);
+			$("#cate_status :input[name='status']").prop("checked",false).filter("[value='"+treeNode.status+"']").prop("checked",true)
+			$.fn.zTree.getZTreeObj("selectcate").cancelSelectedNode();
+			$("#cate_edit").attr("action","{:U('Category/update')}");
+			$("#formtip").removeClass("label-warning").addClass("label-purple").html('<i class="ace-icon fa fa-exclamation-triangle bigger-110"></i> 修改');
+			return true;
 		}
 	}
 };
@@ -278,25 +288,22 @@ var setting = {
 //选择父级用的 树
 var setting2 = {
 	view: {
-		dblClickExpand: false,
+		dblClickExpand: true,
 		showLine: true,
 		selectedMulti: false,
 		expandSpeed: ""
 	},
+	data: {
+		simpleData: {
+			enable: true
+		}
+	},
 	callback: {
 		beforeClick: function(treeId, treeNode) {
-			event.preventDefault();
-			
-			var zTree = $.fn.zTree.getZTreeObj(treeId);
-			if (treeNode.isParent) {
-				zTree.expandNode(treeNode);
-				return false;
-			} else {
-				$("#cate_parent_name").val(treeNode.name);
-				$("#cate_parent_id").val(treeNode.id);
-				hidecate();
-				return true;
-			}
+			$("#cate_parent_name").val(treeNode.name);
+			$("#cate_parent_id").val(treeNode.id);
+			hidecate();
+			return true;
 		}
 	}
 };
@@ -304,11 +311,10 @@ var setting2 = {
 var zNodes = {$tree_json};
 
 jQuery(function($) {
-	$.fn.zTree.init($("#catetree"), setting, zNodes);
-	$.fn.zTree.init($("#selectcate"), setting2, zNodes);
+	var cateTree = $.fn.zTree.init($("#catetree"), setting, zNodes);
+	var slctTree = $.fn.zTree.init($("#selectcate"), setting2, zNodes);
 	$("#cate_edit").submit(function(){
-		
-		$(this).RSsubmit({success_alert:true});return false;
+		$(this).RSsubmit({success_alert:true,reload:true});return false;
 	});
 });
 </script>

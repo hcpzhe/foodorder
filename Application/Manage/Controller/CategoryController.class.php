@@ -75,10 +75,9 @@ class CategoryController extends ManageBaseController {
 		foreach ($list as $row) {
 			$tmp = array(
 					'id' => $row['id'],
-					'pId' => $row['pid'],
+					'pId' => $row['parent_id'],
 					'name' => $row['cate_name'],
 					'open' => true,
-					'url' => U(__CONTROLLER__.'/readAjax',array('id'=>$row['id'])),
 					'sort' => $row['sort'],
 					'status' => $row['status']
 			);
@@ -93,16 +92,6 @@ class CategoryController extends ManageBaseController {
 		// 记录当前列表页的cookie
 		cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
 		$this->display();
-	}
-	
-	public function readAjax($id) {
-		$map['id'] = (int)$id;
-		if ($map['id'] <= 0) {
-			$this->error('请选择要查看的分类');
-		}
-		$model = New Model('Category');
-		$info = $model->where($map)->find();
-		$this->success($info);
 	}
 	
 	public function read($id) {
