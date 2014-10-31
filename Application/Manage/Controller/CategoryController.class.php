@@ -70,24 +70,11 @@ class CategoryController extends ManageBaseController {
 			$map['status'] = array('EGT',0); //默认查询状态为未删除的数据
 		}
 		
-		$model = new CategoryModel(); $cate_tree = array();
-		$list = $model->where($map)->order('sort asc,id desc')->select();
-		foreach ($list as $row) {
-			$tmp = array(
-					'id' => $row['id'],
-					'pId' => $row['parent_id'],
-					'name' => $row['cate_name'],
-					'open' => true,
-					'sort' => $row['sort'],
-					'status' => $row['status']
-			);
-			$tmp['pname'] = $tmp['pId'] > 0? $model->where('id='.$tmp['pId'])->getField('cate_name') : '顶级分类';
-			
-			$cate_tree[] = $tmp;
-		}
+		$model = new CategoryModel();
+		$cate_tree = $model->ztreeArr($map);
 		$cate_tree = json_encode($cate_tree);
+		$this->assign('tree_json', $cate_tree); //ztree json
 		
-		$this->assign('tree_json', $cate_tree); //
 		$this->assign('now_status',$now_status); //当前页面筛选的状态
 		// 记录当前列表页的cookie
 		cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);

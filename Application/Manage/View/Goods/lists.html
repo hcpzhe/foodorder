@@ -4,7 +4,7 @@
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<meta charset="utf-8" />
-	<title>店铺管理 - 平台管理中心</title>
+	<title>店铺商品管理 - 平台管理中心</title>
 
 	<meta name="description" content="overview &amp; stats" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -79,7 +79,10 @@
 			<i class="ace-icon fa fa-home home-icon"></i>
 			<a href="{:U('Index/index')}">首页</a>
 		</li>
-		<li class="active">店铺管理</li>
+		<li>
+			<a href="{:U('Store/lists')}">店铺管理</a>
+		</li>
+		<li class="active">店铺商品管理</li>
 	</ul><!-- /.breadcrumb -->
 </div>
 
@@ -87,7 +90,11 @@
 
 <div class="page-content-area">
 <div class="page-header">
-	<h1>店铺列表</h1>
+	<h1>店铺{$store_info['store_name']}的 商品列表</h1>
+	<button class="btn btn-sm btn-yellow no-border" onclick="window.history.go(-1);" style="position:absolute;top:15px;right:40px;">
+		<i class="ace-icon fa fa-reply"></i>
+		返回
+	</button>
 </div><!-- /.page-header -->
 
 <div class="row">
@@ -98,22 +105,25 @@
 				<div class="col-sm-2">
 					<div class="btn-group open">
 						<button data-toggle="dropdown" class="btn btn-primary btn-white dropdown-toggle">
-							{$now_status}店铺
+							{$now_status}商品
 							<i class="ace-icon fa fa-angle-down icon-on-right"></i>
 						</button>
 						<ul class="dropdown-menu">
-							<li><a href="{:U('Store/lists')}">所有店铺</a></li>
-							<li><a href="{:U('Store/lists?status=allow')}">正常店铺</a></li>
-							<li><a href="{:U('Store/lists?status=forbid')}">禁用店铺</a></li>
-							<li><a href="{:U('Store/lists?status=del')}">已删除店铺</a></li>
+							<li><a href="{:U('Goods/lists?sid='.$store_info['id'])}">所有商品</a></li>
+							<li><a href="{:U('Goods/lists?sid='.$store_info['id'].'&status=allow')}">正常商品</a></li>
+							<li><a href="{:U('Goods/lists?sid='.$store_info['id'].'&status=forbid')}">禁用商品</a></li>
+							<li><a href="{:U('Goods/lists?sid='.$store_info['id'].'&status=del')}">已删除商品</a></li>
 						</ul>
 					</div>
 				</div>
-				<div class="col-sm-10">
-				<button class="RShandle_btn btn btn-sm btn-primary" data-call="RSread">查看详细</button>
-				<button class="RShandle_btn btn btn-sm btn-primary" data-call="RScate">店铺商品分类</button>
-				<button class="RShandle_btn btn btn-sm btn-primary" data-call="RSgoods">店铺商品管理</button>
-				<button class="RShandle_btn btn btn-sm btn-primary" data-call="RSattr">店铺属性管理</button>
+				<div class="col-sm-8">
+					<button class="RShandle_btn btn btn-sm btn-primary" data-call="RSread">查看编辑</button>
+					<button class="RShandle_btn btn btn-sm btn-primary" data-call="RSdel">删除商品</button>
+				</div>
+				<div class="col-sm-2">
+					<button class="btn btn-sm btn-success a_jump" href="{:U('Goods/add')}">
+						<i class="ace-icon fa fa-plus-square"></i> 新建商品
+					</button>
 				</div>
 			</div>
 			
@@ -123,12 +133,10 @@
 						<thead class="thin-border-bottom">
 						<tr>
 							<th class="center"></th>
-							<th>帐号</th>
-							<th>店铺名</th>
-							<th>店铺余额</th>
-							<th>起送价</th>
-							<th>推荐</th>
-							<th>营业</th>
+							<th>商品名称</th>
+							<th>所属分类</th>
+							<th>单价</th>
+							<th>排序</th>
 							<th>状态</th>
 						</tr>
 						</thead>
@@ -138,39 +146,25 @@
 							<td class="center">
 								<input type="checkbox" class="ace RSckedit"><span class="lbl"></span>
 								<div class="hidden">
-									<a class="RSread a_jump" href="{:U('Store/read?id='.$vo['id'])}"></a>
-									<a class="RScate a_jump" href="{:U('Category/tree?sid='.$vo['id'])}"></a>
-									<a class="RSgoods a_jump" href="{:U('Goods/lists?sid='.$vo['id'])}"></a>
-									<a class="RSattr a_jump" href="{:U('Store/attrRead?id='.$vo['id'])}"></a>
+									<a class="RSread a_jump" href="{:U('Goods/read?id='.$vo['id'])}"></a>
+									<a class="RSdel bat_a_handle" href="{:U('Goods/state?id='.$vo['id'].'&act=del')}"></a>
 								</div>
 							</td>
-							<td>{$vo['account']}</td>
-							<td>{$vo['store_name']}</td>
-							<td>{$vo['balance']}</td>
-							<td>{$vo['min_send']}</td>
+							<td>{$vo['goods_name']}</td>
 							<td>
-								<a class="bat_a_handle" href="{:U('Store/toggle?id='.$vo['id'].'&fd=recom')}">
-								<!-- <if condition="$vo['is_recom'] eq 0"> -->
-								<i class="fa fa-times red"></i>
-								<!-- <else /> -->
-								<i class="fa fa-check green"></i>
-								<!-- </if> -->
-								</a>
+							<!-- <if condition="$vo['cate_id']" > -->
+								{$catelist[$vo['cate_id']]}
+							<!-- <else /> -->
+								无分类
+							<!-- </if> -->
 							</td>
-							<td>
-								<a class="bat_a_handle" href="{:U('Store/toggle?id='.$vo['id'].'&fd=close')}">
-								<!-- <if condition="$vo['is_close'] eq 1"> -->
-								<i class="fa fa-times red"></i>
-								<!-- <else /> -->
-								<i class="fa fa-check green"></i>
-								<!-- </if> -->
-								</a>
-							</td>
+							<td>{$vo['price']}</td>
+							<td>{$vo['sort']}</td>
 							<td>
 								<!-- <if condition="$vo['status'] eq 1"> -->
-								<a class="bat_a_handle" href="{:U('Store/state?id='.$vo['id'].'&act=forbid')}"><span class="label label-success">正常</span></a>
+								<a class="bat_a_handle" href="{:U('Goods/state?id='.$vo['id'].'&act=forbid')}"><span class="label label-success">正常</span></a>
 								<!-- <elseif condition="$vo['status'] eq 0" /> -->
-								<a class="bat_a_handle" href="{:U('Store/state?id='.$vo['id'].'&act=allow')}"><span class="label label-danger">禁用</span></a>
+								<a class="bat_a_handle" href="{:U('Goods/state?id='.$vo['id'].'&act=allow')}"><span class="label label-danger">禁用</span></a>
 								<!-- <else /> -->
 								<span class="label label-grey">删除</span>
 								<!-- </if> -->

@@ -73,4 +73,27 @@ class CategoryModel extends Model {
 		}
 		return $this->where('`id`='.$id)->save();
     }
+    
+    /**
+     * 用于ztree的json数据
+     * @param array $map	查询条件
+     */
+    public function ztreeArr($map) {
+    	$cate_tree = array();
+    	$list = $this->where($map)->order('sort asc,id desc')->select();
+    	foreach ($list as $row) {
+    		$tmp = array(
+    				'id' => $row['id'],
+    				'pId' => $row['parent_id'],
+    				'name' => $row['cate_name'],
+    				'open' => true,
+    				'sort' => $row['sort'],
+    				'status' => $row['status']
+    		);
+    		$tmp['pname'] = $tmp['pId'] > 0? $this->where('id='.$tmp['pId'])->getField('cate_name') : '顶级分类';
+    			
+    		$cate_tree[] = $tmp;
+    	}
+    	return $cate_tree;
+    }
 }
