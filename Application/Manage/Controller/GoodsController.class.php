@@ -118,8 +118,9 @@ class GoodsController extends ManageBaseController {
 		
 		$map['status'] = '1';//只要状态正常商品分类
 		$cate_M = new CategoryModel();
-		$cate_tree = $cate_M->ztreeJson($map); //ztree json
-		$this->assign('tree_json', $cate_tree); //ztree json
+		$cate_tree = $cate_M->ztreeArr($map);
+		$cate_tree = json_encode($cate_tree);
+		$this->assign('tree_json', $cate_tree); //category ztree json
 		
 		cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
 		$this->display();
@@ -131,7 +132,7 @@ class GoodsController extends ManageBaseController {
 		if (false === $model->myAdd($data)) {
 			$this->error($model->getError());
 		}
-		$this->success('新建成功',U(CONTROLLER_NAME.'/lists'));
+		$this->success('新建成功',U(CONTROLLER_NAME.'/lists',array('sid'=>$data['store_id'])));
 	}
 	
 	/**
