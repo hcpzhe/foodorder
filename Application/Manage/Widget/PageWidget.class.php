@@ -35,7 +35,7 @@ class PageWidget extends ManageBaseController {
 					</a>
 				</li>
 				<li class="red">
-					<a href="'.U('Common/logout').'">
+					<a class="bat_a_handle" href="'.U('Common/logout').'">
 						<i class="ace-icon fa fa-power-off"></i>
 						退出
 					</a>

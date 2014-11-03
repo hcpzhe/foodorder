@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta charset="utf-8" />
+	<title>类别属性值管理 - 平台管理中心</title>
+
+	<meta name="description" content="overview &amp; stats" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+	<!-- bootstrap & fontawesome -->
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="__PUBLIC__/assets/font-awesome/4.1.0/css/font-awesome.min.css" />
+
+	<!-- page specific plugin styles -->
+
+	<!-- text fonts -->
+	<link rel="stylesheet" href="__PUBLIC__/assets/fonts/fonts.googleapis.com.css" />
+
+	<!-- ace styles -->
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/ace.min.css" id="main-ace-style" />
+
+	<!--[if lte IE 9]>
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/ace-part2.min.css" />
+	<![endif]-->
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/ace-skins.min.css" />
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/ace-rtl.min.css" />
+
+	<!--[if lte IE 9]>
+	<link rel="stylesheet" href="__PUBLIC__/assets/css/ace-ie.min.css" />
+	<![endif]-->
+
+	<!-- inline styles related to this page -->
+
+	<!-- ace settings handler -->
+	<script src="__PUBLIC__/assets/js/ace-extra.min.js"></script>
+
+	<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+	<!--[if lte IE 8]>
+	<script src="__PUBLIC__/assets/js/html5shiv.min.js"></script>
+	<script src="__PUBLIC__/assets/js/respond.min.js"></script>
+	<![endif]-->
+</head>
+
+<body class="no-skin">
+<div id="navbar" class="navbar navbar-default">
+	<script type="text/javascript">
+		try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+	</script>
+	{:W('Page/top')}
+	<!-- /.navbar-container -->
+</div>
+
+<div class="main-container" id="main-container">
+<script type="text/javascript">
+	try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+</script>
+
+<div id="sidebar" class="sidebar">
+	<script type="text/javascript">
+		try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+	</script>
+	{:W('Page/menu',array(10))}
+	<script type="text/javascript">
+		try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+	</script>
+</div>
+
+<div class="main-content">
+<div class="breadcrumbs" id="breadcrumbs">
+	<script type="text/javascript">
+		try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+	</script>
+
+	<ul class="breadcrumb">
+		<li>
+			<i class="ace-icon fa fa-home home-icon"></i>
+			<a href="{:U('Index/index')}">首页</a>
+		</li>
+		<li>
+			<a href="{:U('Attr/lists')}">店铺类别管理</a>
+		</li>
+		<li class="active">属性值管理</li>
+	</ul><!-- /.breadcrumb -->
+</div>
+
+<div class="page-content">
+
+<div class="page-content-area">
+<div class="page-header">
+	<h1>店铺类别 {$attr_info['attr_name']}的 属性值列表</h1>
+	<button class="btn btn-sm btn-yellow no-border" onclick="window.history.go(-1);" style="position:absolute;top:15px;right:40px;">
+		<i class="ace-icon fa fa-reply"></i>
+		返回
+	</button>
+</div><!-- /.page-header -->
+
+<div class="row">
+	<div class="col-sm-12">
+		<div class="widget-box transparent">
+			
+			<div class="widget-header widget-header-flat">
+				<div class="col-sm-2">
+					<div class="btn-group open">
+						<button data-toggle="dropdown" class="btn btn-primary btn-white dropdown-toggle">
+							{$now_status}属性值
+							<i class="ace-icon fa fa-angle-down icon-on-right"></i>
+						</button>
+						<ul class="dropdown-menu">
+							<li><a href="{:U('Attr/valLists?atid='.$attr_info['id'])}">所有属性值</a></li>
+							<li><a href="{:U('Attr/valLists?atid='.$attr_info['id'].'&status=allow')}">正常属性值</a></li>
+							<li><a href="{:U('Attr/valLists?atid='.$attr_info['id'].'&status=forbid')}">禁用属性值</a></li>
+							<li><a href="{:U('Attr/valLists?atid='.$attr_info['id'].'&status=del')}">已删除属性值</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-sm-8">
+					<button class="RShandle_btn btn btn-sm btn-primary" data-call="RSread">查看编辑</button>
+					<button class="RShandle_btn btn btn-sm btn-primary" data-call="RSdel">删除属性值</button>
+				</div>
+				<div class="col-sm-2">
+					<button class="btn btn-sm btn-success a_jump" href="{:U('Attr/valAdd?sid='.$store_info['id'])}">
+						<i class="ace-icon fa fa-plus-square"></i> 新建属性值
+					</button>
+				</div>
+			</div>
+			
+			<div class="widget-body">
+				<div class="widget-main no-padding">
+					<table class="table table-bordered table-hover">
+						<thead class="thin-border-bottom">
+						<tr>
+							<th class="center" style="width:24px;"></th>
+							<th>属性值名称</th>
+							<th>排序</th>
+							<th>状态</th>
+						</tr>
+						</thead>
+						<tbody>
+						<!-- <foreach name="list" item="vo"> -->
+						<tr>
+							<td class="center">
+								<input type="checkbox" class="ace RSckedit"><span class="lbl"></span>
+								<div class="hidden">
+									<a class="RSread a_jump" href="{:U('Attr/valRead?id='.$vo['id'])}"></a>
+									<a class="RSdel bat_a_handle" href="{:U('Attr/valState?id='.$vo['id'].'&act=del')}"></a>
+								</div>
+							</td>
+							<td>{$vo['attr_val']}</td>
+							<td>{$vo['sort']}</td>
+							<td>
+								<!-- <if condition="$vo['status'] eq 1"> -->
+								<a class="bat_a_handle" href="{:U('Attr/valState?id='.$vo['id'].'&act=forbid')}"><span class="label label-success">正常</span></a>
+								<!-- <elseif condition="$vo['status'] eq 0" /> -->
+								<a class="bat_a_handle" href="{:U('Attr/valState?id='.$vo['id'].'&act=allow')}"><span class="label label-danger">禁用</span></a>
+								<!-- <else /> -->
+								<span class="label label-grey">删除</span>
+								<!-- </if> -->
+							</td>
+						</tr>
+						<!-- </foreach> -->
+						</tbody>
+					</table>
+				</div><!-- /.widget-main -->
+			</div><!-- /.widget-body -->
+		</div><!-- /.widget-box -->
+	</div><!-- /.col -->
+</div><!-- /.row -->
+	
+{$_page}
+
+</div><!-- /.page-content-area -->
+</div><!-- /.page-content -->
+</div><!-- /.main-content -->
+
+{:W('Page/foot')}
+
+<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+	<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+</a>
+</div><!-- /.main-container -->
+
+<!-- basic scripts -->
+
+<!--[if !IE]> -->
+<script src="__JS__/jquery.2.1.1.min.js"></script>
+
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script src="__JS__/jquery.1.11.1.min.js"></script>
+<![endif]-->
+
+<!--[if IE]>
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='__JS__/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+<script type="text/javascript">
+	if('ontouchstart' in document.documentElement) document.write("<script src='__PUBLIC__/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+</script>
+<script src="__PUBLIC__/assets/js/bootstrap.min.js"></script>
+
+<!-- ace scripts -->
+<script src="__PUBLIC__/assets/js/ace-elements.min.js"></script>
+<script src="__PUBLIC__/assets/js/ace.min.js"></script>
+<script src="__JS__/RSsubmit.js"></script>
+<script type="text/javascript">
+jQuery(function($) {
+	$(".RSckedit").on('click',function(){
+		if (this.checked === true) {
+			$(".RSckedit").not($(this)).prop("checked",false);
+		}
+	});
+	
+	$(".RShandle_btn").on('click',function(){
+		var checkedbox = $(".RSckedit:checked:first");
+		if (checkedbox.length == 1) {
+			checkedbox.parent().find("."+$(this).attr('data-call')).click();
+		}
+	});
+	
+	$(".bat_a_handle").click(function(){
+		$(this).RSsubmit({success_alert:true,reload:true});
+		return false;
+	});
+	$(".a_jump").click(function(){
+		window.location.href = $(this).attr('href');
+	})
+})
+</script>
+
+
+</body>
+</html>

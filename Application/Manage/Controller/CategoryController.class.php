@@ -124,7 +124,7 @@ class CategoryController extends ManageBaseController {
 	/**
 	 * category status 状态修改接口 删除,禁用,启用
 	 */
-	public function state($id,$a) {
-		$this->_state($id, $a, 'Category');
+	public function state($id,$act) {
+		$this->_state($id, $act, 'Category');
 	}
 }

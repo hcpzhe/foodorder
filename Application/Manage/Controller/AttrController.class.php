@@ -11,14 +11,20 @@ use Manage\Model\AttrValModel;
  */
 class AttrController extends ManageBaseController {
 	
-	public function lists($status=1,$id=null,$name=null) {
+	public function lists($status=null,$id=null,$name=null) {
 		$model = New AttrModel(); $map = array();
+		$status_view = array('default'=>'所有','del'=>'已删除','forbid'=>'禁用','allow'=>'正常');
 		
 		//查询条件 处理
-		$map['id'] = (int)$id;
+		$map['id'] = (int)$id; $now_status = $status_view['default'];
 		if (!isset($id) || $map['id']<=0) {
 			unset($map['id']);
-			$map['status'] = in_array($status, AttrModel::$mystat) ? $status : 1;
+			if (isset($status) && key_exists($status, AttrModel::$mystat)) { //指定查询状态
+				$map['status'] = AttrModel::$mystat[$status];
+				$now_status = $status_view[$status];
+			}else {
+				$map['status'] = array('EGT',0); //默认查询状态为未删除的数据
+			}
 			if (isset($name)) {
 				$map['attr_name'] =array('like', '%'.$name.'%');
 			}
@@ -27,6 +33,7 @@ class AttrController extends ManageBaseController {
 		
 		$list = $this->_lists($model,$map);
 		$this->assign('list', $list); //列表
+		$this->assign('now_status',$now_status); //当前页面筛选的状态
 		
 		// 记录当前列表页的cookie
 		cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
@@ -83,28 +90,37 @@ class AttrController extends ManageBaseController {
 	/**
 	 * attr status状态修改接口 删除,禁用,启用
 	 */
-	public function state($id,$a) {
-		$this->_state($id, $a, 'Attr');
+	public function state($id,$act) {
+		$this->_state($id, $act, 'Attr');
 	}
 	
 	/**
 	 * 属性值列表
 	 */
-	public function valLists($atid,$status=1,$id=null) {
+	public function valLists($atid,$status=null) {
 		$model = New AttrValModel(); $map = array();
+		$status_view = array('default'=>'所有','del'=>'已删除','forbid'=>'禁用','allow'=>'正常');
 		
 		//查询条件 处理
-		$map['id'] = (int)$id;
-		if (!isset($id) || $map['id']<=0) {
-			unset($map['id']);
-			$map['attr_id'] = (int)$atid;
-			if ($map['attr_id'] <= 0) $this->error('参数非法');
-			$map['status'] = in_array($status, AttrValModel::$mystat) ? $status : 1;
+		$map['attr_id'] = (int)$atid;
+		if ($map['attr_id'] <= 0) $this->error('参数非法');
+		$attr_M = new Model('Attr');
+		$attr_info = $attr_M->find($map['attr_id']);
+		if (empty($attr_info) || false===$attr_info) $this->error('类别不存在');
+		
+		if (isset($status) && key_exists($status, AttrValModel::$mystat)) { //指定查询状态
+			$map['status'] = AttrValModel::$mystat[$status];
+			$now_status = $status_view[$status];
+		}else {
+			$now_status = $status_view['default'];
+			$map['status'] = array('EGT',0); //默认查询状态为未删除的数据
 		}
 		/******************/
 		
 		$list = $this->_lists($model,$map);
 		$this->assign('list', $list); //列表
+		$this->assign('attr_info',$attr_info);// 所属类别信息
+		$this->assign('now_status',$now_status); //当前页面筛选的状态
 		
 		// 记录当前列表页的cookie
 		cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
@@ -125,7 +141,7 @@ class AttrController extends ManageBaseController {
 		$attr_M = New Model('Attr');
 		$attr = $attr_M->where('`id`='.$info['attr_id'])->find();
 		$this->assign('attr',$attr); //该属性值的 所属属性
-		
+				
 		cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
 		$this->display();
 	}
@@ -143,13 +159,13 @@ class AttrController extends ManageBaseController {
 		if (false === $model->where('`id`='.$id)->save()) {
 			$this->error($model->getError());
 		}
-		$this->success('更新成功',C('CURRENT_URL_NAME'));
+		$this->success('更新成功',cookie(C('CURRENT_URL_NAME')));
 	}
 	
 	public function valAdd() {
 		//需要列出所有可用的 所属属性
 		$attr_M = New Model('Attr');
-		$attrlist = $attr_M->where(AttrModel::$ablemap)->select();
+		$attrlist = $attr_M->where(AttrModel::$ablemap)->order('sort asc,id desc')->select();
 		$this->assign('attrlist',$attrlist); //所有可用的 所属属性
 		
 		cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
@@ -162,13 +178,13 @@ class AttrController extends ManageBaseController {
 		if (false === $model->myAdd($data)) {
 			$this->error($model->getError());
 		}
-		$this->success('新建成功',U(CONTROLLER_NAME.'/valLists'));
+		$this->success('新建成功',U(CONTROLLER_NAME.'/valLists',array('atid'=>$data['attr_id'])));
 	}
 	
 	/**
 	 * attr_val status状态修改接口 删除,禁用,启用
 	 */
-	public function valState($id,$a) {
-		$this->_state($id, $a, 'AttrVal');
+	public function valState($id,$act) {
+		$this->_state($id, $act, 'AttrVal');
 	}
 }
