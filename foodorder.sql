@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2014-10-31 17:31:05
+Date: 2014-11-03 17:45:02
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -25,12 +25,13 @@ CREATE TABLE `fdo_attr` (
   `sort` smallint(5) unsigned NOT NULL DEFAULT '255',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '-1删除 0禁用 1正常',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='筛选属性表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='筛选属性表';
 
 -- ----------------------------
 -- Records of fdo_attr
 -- ----------------------------
 INSERT INTO `fdo_attr` VALUES ('1', '美食分类', '255', '1');
+INSERT INTO `fdo_attr` VALUES ('2', '哈哈', '255', '1');
 
 -- ----------------------------
 -- Table structure for `fdo_attr_val`
@@ -43,7 +44,7 @@ CREATE TABLE `fdo_attr_val` (
   `sort` smallint(5) unsigned NOT NULL DEFAULT '255' COMMENT '排序',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '-1删除 0禁用 1正常',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='筛选属性可选值表;  `筛选属性表`一对多的关系';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='筛选属性可选值表;  `筛选属性表`一对多的关系';
 
 -- ----------------------------
 -- Records of fdo_attr_val
@@ -53,6 +54,9 @@ INSERT INTO `fdo_attr_val` VALUES ('2', '1', '面食', '255', '1');
 INSERT INTO `fdo_attr_val` VALUES ('3', '1', '盖浇饭', '255', '1');
 INSERT INTO `fdo_attr_val` VALUES ('4', '1', '甜品', '255', '1');
 INSERT INTO `fdo_attr_val` VALUES ('5', '1', '快餐', '255', '1');
+INSERT INTO `fdo_attr_val` VALUES ('6', '2', '阿斯顿', '255', '1');
+INSERT INTO `fdo_attr_val` VALUES ('7', '2', '事实上', '255', '1');
+INSERT INTO `fdo_attr_val` VALUES ('8', '2', '测试一下2', '255', '1');
 
 -- ----------------------------
 -- Table structure for `fdo_auth_group`
@@ -485,7 +489,7 @@ CREATE TABLE `fdo_menu` (
   `tip` varchar(255) NOT NULL DEFAULT '' COMMENT '提示',
   PRIMARY KEY (`id`),
   KEY `pid` (`pid`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of fdo_menu
@@ -498,7 +502,10 @@ INSERT INTO `fdo_menu` VALUES ('5', '店铺', '0', '255', '', '0', '');
 INSERT INTO `fdo_menu` VALUES ('6', '店铺管理', '5', '255', 'Store/lists', '0', '');
 INSERT INTO `fdo_menu` VALUES ('7', '新增店铺', '5', '255', 'Store/add', '0', '');
 INSERT INTO `fdo_menu` VALUES ('8', '订单管理', '0', '255', 'Order/lists', '0', '');
-INSERT INTO `fdo_menu` VALUES ('9', '店铺类别管理', '0', '255', 'Attr/lists', '0', '');
+INSERT INTO `fdo_menu` VALUES ('9', '店铺类别', '0', '255', '', '0', '');
+INSERT INTO `fdo_menu` VALUES ('10', '类别管理', '9', '255', 'Attr/lists', '0', '');
+INSERT INTO `fdo_menu` VALUES ('11', '新增类别', '9', '255', 'Attr/add', '0', '');
+INSERT INTO `fdo_menu` VALUES ('12', '新建属性值', '9', '255', 'Attr/valAdd', '0', '');
 
 -- ----------------------------
 -- Table structure for `fdo_order`
@@ -672,5 +679,5 @@ CREATE TABLE `fdo_user` (
 -- ----------------------------
 -- Records of fdo_user
 -- ----------------------------
-INSERT INTO `fdo_user` VALUES ('1', 'admin', 'de14566c080c81c80ffb5eacf68793a9', '0', '超管', '1', '0', '1', '1412999166', '2130706433', '1');
+INSERT INTO `fdo_user` VALUES ('1', 'admin', 'de14566c080c81c80ffb5eacf68793a9', '0', '超管', '1', '0', '4', '1414982059', '2130706433', '1');
 INSERT INTO `fdo_user` VALUES ('2', 'administrator', 'de14566c080c81c80ffb5eacf68793a9', '0', '超管', '1', '0', '0', '0', '0', '1');
