@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2014-11-03 17:45:02
+Date: 2014-11-04 17:42:06
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -31,7 +31,7 @@ CREATE TABLE `fdo_attr` (
 -- Records of fdo_attr
 -- ----------------------------
 INSERT INTO `fdo_attr` VALUES ('1', '美食分类', '255', '1');
-INSERT INTO `fdo_attr` VALUES ('2', '哈哈', '255', '1');
+INSERT INTO `fdo_attr` VALUES ('2', '区域', '255', '1');
 
 -- ----------------------------
 -- Table structure for `fdo_attr_val`
@@ -54,9 +54,9 @@ INSERT INTO `fdo_attr_val` VALUES ('2', '1', '面食', '255', '1');
 INSERT INTO `fdo_attr_val` VALUES ('3', '1', '盖浇饭', '255', '1');
 INSERT INTO `fdo_attr_val` VALUES ('4', '1', '甜品', '255', '1');
 INSERT INTO `fdo_attr_val` VALUES ('5', '1', '快餐', '255', '1');
-INSERT INTO `fdo_attr_val` VALUES ('6', '2', '阿斯顿', '255', '1');
-INSERT INTO `fdo_attr_val` VALUES ('7', '2', '事实上', '255', '1');
-INSERT INTO `fdo_attr_val` VALUES ('8', '2', '测试一下2', '255', '1');
+INSERT INTO `fdo_attr_val` VALUES ('6', '2', '涧西', '255', '1');
+INSERT INTO `fdo_attr_val` VALUES ('7', '2', '西工', '255', '1');
+INSERT INTO `fdo_attr_val` VALUES ('8', '2', '老城', '255', '1');
 
 -- ----------------------------
 -- Table structure for `fdo_auth_group`
@@ -514,7 +514,7 @@ DROP TABLE IF EXISTS `fdo_order`;
 CREATE TABLE `fdo_order` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '订单ID',
   `order_sn` varchar(32) NOT NULL DEFAULT '' COMMENT '订单编号',
-  `sotre_id` int(10) unsigned NOT NULL COMMENT '所属店铺ID',
+  `store_id` int(10) unsigned NOT NULL COMMENT '所属店铺ID',
   `member_id` char(40) NOT NULL COMMENT '购买用户编号',
   `buyer_name` varchar(32) NOT NULL COMMENT '购买者姓名',
   `address` varchar(255) NOT NULL COMMENT '地址',
@@ -537,11 +537,12 @@ CREATE TABLE `fdo_order` (
   `finish_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '订单完成时间',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '-1删除 0禁用 1正常',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='订单表';
 
 -- ----------------------------
 -- Records of fdo_order
 -- ----------------------------
+INSERT INTO `fdo_order` VALUES ('1', '12332543', '3', '85fce697249c4be2c1f86418da3b4842683afc65', '哈哈', '洛阳西工区紫金城', '13333333333', null, '0.00', '1', '0', '1415093468', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1');
 
 -- ----------------------------
 -- Table structure for `fdo_order_goods`
@@ -575,11 +576,12 @@ CREATE TABLE `fdo_payment` (
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '-1删除 0禁用 1正常',
   PRIMARY KEY (`id`),
   UNIQUE KEY `pay_code` (`pay_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='支付方式';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='支付方式';
 
 -- ----------------------------
 -- Records of fdo_payment
 -- ----------------------------
+INSERT INTO `fdo_payment` VALUES ('1', 'cod', '货到付款', '', null, '0', '255', '0');
 
 -- ----------------------------
 -- Table structure for `fdo_phonecode`
@@ -679,5 +681,5 @@ CREATE TABLE `fdo_user` (
 -- ----------------------------
 -- Records of fdo_user
 -- ----------------------------
-INSERT INTO `fdo_user` VALUES ('1', 'admin', 'de14566c080c81c80ffb5eacf68793a9', '0', '超管', '1', '0', '4', '1414982059', '2130706433', '1');
+INSERT INTO `fdo_user` VALUES ('1', 'admin', 'de14566c080c81c80ffb5eacf68793a9', '0', '超管', '1', '0', '6', '1415084507', '2130706433', '1');
 INSERT INTO `fdo_user` VALUES ('2', 'administrator', 'de14566c080c81c80ffb5eacf68793a9', '0', '超管', '1', '0', '0', '0', '0', '1');
