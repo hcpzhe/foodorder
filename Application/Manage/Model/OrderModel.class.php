@@ -78,7 +78,6 @@ class OrderModel extends Model {
     	}else {
     		return $map['order_sn'];
     	}
-    	$this->create();
     }
     
     public function myAdd($data) {

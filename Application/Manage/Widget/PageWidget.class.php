@@ -59,8 +59,8 @@ class PageWidget extends ManageBaseController {
 	
 	public function menu($id=1) {
 		static $_manage_menu = array();
+		$menu_M = new MenuModel();
 		if (empty($_manage_menu)) {
-			$menu_M = new MenuModel();
 			$_manage_menu = $menu_M->getHash();
 		}
 		$active_ids = $menu_M->getDaddy($id);

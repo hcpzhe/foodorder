@@ -2,6 +2,7 @@
 namespace Manage\Controller;
 use Common\Controller\ManageBaseController;
 use Manage\Model\OrderModel;
+use Think\Model;
 /**
  * 订单管理
  * @author RockSnap
@@ -18,11 +19,12 @@ class OrderController extends ManageBaseController {
 	 * @param number $cfm		confirm 客户收货确认 0-否 1-是(订单完结)
 	 * @param number $unr		unreceived 用户未收货申请1-是,0-否;必须在收货截止时间内才能申请
 	 */
-	public function lists($status=1,$id=null,$sn=null,$sid=null,$ph=null,$cfm=null,$unr=null) {
+	public function lists($status=null,$id=null,$sn=null,$sid=null,$ph=null,$cfm=null,$unr=null) {
 		$model = new OrderModel(); $map = array();
+		$status_view = array('default'=>'所有','del'=>'已删除','forbid'=>'禁用','allow'=>'正常');
 		
 		//查询条件 处理
-		$map['id'] = (int)$id;
+		$map['id'] = (int)$id; $now_status = $status_view['default'];
 		if (!isset($id) || $map['id']<=0) {
 			unset($map['id']);
 			
@@ -41,19 +43,54 @@ class OrderController extends ManageBaseController {
 				if (isset($unr) && in_array($unr, OrderModel::$S_unreceived)) {
 					$map['unreceived'] = $unr;
 				}
-				
-				$map['status'] = in_array($status, OrderModel::$mystat) ? $status : 1;
+				if (isset($status) && key_exists($status, OrderModel::$mystat)) { //指定查询状态
+					$map['status'] = OrderModel::$mystat[$status];
+					$now_status = $status_view[$status];
+				}else {
+					$map['status'] = array('EGT',0); //默认查询状态为未删除的数据
+				}
 			}
 		}
 		/******************/
 		
 		$list = $this->_lists($model,$map);
 		$this->assign('list', $list); //列表
+		$this->assign('now_status',$now_status); //当前页面筛选的状态
+
+		if (!empty($list)) {
+			$store_M = new Model('Store');
+			$store_ids = field_unique($list, 'store_id');
+			$map = array('id'=>array('in',$store_ids));
+			$storelist = $store_M->where($map)->getField('id,store_name');
+			$this->assign('storelist',$storelist); //列表用到的店铺, ID为key索引
+		}
 		
 		// 记录当前列表页的cookie
 		cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
 		
 		$this->display();
+	}
+
+	/**
+	 * store状态的切换
+	 */
+	public function toggle($id,$fd) {
+		$fields = array('store'=>'store_status','ship'=>'ship_status');
+		$map['id'] = (int)$id;
+		if ($map['id'] <= 0) {
+			$this->error('主要参数非法');
+		}
+		$field_key = $fd;
+		if (!key_exists($field_key, $fields)) {
+			$this->error('参数非法');
+		}
+		$model = New Model('Order');
+		$org = $model->where($map)->getField($fields[$field_key]);
+		$new = $org==='1' ? '0' : '1';
+		if (false === $model->where($map)->setField($fields[$field_key],$new)) {
+			$this->error('更新失败,未知错误!');
+		}
+		$this->success('更新成功');
 	}
 	
 	/**
@@ -71,22 +108,65 @@ class OrderController extends ManageBaseController {
 	/**
 	 * 订单查看页面
 	 */
-	public function read() {
+	public function read($id) {
+		$map['id'] = (int)$id;
+		if ($map['id'] <= 0) {
+			$this->error('请选择要查看的订单');
+		}
+		$model = New Model('Order');
+		$info = $model->where($map)->find();
+		$this->assign('info',$info);
 		
+		$store_M = new Model('Store');
+		$store_info = $store_M->find($info['store_id']);
+		$this->assign('store_info',$store_info);
+		
+		$pay_M = new Model('Payment');
+		$pay_info = $pay_M->find($info['payment_id']);
+		$this->assign('pay_info',$pay_info);
+		
+		cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
+		$this->display();
 	}
 	
 	/**
 	 * 订单更新接口
 	 */
-	public function update() {
-		
+	public function update($id) {
+		$id = (int)$id;
+		if ($id <= 0) {
+			$this->error('请选择要更新的订单');
+		}
+		$model = New OrderModel();
+		$data = I('post.');
+		if (false === $model->myUpdate($data)) {
+			$this->error($model->getError());
+		}
+		$this->success('更新成功',cookie(C('CURRENT_URL_NAME')));
 	}
 	
 	/**
 	 * 查看订单内商品列表
+	 * @param int $id 订单id
 	 */
-	public function readGoods() {
+	public function readGoods($id) {
+		$id = (int)$id;
+		if ($id <= 0) {
+			$this->error('请先选择订单');
+		}
+		$og_M = new Model('OrderGoods');
+		$list = $og_M->where('order_id='.$id)->select();
+		$this->assign('list',$list);
 		
+		if (!empty($list)) {
+			$goods_M = new Model('goods');
+			$goods_ids = field_unique($list, 'goods_id');
+			$map = array('id'=>array('in',$goods_ids));
+			$goodslist = $goods_M->where($map)->getField('id,goods_name');
+			$this->assign('goodslist',$goodslist); //列表用到的, ID为key索引
+		}
+		
+		$this->display();
 	}
 	
 	/**

@@ -68,7 +68,7 @@ class AttrController extends ManageBaseController {
 		if (false === $model->where('`id`='.$id)->save()) {
 			$this->error($model->getError());
 		}
-		$this->success('更新成功',C('CURRENT_URL_NAME'));
+		$this->success('更新成功',cookie(C('CURRENT_URL_NAME')));
 	}
 	
 	public function add() {
@@ -142,7 +142,7 @@ class AttrController extends ManageBaseController {
 		$attr = $attr_M->where('`id`='.$info['attr_id'])->find();
 		$this->assign('attr',$attr); //该属性值的 所属属性
 				
-		cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
+		//cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
 		$this->display();
 	}
 	
