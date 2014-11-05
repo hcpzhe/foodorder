@@ -77,16 +77,34 @@ class OrderGoodsModel extends Model {
     	
     	//先create验证数据
     	if (false ===$this->create($data,self::MODEL_UPDATE)) return false;
+    	
+    	$this->startTrans();
     	if (!isset($this->amount) || !is_null($this->amount)) {
     		// 如果没有给出指定的商品总价, 那么进行自动计算
     		if (false === $this->where($map)->save()) {
     			$this->error = '数据库错误,更新失败';
     			return false;
     		}
-    		return $this->where($map)->setField('amount','quantity*price');
+    		$info = $this->where($map)->find();
+    		$flag = $this->where($map)->setField('amount',$info['quantity']*$info['price']);
     	}else {
-    		return $this->where($map)->save();
+    		$flag = $this->where($map)->save();
     	}
+    	if (false === $flag) {
+    		$this->rollback();
+    		return false;
+    	}
+    	//更新订单总价
+    	$fields = array('order_id','sum(amount)'=>'amount');
+    	$info = $this->where('`order_id`='.$map['order_id'])->field($fields)->group('goods_id')->find();
+    	$order_M = new Model('Order');
+    	if (false === $order_M->where('id='.$map['order_id'])->setField('amount',$info['amount'])) {
+    		$this->rollback();
+    		$this->error = '订单总价更新失败';
+    		return false;
+    	}
+    	$this->commit();
+    	return true;
     }
     
     public function myDel($order_id,$goods_id) {

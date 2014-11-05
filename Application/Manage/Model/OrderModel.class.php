@@ -217,6 +217,12 @@ class OrderModel extends Model {
     		$this->rollback();
     		return false;
     	}
-    	return $this->where('order_id='.$order_id)->setField('amount',$new_amount);
+    	if (false === $this->where('id='.$order_id)->setField('amount',$new_amount)) {
+    		$this->error = '订单的总价更新失败';
+    		$this->rollback();
+    		return false;
+    	}
+    	$this->commit();
+    	return true;
     }
 }

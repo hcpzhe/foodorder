@@ -3,6 +3,7 @@ namespace Manage\Controller;
 use Common\Controller\ManageBaseController;
 use Manage\Model\OrderModel;
 use Think\Model;
+use Manage\Model\OrderGoodsModel;
 /**
  * 订单管理
  * @author RockSnap
@@ -145,6 +146,10 @@ class OrderController extends ManageBaseController {
 		$this->success('更新成功',cookie(C('CURRENT_URL_NAME')));
 	}
 	
+	public function state($id,$act) {
+		$this->_state($id, $act, 'Order');
+	}
+	
 	/**
 	 * 查看订单内商品列表
 	 * @param int $id 订单id
@@ -158,6 +163,10 @@ class OrderController extends ManageBaseController {
 		$list = $og_M->where('order_id='.$id)->select();
 		$this->assign('list',$list);
 		
+		$store_M = new Model('Store');
+		$store_info = $store_M->find($id);
+		$this->assign('store_info',$store_info);
+		
 		if (!empty($list)) {
 			$goods_M = new Model('goods');
 			$goods_ids = field_unique($list, 'goods_id');
@@ -165,6 +174,35 @@ class OrderController extends ManageBaseController {
 			$goodslist = $goods_M->where($map)->getField('id,goods_name');
 			$this->assign('goodslist',$goodslist); //列表用到的, ID为key索引
 		}
+		cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
+		
+		$this->display();
+	}
+	
+	/**
+	 * 更新订单商品 page
+	 * @param int $oid	订单id
+	 * @param int $gid	商品id
+	 */
+	public function editGoods($oid,$gid) {
+		$oid = (int)$oid; $gid = (int)$gid;
+		if ($oid <= 0 || $gid <= 0) {
+			$this->error('参数非法');
+		}
+		
+		$goods_M = new Model('goods');
+		$goods_info = $goods_M->find($gid);
+		if (empty($goods_info)) $this->error('此商品不存在');
+		$this->assign('goods_info',$goods_info);
+		
+		$where = array(
+			'order_id' => $oid,
+			'goods_id' => $gid
+		);
+		$og_M = new Model('OrderGoods');
+		$info = $og_M->where($where)->find();
+		if (empty($info)) $this->error('订单内此商品不存在');
+		$this->assign('info',$info);
 		
 		$this->display();
 	}
@@ -173,14 +211,33 @@ class OrderController extends ManageBaseController {
 	 * 更新订单商品接口
 	 * 单价,数量,总价
 	 */
-	public function updateGoods() {
+	public function updateGoods($order_id,$goods_id) {
+		$oid = (int)$order_id; $gid = (int)$goods_id;
+		if ($oid <= 0 || $gid <= 0) {
+			$this->error('参数非法');
+		}
+		
+		$model = new OrderGoodsModel();
+		$data = I('post.');
+		if (false === $model->myUpdate($data)) {
+			$this->error($model->getError());
+		}
+		$this->success('更新成功',cookie(C('CURRENT_URL_NAME')));
 		
 	}
 	
 	/**
-	 * 删除订单内某个或多个商品 接口
+	 * 删除订单内某个商品 接口
+	 * @param int $oid	订单id
+	 * @param int $gid	商品id
 	 */
-	public function delGoods() {
-		
+	public function delGoods($oid,$gid) {
+		$where = array(
+			'order_id' => $oid,
+			'goods_id' => $gid
+		);
+		$og_M = new Model('OrderGoods');
+		$og_M->where($where)->delete();
+		$this->success('删除成功');
 	}
 }
