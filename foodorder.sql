@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2014-11-04 17:42:06
+Date: 2014-11-05 17:42:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -542,7 +542,7 @@ CREATE TABLE `fdo_order` (
 -- ----------------------------
 -- Records of fdo_order
 -- ----------------------------
-INSERT INTO `fdo_order` VALUES ('1', '12332543', '3', '85fce697249c4be2c1f86418da3b4842683afc65', '哈哈', '洛阳西工区紫金城', '13333333333', null, '0.00', '1', '0', '1415093468', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1');
+INSERT INTO `fdo_order` VALUES ('1', '12332543', '3', '85fce697249c4be2c1f86418da3b4842683afc65', '哈哈', '洛阳西工区紫金城', '13333333333', null, '20.00', '1', '0', '1415093468', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1');
 
 -- ----------------------------
 -- Table structure for `fdo_order_goods`
@@ -560,6 +560,7 @@ CREATE TABLE `fdo_order_goods` (
 -- ----------------------------
 -- Records of fdo_order_goods
 -- ----------------------------
+INSERT INTO `fdo_order_goods` VALUES ('1', '1', '2', '10.00', '20.00');
 
 -- ----------------------------
 -- Table structure for `fdo_payment`
