@@ -6,6 +6,11 @@ use Think\Model;
  * 配置模型
  */
 class ConfigModel extends Model {
+	public static $mystat = array('del'=>'-1','forbid'=>'0','allow'=>'1');
+	public static $ablemap = array('status'=>'1'); //状态正常的查询条件
+	public static $group = array('1'=>'基本配置','2'=>'内容配置','3'=>'用户配置','4'=>'系统配置'); //配置分组
+	
+	
     protected $_validate = array(
         array('name', 'require', '标识不能为空', self::EXISTS_VALIDATE, 'regex', self::MODEL_BOTH),
         array('name', '', '标识已经存在', self::VALUE_VALIDATE, 'unique', self::MODEL_BOTH),
