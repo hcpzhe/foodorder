@@ -29,7 +29,7 @@ class PageWidget extends ManageBaseController {
 					</a>
 				</li>
 				<li class="green">
-					<a  href="'.U('Index/webcom').'">
+					<a  href="'.U('Index/changePwd').'">
 						<i class="ace-icon fa fa-lock"></i>
 						修改密码
 					</a>

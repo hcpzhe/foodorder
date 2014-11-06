@@ -71,4 +71,13 @@ class UserModel extends Model {
 		session('user_auth_sign', data_auth_sign($auth));
 	
 	}
+	
+	public function chgPwd($org,$new){
+		$user = $this->find(UID);
+		if($user['password'] != pwd_hash($org)) {
+			$this->error = '原始密码错误！';
+			return false;
+		}
+		return $this->where('id='.UID)->setField('password',pwd_hash($new));
+	}
 }
