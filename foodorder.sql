@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2014-11-05 17:42:43
+Date: 2014-11-07 16:20:27
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -489,7 +489,7 @@ CREATE TABLE `fdo_menu` (
   `tip` varchar(255) NOT NULL DEFAULT '' COMMENT '提示',
   PRIMARY KEY (`id`),
   KEY `pid` (`pid`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of fdo_menu
@@ -506,6 +506,7 @@ INSERT INTO `fdo_menu` VALUES ('9', '店铺类别', '0', '255', '', '0', '');
 INSERT INTO `fdo_menu` VALUES ('10', '类别管理', '9', '255', 'Attr/lists', '0', '');
 INSERT INTO `fdo_menu` VALUES ('11', '新增类别', '9', '255', 'Attr/add', '0', '');
 INSERT INTO `fdo_menu` VALUES ('12', '新建属性值', '9', '255', 'Attr/valAdd', '0', '');
+INSERT INTO `fdo_menu` VALUES ('13', '网站设置', '0', '255', 'Config/group', '0', '');
 
 -- ----------------------------
 -- Table structure for `fdo_order`
@@ -684,3 +685,12 @@ CREATE TABLE `fdo_user` (
 -- ----------------------------
 INSERT INTO `fdo_user` VALUES ('1', 'admin', 'de14566c080c81c80ffb5eacf68793a9', '0', '超管', '1', '0', '6', '1415084507', '2130706433', '1');
 INSERT INTO `fdo_user` VALUES ('2', 'administrator', 'de14566c080c81c80ffb5eacf68793a9', '0', '超管', '1', '0', '0', '0', '0', '1');
+
+-- ----------------------------
+-- Event structure for `test`
+-- ----------------------------
+DROP EVENT IF EXISTS `test`;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` EVENT `test` ON SCHEDULE EVERY 1 DAY STARTS '2014-08-12 00:00:01' ON COMPLETION PRESERVE DISABLE DO INSERT INTO `erp_user_cust_prod` VALUES (1,2,3,4)
+;;
+DELIMITER ;
