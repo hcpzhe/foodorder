@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2014-11-07 16:20:27
+Date: 2014-11-08 17:28:08
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -640,7 +640,7 @@ CREATE TABLE `fdo_store` (
 -- Records of fdo_store
 -- ----------------------------
 INSERT INTO `fdo_store` VALUES ('2', 'aaa', '', '演示店铺', '张老板', '123456789012345678', '人民大街16号', '010-88886666-8866', '6.00', '2.7', '10', '0', null, '', '', '', '0', null, '0', '22', '1249543819', '0', '0', '', '1');
-INSERT INTO `fdo_store` VALUES ('3', 'aaaa', '123456', 'aaaa', 'aaaa', '', 'aaaaaaaaaaaa', '', '0.00', '3.0', '0', '0', null, null, null, null, '0', null, '0', '255', '1414482653', '0', '0', '', '1');
+INSERT INTO `fdo_store` VALUES ('3', 'aaaa', '123456', 'aaaa', 'aaaa', '', 'aaaaaaaaaaaa', '', '0.00', '3.0', '0', '0', '/Uploads/Picture/2014-11-08/545dd7bccccf5.jpg', null, null, null, '0', null, '0', '255', '1414482653', '0', '0', '', '1');
 
 -- ----------------------------
 -- Table structure for `fdo_store_attr`
