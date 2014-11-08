@@ -1,6 +1,7 @@
 <?php
 namespace Manage\Model;
 use Think\Model;
+use Think\Upload;
 
 /**
  * 店铺模型
@@ -57,4 +58,24 @@ class StoreModel extends Model {
     protected $_auto = array(
         	array('add_time', NOW_TIME, self::MODEL_INSERT),//入驻时间
     );
+    
+    public function myUpdate($data) {
+    	$id = (int)$data['id']; unset($data['id']);
+    	
+    	//上传店铺logo
+    	if (!empty($data['store_logo'])) {
+    		$setting = C('PICTURE_UPLOAD');
+			$Upload = new Upload($setting);
+			$store_logo = $Upload->uploadOne($data['store_logo']);
+			if (!$store_logo) {
+	            $this->error = $Upload->getError();
+	            return false;
+			}
+			$store_logo['path'] = substr($setting['rootPath'], 1).$store_logo['savepath'].$store_logo['savename']; //在模板里的url路径
+			$data['store_logo'] = $store_logo['path'];
+    	}
+    	
+    	if (false === $this->create($data,self::MODEL_UPDATE)) return false;
+    	return $this->where('`id`='.$id)->save();
+    }
 }

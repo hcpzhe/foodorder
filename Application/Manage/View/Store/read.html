@@ -98,7 +98,7 @@
 <div class="row">
 
 	<div class="col-xs-12">
-	<form class="form-horizontal" role="form" action="{:U('Store/update')}" method="post" onsubmit="$(this).RSsubmit({success_alert:true});return false;">
+	<form id="readStore" class="form-horizontal" role="form" action="{:U('Store/update')}" method="post" enctype="multipart/form-data">
 		<div class="form-group">
 			<label class="col-sm-3 control-label"> 帐号 </label>
 			<label class="col-sm-9">{$info['account']}</label>
@@ -206,9 +206,17 @@
 		<div class="form-group">
 			<label class="col-sm-3 control-label"> 店铺LOGO </label>
 			<div class="col-sm-3">
-				<input type="file" name="store_logo" value="{$info['store_logo']}">
+				<input type="file" id="store_logo_fileinput" name="store_logo" />
 			</div>
 		</div>
+		<!-- <if condition="$info['store_logo']"> -->
+		<div class="form-group">
+			<label class="col-sm-3 control-label"></label>
+			<div class="col-sm-9">
+				<img style="width:200px;" alt="" src="__ROOT__{$info['store_logo']}">
+			</div>
+		</div>
+		<!-- </if> -->
 		<div class="form-group">
 			<label class="col-sm-3 control-label"> 排序 </label>
 			<div class="col-sm-9">
@@ -276,8 +284,6 @@
 	</form>
 	</div>
 </div><!-- /.row -->
-	
-{$_page}
 
 </div><!-- /.page-content-area -->
 </div><!-- /.page-content -->
@@ -315,8 +321,21 @@
 <script src="__PUBLIC__/assets/js/ace-elements.min.js"></script>
 <script src="__PUBLIC__/assets/js/ace.min.js"></script>
 <script src="__JS__/RSsubmit.js"></script>
+<script src="__JS__/jquery.form.js"></script>
 <script type="text/javascript">
 jQuery(function($) {
+	$('#store_logo_fileinput').ace_file_input({
+		no_file:'No File ...',
+		btn_choose:'选择',
+		btn_change:'修改',
+		droppable:false,
+		onchange:null,
+		thumbnail:false //| true | large
+		//whitelist:'gif|png|jpg|jpeg'
+		//blacklist:'exe|php'
+		//onchange:''
+		//
+	});
 	$(".RSckedit").on('click',function(){
 		if (this.checked === true) {
 			$(".RSckedit").not($(this)).prop("checked",false);
@@ -336,7 +355,24 @@ jQuery(function($) {
 	});
 	$(".a_jump").click(function(){
 		window.location.href = $(this).attr('href');
-	})
+	});
+	
+	$('#readStore').on('submit', function(e) {
+		//$(this).RSsubmit({success_alert:true});return false;
+        e.preventDefault(); // <-- important
+        $(this).ajaxSubmit({
+        	dataType: 'json',
+        	success: function(dd) {
+				if (dd.status == 1) {
+					alert(dd.info);
+				}else {
+					alert(dd.info);
+				}
+				if (dd.url) window.location.href = dd.url;
+				else if (dd.status == 1) window.location.reload();
+			}
+        });
+    });
 })
 </script>
 

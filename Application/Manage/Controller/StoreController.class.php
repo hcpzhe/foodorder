@@ -95,10 +95,10 @@ class StoreController extends ManageBaseController {
 		}
 		$model = New StoreModel();
 		$data = I('post.');
-		if (false === $model->create($data,Model::MODEL_UPDATE)) {
-			$this->error($model->getError());
-		}
-		if (false === $model->where('`id`='.$id)->save()) {
+    	if (!empty($_FILES['store_logo'])) {
+    		$data['store_logo'] = $_FILES['store_logo'];
+    	}
+		if (false === $model->myUpdate($data)) {
 			$this->error($model->getError());
 		}
 		$this->success('更新成功',cookie(C('CURRENT_URL_NAME')));
