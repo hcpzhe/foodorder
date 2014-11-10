@@ -99,7 +99,7 @@
 			</ul>
 
 			<div class="tab-content">
-			<form class="form-horizontal" role="form" >
+			<form class="form-horizontal" role="form" method="post" action="{:U('update')}" onsubmit="$(this).RSsubmit({success_alert:true});return false;">
 			<!-- <volist name="list" id="config"> -->
 				<div class="form-item">
 					<label class="item-label">{$config.title}<span class="text-muted">（{$config.remark}）</span> </label>

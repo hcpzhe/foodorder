@@ -29,6 +29,17 @@ class ConfigController extends ManageBaseController {
 		$list = $model->where($map)->order('sort asc, id desc')->select();
 		$this->assign('list',$list); //配置数组
 		$this->assign('nowgid',$map['group']); //当前的分组id
+		cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
 		$this->display();
+	}
+	
+
+	public function update($config){
+		$model = new ConfigModel();
+
+		if (false === $model->myUpdate($config)) {
+			$this->error($model->getError());
+		}
+		$this->success('更新成功',cookie(C('CURRENT_URL_NAME')));
 	}
 }

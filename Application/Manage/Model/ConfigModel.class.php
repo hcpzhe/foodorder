@@ -80,9 +80,16 @@ class ConfigModel extends Model {
 	
     /**
      * 配置更新
-     * TODO 数据更新成功后, 要清除DB_CONFIG_DATA缓存
+     * 数据更新成功后, 要清除DB_CONFIG_DATA缓存
      */
-    public function update() {
-    	
-    }
+    public function myUpdate($config) {
+		if($config && is_array($config)){
+			foreach ($config as $name => $value) {
+				$map = array('name' => $name);
+				$this->where($map)->setField('value', $value);
+			}
+		}
+		S('DB_CONFIG_DATA',null);
+		return true;
+	}
 }
