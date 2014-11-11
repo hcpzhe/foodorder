@@ -90,7 +90,7 @@ class MemberController extends ManageBaseController {
 			$this->error('参数非法');
 		}
 		$model = new Model('Member');
-		if (false === $model->where('`id`='.$id)->setField('status',$acts[$act])) {
+		if (false === $model->where("`id`='$id'")->setField('status',$acts[$act])) {
 			$this->error('更新失败,未知错误!');
 		}
 		$this->success('更新成功');
