@@ -59,8 +59,32 @@ class StoreModel extends Model {
         	array('add_time', NOW_TIME, self::MODEL_INSERT),//入驻时间
     );
     
+    public function myAdd($data) {
+    	if (false === $this->create($data,self::MODEL_INSERT)) return false;
+    	//处理密码
+    	$this->password = pwd_hash($data['password']);
+    	//处理店铺logo
+    	if (!empty($data['store_logo'])) {
+    		$setting = C('PICTURE_UPLOAD');
+			$Upload = new Upload($setting);
+			$store_logo = $Upload->uploadOne($data['store_logo']);
+			if (!$store_logo) {
+	            $this->error = $Upload->getError();
+	            return false;
+			}
+			$store_logo['path'] = substr($setting['rootPath'], 1).$store_logo['savepath'].$store_logo['savename']; //在模板里的url路径
+			$this->store_logo = $store_logo['path'];
+    	}else {
+    		unset($this->store_logo);
+    	}
+    	return $this->add();
+    }
+    
     public function myUpdate($data) {
     	$id = (int)$data['id']; unset($data['id']);
+    	if (empty($data['password'])) unset($data['password']);
+    	else $data['password'] = pwd_hash($data['password']);
+    	if (false === $this->create($data,self::MODEL_UPDATE)) return false;
     	
     	//上传店铺logo
     	if (!empty($data['store_logo'])) {
@@ -72,10 +96,11 @@ class StoreModel extends Model {
 	            return false;
 			}
 			$store_logo['path'] = substr($setting['rootPath'], 1).$store_logo['savepath'].$store_logo['savename']; //在模板里的url路径
-			$data['store_logo'] = $store_logo['path'];
+			$this->store_logo = $store_logo['path'];
+    	}else {
+    		unset($this->store_logo);
     	}
     	
-    	if (false === $this->create($data,self::MODEL_UPDATE)) return false;
     	return $this->where('`id`='.$id)->save();
     }
 }

@@ -112,10 +112,10 @@ class StoreController extends ManageBaseController {
 	public function insert() {
 		$model = New StoreModel();
 		$data = I('post.');
-		if (false === $model->create($data,Model::MODEL_INSERT)) {
-			$this->error($model->getError());
-		}
-		if (false === $model->add()) {
+    	if (!empty($_FILES['store_logo'])) {
+    		$data['store_logo'] = $_FILES['store_logo'];
+    	}
+		if (false === $model->myAdd($data)) {
 			$this->error($model->getError());
 		}
 		$this->success('新建成功',U(CONTROLLER_NAME.'/lists'));
