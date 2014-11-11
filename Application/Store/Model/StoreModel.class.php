@@ -71,4 +71,26 @@ class StoreModel extends Model {
 		session('user_auth_sign', data_auth_sign($auth));
 	
 	}
+	
+	public function chgPwd($org,$new){
+		$user = $this->find(SID);
+		if($user['password'] != pwd_hash($org)) {
+			$this->error = '原始密码错误！';
+			return false;
+		}
+		return $this->where('id='.SID)->setField('password',pwd_hash($new));
+	}
+	
+	public function myUpdate($data) {
+		$data['id'] = SID;
+		$model = new \Manage\Model\StoreModel();
+		$model->field('store_name','owner_name','owner_card','address','tel',
+			'min_send','store_logo','description','im_qq','im_ww',
+			'is_close','close_reason');
+		if (false === $model->myUpdate($data)) {
+			$this->error = $model->getError();
+			return false;
+		}
+		return true;
+	}
 }

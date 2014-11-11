@@ -65,9 +65,15 @@ class CategoryModel extends Model {
     	if (false === $this->create($data,self::MODEL_UPDATE)) return false;
 		//验证 parent_id合法性
 		if ($this->parent_id > 0) {
-			$parent = $this->find($this->parent_id);
+			$model = new Model('Category'); //避免 model 混淆
+			$parent = $model->find($this->parent_id);
 			if (false === $parent || empty($parent)) {
 				$this->error = '父级分类不存在';
+				return false;
+			}
+			$orginfo = $model->find($id);
+			if ($orginfo['store_id'] != $parent['store_id']) {
+				$this->error = '父级分类不存在当前店铺';
 				return false;
 			}
 		}

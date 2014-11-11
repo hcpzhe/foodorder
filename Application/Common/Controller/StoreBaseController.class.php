@@ -14,7 +14,7 @@ abstract class StoreBaseController extends Controller {
 	 * 需要登录的控制器extends别的基类
 	 */
 	protected function _initialize() {
-        define('SID',is_login());
+        defined('SID') or define('SID',is_login());
         if( !SID ){// 还没登录 跳转到登录页面
         	$this->redirect(C('LOGIN_URL'));
         }
