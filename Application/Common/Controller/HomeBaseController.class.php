@@ -24,5 +24,22 @@ abstract class HomeBaseController extends Controller {
 		//TODO 判断是否存在当前controller的模板文件, 若存在,则display 不存在,再跳转
 		$this->redirect('Index/index');
 	}
-
+	
+	protected function _state($id,$act,$modelname) {
+		$id = (int)$id;
+		if ($id <= 0) {
+			$this->error('主要参数非法');
+		}
+		$class = '\\Manage\\Model\\'.$modelname.'Model';
+		$acts = $class::$mystat;
+		if (!key_exists($act, $acts)) {
+			$this->error('参数非法');
+		}
+		$model = M($modelname);
+		if (false === $model->where('`id`='.$id)->setField('status',$acts[$act])) {
+			$this->error('更新失败,未知错误!');
+		}
+		$this->success('更新成功');
+	}
+	
 }

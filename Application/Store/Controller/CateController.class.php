@@ -1,39 +1,14 @@
 <?php
 namespace Store\Controller;
 use Common\Controller\StoreBaseController;
-use Store\Model\StoreModel;
 use Think\Model;
 
 /**
- * 店铺管理
+ * 店铺商品分类管理
  * @author RockSnap
  *
  */
-class ManageController extends StoreBaseController {
-	
-	/**
-	 * 信息资料
-	 */
-	public function info() {
-		$model = new Model('Store');
-		$info = $model->find(SID);
-		$this->assign('info',$info);
-		$this->display();
-	}
-	/**
-	 * 资料更新接口
-	 */
-	public function infoUpdate() {
-		$model = New StoreModel();
-		$data = I('post.');
-    	if (!empty($_FILES['store_logo'])) {
-    		$data['store_logo'] = $_FILES['store_logo'];
-    	}
-		if (false === $model->myUpdate($data)) {
-			$this->error($model->getError());
-		}
-		$this->success('更新成功',cookie(C('CURRENT_URL_NAME')));
-	}
+class CateController extends StoreBaseController {
 	
 	/**
 	 * 商品分类树
@@ -50,8 +25,8 @@ class ManageController extends StoreBaseController {
 		$this->assign('store_info',$store_info);
 		
 		$now_status = $status_view['default'];
-		if (isset($status) && key_exists($status, CategoryModel::$mystat)) { //指定查询状态
-			$map['status'] = CategoryModel::$mystat[$status];
+		if (isset($status) && key_exists($status, \Manage\Model\CategoryModel::$mystat)) { //指定查询状态
+			$map['status'] = \Manage\Model\CategoryModel::$mystat[$status];
 			$now_status = $status_view[$status];
 		}else {
 			$map['status'] = array('EGT',0); //默认查询状态为未删除的数据
@@ -85,6 +60,6 @@ class ManageController extends StoreBaseController {
 			$this->error($model->getError());
 		}
 		$this->success('更新成功',cookie(C('CURRENT_URL_NAME')));
-		
 	}
+	
 }
