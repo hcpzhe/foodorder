@@ -118,7 +118,7 @@ class CategoryController extends ManageBaseController {
 		if (false === $model->myAdd($data)) {
 			$this->error($model->getError());
 		}
-		$this->success('新建成功',U(CONTROLLER_NAME.'/lists'));
+		$this->success('新建成功',cookie(C('CURRENT_URL_NAME')));
 	}
 
 	/**
