@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : 127.0.0.1
-Source Server Version : 50524
+Source Server Version : 50516
 Source Host           : localhost:3306
 Source Database       : foodorder
 
 Target Server Type    : MYSQL
-Target Server Version : 50524
+Target Server Version : 50516
 File Encoding         : 65001
 
-Date: 2014-11-13 17:39:24
+Date: 2014-11-15 00:49:50
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -539,6 +539,7 @@ CREATE TABLE `fdo_order` (
   `pay_status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '支付状态 0-否 1-是',
   `phone_status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '手机验证状态 0-否 1-是',
   `store_status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '店铺接收订单状态 0-否 1-是',
+  `store_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '店铺接收时间',
   `ship_status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '配送状态 0-未开始 1-配送中',
   `confirm` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '客户收货确认 0-否 1-是',
   `ship_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发货时间',
@@ -553,7 +554,7 @@ CREATE TABLE `fdo_order` (
 -- ----------------------------
 -- Records of fdo_order
 -- ----------------------------
-INSERT INTO `fdo_order` VALUES ('1', '12332543', '3', '85fce697249c4be2c1f86418da3b4842683afc65', '哈哈', '洛阳西工区紫金城', '13333333333', null, '30.00', '1', '0', '1415691280', '0', '0', '0', '1', '1', '0', '0', '0', '0', '0', '0', '1');
+INSERT INTO `fdo_order` VALUES ('1', '12332543', '3', '85fce697249c4be2c1f86418da3b4842683afc65', '哈哈', '洛阳西工区紫金城', '13333333333', null, '30.00', '1', '0', '1415691280', '0', '0', '0', '1', '0', '1', '0', '0', '0', '0', '0', '0', '1');
 
 -- ----------------------------
 -- Table structure for `fdo_order_goods`
