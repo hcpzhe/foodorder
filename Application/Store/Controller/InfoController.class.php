@@ -24,7 +24,7 @@ class InfoController extends StoreBaseController {
 	/**
 	 * 资料更新接口
 	 */
-	public function infoUpdate() {
+	public function update() {
 		$model = New StoreModel();
 		$data = I('post.');
     	if (!empty($_FILES['store_logo'])) {
@@ -35,5 +35,34 @@ class InfoController extends StoreBaseController {
 		}
 		$this->success('更新成功',cookie(C('CURRENT_URL_NAME')));
 	}
+
+	/**
+	 * 店铺属性查看页面
+	 */
+	public function attrRead() {
+		$map['store_id'] = SID;
+		
+		$AttrVal_M = new \Manage\Model\AttrValModel();
+		$attr_hash = $AttrVal_M->hashList();
+		$this->assign('attr_hash',$attr_hash);//属性-属性值 的hash数组
+		
+		$StoreAttr_M = new \Manage\Model\StoreAttrModel();
+		$store_attrs = $StoreAttr_M->where($map)->getField('attr_val_id',true);
+		$this->assign('store_attrs',$store_attrs);//该店铺所有的属性值数组
+		
+		cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
+		$this->display();
+	}
 	
+	/**
+	 * 店铺属性更新接口
+	 * @param array $vals	属性值id数组
+	 */
+	public function attrUpdate($vals=array()) {
+		if (!is_array($vals)) $this->error('属性非法');
+	
+		$model = new \Manage\Model\StoreAttrModel();
+		if (false === $model->update(SID, $vals)) $this->error($model->getError());
+		$this->success('更新成功');
+	}
 }
