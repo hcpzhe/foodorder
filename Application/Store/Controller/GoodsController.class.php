@@ -20,9 +20,9 @@ class GoodsController extends StoreBaseController {
 		$status_view = array('default'=>'所有','del'=>'已删除','forbid'=>'禁用','allow'=>'正常');
 		
 		//查询条件 处理 
-		$map['store_id'] = SID;
+		$map['store_id'] = STID;
 		$store_M = new Model('Store');
-		$store_info = $store_M->find(SID);
+		$store_info = $store_M->find(STID);
 		if (empty($store_info)) $this->error('店铺不存在');
 		$this->assign('store_info',$store_info); //店铺信息
 		
@@ -57,9 +57,9 @@ class GoodsController extends StoreBaseController {
 	 * 新建商品
 	 */
 	public function add() {
-		$map['store_id'] = SID;
+		$map['store_id'] = STID;
 		$store_M = new Model('Store');
-		$store_info = $store_M->find(SID);
+		$store_info = $store_M->find(STID);
 		if (empty($store_info)) $this->error('店铺不存在');
 		$this->assign('store_info',$store_info); //店铺信息
 		
@@ -79,7 +79,7 @@ class GoodsController extends StoreBaseController {
 	public function insert() {
 		$model = New GoodsModel();
 		$data = I('post.');
-		$data['store_id'] = SID;
+		$data['store_id'] = STID;
 		if (false === $model->myAdd($data)) {
 			$this->error($model->getError());
 		}
@@ -99,7 +99,7 @@ class GoodsController extends StoreBaseController {
 		$info = $model->where($map)->find();
 		
 		$store_M = New Model('Store');
-		$store_info = $store_M->find(SID);
+		$store_info = $store_M->find(STID);
 		$this->assign('store_info',$store_info); //所属店铺
 		
 		$cate_M = new CategoryModel();
@@ -110,7 +110,7 @@ class GoodsController extends StoreBaseController {
 		}
 		
 		$map = array(
-				'store_id' => SID,
+				'store_id' => STID,
 				'status' => 1
 		);
 		$cate_tree = $cate_M->ztreeArr($map); //ztree json

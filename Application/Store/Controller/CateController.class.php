@@ -18,7 +18,7 @@ class CateController extends StoreBaseController {
 		$status_view = array('default'=>'所有','del'=>'已删除','forbid'=>'禁用','allow'=>'正常'); //默认是 所有 未删除
 		
 		//店铺id必须有
-		$map['store_id'] = SID;
+		$map['store_id'] = STID;
 		$store_M = new Model('Store');
 		$store_info = $store_M->find($map['store_id']);
 		if (empty($store_info)) $this->error('店铺不存在');
@@ -53,7 +53,7 @@ class CateController extends StoreBaseController {
 		$data = I('post.');
 		
 		//验证更新的分类 是当前店铺的
-		$cateinfo = $model->where("id=$id AND store_id=".SID)->find();
+		$cateinfo = $model->where("id=$id AND store_id=".STID)->find();
 		if (empty($cateinfo)) $this->error('更新的分类不存在');
 		
 		if (false === $model->myUpdate($data)) {
@@ -64,7 +64,7 @@ class CateController extends StoreBaseController {
 	public function insert() {
 		$model = New \Manage\Model\CategoryModel();
 		$data = I('post.');
-		$data['store_id'] = SID;//当前店铺
+		$data['store_id'] = STID;//当前店铺
 		if (false === $model->myAdd($data)) {
 			$this->error($model->getError());
 		}

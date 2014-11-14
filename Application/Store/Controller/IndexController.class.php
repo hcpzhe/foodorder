@@ -8,7 +8,7 @@ class IndexController extends StoreBaseController {
 	public function index(){
 		$this->display();
 	}
-
+	
 	/**
 	 * store 修改密码 页面
 	 */

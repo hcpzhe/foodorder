@@ -14,6 +14,6 @@ class GoodsModel extends \Manage\Model\GoodsModel {
 	 */
 	public function checkAuth($goods_id) {
 		$store_id = $this->where("`id`=$goods_id")->getField('store_id');
-		return ($store_id == SID);
+		return ($store_id == STID);
 	}
 }
