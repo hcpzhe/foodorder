@@ -12,11 +12,21 @@ use Think\Model;
 class InfoController extends StoreBaseController {
 	
 	/**
-	 * 信息资料
+	 * 店铺信息资料
 	 */
 	public function info() {
 		$model = new Model('Store');
-		$info = $model->find(SID);
+		$info = $model->find(STID);
+		$this->assign('info',$info);
+		cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
+		$this->display();
+	}
+	/**
+	 * 店主信息
+	 */
+	public function onwerInfo(){
+		$model = new Model('Store');
+		$info = $model->find(STID);
 		$this->assign('info',$info);
 		cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
 		$this->display();
@@ -40,7 +50,7 @@ class InfoController extends StoreBaseController {
 	 * 店铺属性查看页面
 	 */
 	public function attrRead() {
-		$map['store_id'] = SID;
+		$map['store_id'] = STID;
 		
 		$AttrVal_M = new \Manage\Model\AttrValModel();
 		$attr_hash = $AttrVal_M->hashList();
@@ -62,7 +72,7 @@ class InfoController extends StoreBaseController {
 		if (!is_array($vals)) $this->error('属性非法');
 	
 		$model = new \Manage\Model\StoreAttrModel();
-		if (false === $model->update(SID, $vals)) $this->error($model->getError());
+		if (false === $model->update(STID, $vals)) $this->error($model->getError());
 		$this->success('更新成功');
 	}
 }
