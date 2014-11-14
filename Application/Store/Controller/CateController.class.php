@@ -14,7 +14,7 @@ class CateController extends StoreBaseController {
 	 * 商品分类树
 	 * @param string $status	状态
 	 */
-	public function cateTree($status=null) {
+	public function tree($status=null) {
 		$status_view = array('default'=>'所有','del'=>'已删除','forbid'=>'禁用','allow'=>'正常'); //默认是 所有 未删除
 		
 		//店铺id必须有
@@ -45,7 +45,7 @@ class CateController extends StoreBaseController {
 	/**
 	 * 商品分类更新接口
 	 */
-	public function cateUpdate($id) {
+	public function update($id) {
 		$id = (int)$id;
 		if ($id <= 0) $this->error('请选择要更新的分类');
 		
@@ -60,6 +60,15 @@ class CateController extends StoreBaseController {
 			$this->error($model->getError());
 		}
 		$this->success('更新成功',cookie(C('CURRENT_URL_NAME')));
+	}
+	public function insert() {
+		$model = New \Manage\Model\CategoryModel();
+		$data = I('post.');
+		$data['store_id'] = SID;//当前店铺
+		if (false === $model->myAdd($data)) {
+			$this->error($model->getError());
+		}
+		$this->success('新建成功',cookie(C('CURRENT_URL_NAME')));
 	}
 	
 }
