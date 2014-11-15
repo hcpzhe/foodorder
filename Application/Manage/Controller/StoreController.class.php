@@ -95,8 +95,9 @@ class StoreController extends ManageBaseController {
 		}
 		$model = New StoreModel();
 		$data = I('post.');
-    	if (!empty($_FILES['store_logo'])) {
-    		$data['store_logo'] = $_FILES['store_logo'];
+		$data['store_logo'] = $_FILES['store_logo'];
+    	if (empty($_FILES['store_logo']) || $data['store_logo']['error']=='4') {
+    		unset($data['store_logo']);
     	}
 		if (false === $model->myUpdate($data)) {
 			$this->error($model->getError());
@@ -112,8 +113,9 @@ class StoreController extends ManageBaseController {
 	public function insert() {
 		$model = New StoreModel();
 		$data = I('post.');
-    	if (!empty($_FILES['store_logo'])) {
-    		$data['store_logo'] = $_FILES['store_logo'];
+		$data['store_logo'] = $_FILES['store_logo'];
+    	if (empty($_FILES['store_logo']) || $data['store_logo']['error']=='4') {
+    		unset($data['store_logo']);
     	}
 		if (false === $model->myAdd($data)) {
 			$this->error($model->getError());
