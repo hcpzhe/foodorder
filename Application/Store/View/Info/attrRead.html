@@ -33,17 +33,24 @@
 				<tbody>
 					<!-- <foreach name="attr_hash" item="attr"> -->
 					<tr>
-						<td class="text-center"><b>{$attr['attr_name']}</b></td>
 						<td>
-							<!-- <foreach name="attr" item="attr_val"> --> <!-- <foreach name="attr_val" item="vo"> -->
-							<span style="padding-left: 10px;"> <!-- <if condition="in_array($vo['id'],$store_attrs)"> -->
-								<input name="vals[]" type="checkbox" class="ace"
-								value="{$vo['id']}" checked="checked"> <!-- <else /> -->
-								<input name="vals[]" type="checkbox" class="ace"
-								value="{$vo['id']}"> <!-- </if> --> <span class="lbl">
-									{$vo['attr_val']}</span>
-							</span>
-							<!-- </foreach> --> <!-- </foreach> -->
+							<div class="row">
+								<div class="col-sm-3 text-center"><b>{$attr['attr_name']}</b></div>
+								<div class="col-sm-9">
+									<!-- <foreach name="attr" item="attr_val"> -->
+									<!-- <foreach name="attr_val" item="vo"> -->
+									<label class="checkbox-inline">
+										<!-- <if condition="in_array($vo['id'],$store_attrs)"> -->
+										<input name="vals[]" type="checkbox" value="{$vo['id']}" checked="checked">
+										<!-- <else /> -->
+										<input name="vals[]" type="checkbox" value="{$vo['id']}">
+										<!-- </if> -->
+										{$vo['attr_val']}
+									</label>
+									<!-- </foreach> -->
+									<!-- </foreach> -->
+								</div>
+							</div>
 						</td>
 					</tr>
 					<!-- </foreach> -->
