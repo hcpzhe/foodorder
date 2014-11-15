@@ -30,17 +30,17 @@
 <body>
 <div class="page-content">
 	<div class="main-title row">
-		<div class="col-xs-2 ">
+		<div class="col-sm-2 ">
 			<h2>商品管理</h2>
 		</div>
-		<div class="col-xs-1">
+		<div class="col-sm-1">
 			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addGoods">
 				新建商品
 			</button>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-xs-12">
+		<div class="col-sm-12 table-responsive">
 			<table class="table table-bordered table-striped table-hover">
 				<thead class="thin-border-bottom">
 				<tr>
@@ -100,16 +100,16 @@
 			<fieldset>
 			<div class="modal-body">
 				<div class="row">
-					<div class="col-xs-12">
+					<div class="col-sm-12">
 						<div class="form-group">
-							<label class="col-xs-3 control-label"> 商品名称 </label>
-							<div class="col-xs-4">
+							<label class="col-sm-3 control-label"> 商品名称 </label>
+							<div class="col-sm-4">
 								<input type="text" name="goods_name" class="form-control" />
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-xs-3 control-label"> 所属分类 </label>
-							<div class="col-xs-4">
+							<label class="col-sm-3 control-label"> 所属分类 </label>
+							<div class="col-sm-4">
 								<input type="text" id="cate_name" onclick="showcate();" name="cate_name" value="无分类" class="form-control" readonly="readonly" />
 								<div id="selectcateContent" style="display:none; position: absolute; z-index:2;">
 									<div class="widget-body" style="background: #f0f6e4;overflow-y:scroll;overflow-x:auto;border: 1px solid #617775;">
@@ -122,27 +122,27 @@
 							<input id="cate_id" type="hidden" name="cate_id" value="0">
 						</div>
 						<div class="form-group">
-							<label class="col-xs-3 control-label"> 商品价格 </label>
-							<div class="col-xs-2">
+							<label class="col-sm-3 control-label"> 商品价格 </label>
+							<div class="col-sm-2">
 								<input type="text" name="price" value="" class="form-control" />
 							</div>
 							<div class="help-block">单位: 元</div>
 						</div>
 						<div class="form-group">
-							<label class="col-xs-3 control-label"> 商品缩略图 </label>
-							<div class="col-xs-3">
+							<label class="col-sm-3 control-label"> 商品缩略图 </label>
+							<div class="col-sm-3">
 								<input type="file" name="image" class="RS_form_text" />
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-xs-3 control-label"> 排序 </label>
-							<div class="col-xs-2">
+							<label class="col-sm-3 control-label"> 排序 </label>
+							<div class="col-sm-2">
 								<input type="text" name="sort" value="255" class="form-control" />
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-xs-3 control-label"> 状态 </label>
-							<div class="radio col-xs-4">
+							<label class="col-sm-3 control-label"> 状态 </label>
+							<div class="radio col-sm-4">
 								<label>
 									<input name="status" value="1" type="radio" checked="checked"> <span class="lbl"> 正常</span>
 								</label>
