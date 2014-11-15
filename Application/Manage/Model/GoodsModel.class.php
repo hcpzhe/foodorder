@@ -1,6 +1,7 @@
 <?php
 namespace Manage\Model;
 use Think\Model;
+use Think\Upload;
 
 /**
  * 商品模型
@@ -58,6 +59,21 @@ class GoodsModel extends Model {
 	    		return false;
 	    	}
     	}
+    	
+    	//上传商品图片
+    	if (!empty($data['image'])) {
+    		$setting = C('PICTURE_UPLOAD');
+    		$Upload = new Upload($setting);
+    		$goods_image = $Upload->uploadOne($data['image']);
+    		if (!$goods_image) {
+    			$this->error = $Upload->getError();
+    			return false;
+    		}
+    		$goods_image['path'] = substr($setting['rootPath'], 1).$goods_image['savepath'].$goods_image['savename']; //在模板里的url路径
+    		$this->image = $goods_image['path'];
+    	}else {
+    		unset($this->image);
+    	}
     	return $this->add();
     }
     
@@ -84,6 +100,22 @@ class GoodsModel extends Model {
 	    		return false;
 	    	}
     	}
+		
+    	//上传商品图片
+    	if (!empty($data['image'])) {
+    		$setting = C('PICTURE_UPLOAD');
+    		$Upload = new Upload($setting);
+    		$goods_image = $Upload->uploadOne($data['image']);
+    		if (!$goods_image) {
+    			$this->error = $Upload->getError();
+    			return false;
+    		}
+    		$goods_image['path'] = substr($setting['rootPath'], 1).$goods_image['savepath'].$goods_image['savename']; //在模板里的url路径
+    		$this->image = $goods_image['path'];
+    	}else {
+    		unset($this->image);
+    	}
+    	
     	return $this->where('`id`='.$id)->save();
     }
 }

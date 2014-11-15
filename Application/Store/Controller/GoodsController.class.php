@@ -87,6 +87,10 @@ class GoodsController extends StoreBaseController {
 		$model = New GoodsModel();
 		$data = I('post.');
 		$data['store_id'] = STID;
+		$data['image'] = $_FILES['image'];
+    	if (empty($_FILES['image']) || $data['image']['error']=='4') {
+    		unset($data['image']);
+    	}
 		if (false === $model->myAdd($data)) {
 			$this->error($model->getError());
 		}
@@ -96,7 +100,6 @@ class GoodsController extends StoreBaseController {
 	 * 查看商品
 	 */
 	public function read($id) {
-		die('123');
 		$map['id'] = (int)$id;
 		if ($map['id'] <= 0) {
 			$this->error('请选择商品');
@@ -128,9 +131,9 @@ class GoodsController extends StoreBaseController {
 		$this->assign('tree_json', $cate_tree); //ztree json
 		$this->assign('info',$info); //商品信息
 		
-		cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
-		$this->display();
-		
+		//cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
+		$html = $this->fetch();
+		$this->success($html);
 	}
 	/**
 	 * 更新接口
@@ -144,6 +147,10 @@ class GoodsController extends StoreBaseController {
 		if (false === $model->checkAuth($id)) $this->error('无权限');
 		
 		$data = I('post.');
+		$data['image'] = $_FILES['image'];
+    	if (empty($_FILES['image']) || $data['image']['error']=='4') {
+    		unset($data['image']);
+    	}
 		if (false === $model->myUpdate($data)) {
 			$this->error($model->getError());
 		}

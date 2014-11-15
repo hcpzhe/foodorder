@@ -97,6 +97,10 @@ class GoodsController extends ManageBaseController {
 		}
 		$model = New GoodsModel();
 		$data = I('post.');
+		$data['image'] = $_FILES['image'];
+    	if (empty($_FILES['image']) || $data['image']['error']=='4') {
+    		unset($data['image']);
+    	}
 		if (false === $model->myUpdate($data)) {
 			$this->error($model->getError());
 		}
@@ -130,6 +134,10 @@ class GoodsController extends ManageBaseController {
 	public function insert() {
 		$model = New GoodsModel();
 		$data = I('post.');
+		$data['image'] = $_FILES['image'];
+    	if (empty($_FILES['image']) || $data['image']['error']=='4') {
+    		unset($data['image']);
+    	}
 		if (false === $model->myAdd($data)) {
 			$this->error($model->getError());
 		}

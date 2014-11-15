@@ -105,7 +105,7 @@
 <div class="row">
 
 	<div class="col-xs-12">
-	<form class="form-horizontal" role="form" action="{:U('Goods/update')}" method="post" onsubmit="$(this).RSsubmit({success_alert:true,reload:true});return false;">
+	<form id="readGoods" class="form-horizontal" role="form" action="{:U('Goods/update')}" method="post" enctype="multipart/form-data">
 		<div class="form-group">
 			<label class="col-sm-3 control-label"> 商品名称 </label>
 			<div class="col-sm-9">
@@ -113,6 +113,20 @@
 			</div>
 			<input type="hidden" name="id" value="{$info['id']}" />
 		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label"> 商品缩略图 </label>
+			<div class="col-sm-3">
+				<input type="file" name="image" id="goods_image_fileinput">
+			</div>
+		</div>
+		<!-- <if condition="$info['image']"> -->
+		<div class="form-group">
+			<label class="col-sm-3 control-label"></label>
+			<div class="col-sm-9">
+				<img style="width:200px;" alt="" src="__ROOT__{$info['image']}">
+			</div>
+		</div>
+		<!-- </if> -->
 		<div class="form-group">
 			<label class="col-sm-3 control-label"> 所属店铺 </label>
 			<div class="col-sm-9">
@@ -133,12 +147,6 @@
 				<span class="help-inline col-xs-12 col-sm-7">
 					<span class="middle">单位: 元; 2位小数</span>
 				</span>
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-sm-3 control-label"> 商品缩略图 </label>
-			<div class="col-sm-3">
-				<input type="file" name="image" value="{$info['image']}">
 			</div>
 		</div>
 		<div class="form-group">
@@ -241,6 +249,7 @@
 
 <script src="__PUBLIC__/zTree/jquery.ztree.core-3.5.min.js"></script>
 <script src="__JS__/RSsubmit.js"></script>
+<script src="__JS__/jquery.form.js"></script>
 <script type="text/javascript">
 function showcate() {
 	var selectObj = $("#cate_name");
@@ -288,6 +297,35 @@ var zNodes = {$tree_json};
 
 jQuery(function($) {
 	$.fn.zTree.init($("#selectcate"), setting, zNodes);
+	
+	$('#goods_image_fileinput').ace_file_input({
+		no_file:'No File ...',
+		btn_choose:'选择',
+		btn_change:'修改',
+		droppable:false,
+		onchange:null,
+		thumbnail:false //| true | large
+		//whitelist:'gif|png|jpg|jpeg'
+		//blacklist:'exe|php'
+		//onchange:''
+		//
+	});
+	$('#readGoods').on('submit', function(e) {
+		//$(this).RSsubmit({success_alert:true});return false;
+        e.preventDefault(); // <-- important
+        $(this).ajaxSubmit({
+        	dataType: 'json',
+        	success: function(dd) {
+				if (dd.status == 1) {
+					alert(dd.info);
+				}else {
+					alert(dd.info);
+				}
+				if (dd.url) window.location.href = dd.url;
+				else if (dd.status == 1) window.location.reload();
+			}
+        });
+    });
 	
 	$(".RSckedit").on('click',function(){
 		if (this.checked === true) {

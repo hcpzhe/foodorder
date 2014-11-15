@@ -67,15 +67,15 @@
 					<td>{$vo['sort']}</td>
 					<td>
 						<!-- <if condition="$vo['status'] eq 1"> -->
-						<a class="bat_a_handle" href="{:U('Goods/state?id='.$vo['id'].'&act=forbid')}"><span class="label label-success">正常</span></a>
+						<a class="bat_a_handle btn btn-success btn-sm" href="{:U('Goods/state?id='.$vo['id'].'&act=forbid')}">正常</a>
 						<!-- <elseif condition="$vo['status'] eq 0" /> -->
-						<a class="bat_a_handle" href="{:U('Goods/state?id='.$vo['id'].'&act=allow')}"><span class="label label-danger">禁用</span></a>
+						<a class="bat_a_handle btn btn-danger btn-sm" href="{:U('Goods/state?id='.$vo['id'].'&act=allow')}">禁用</a>
 						<!-- <else /> -->
 						<span class="label label-grey">删除</span>
 						<!-- </if> -->
 					</td>
 					<td>
-						<button class="btn btn-info btn-sm" data-toggle="modal" data-target="#addGoods" data-remote="{:U('read?id='.$vo['id'])}">编辑</button>
+						<button class="RSread btn btn-info btn-sm" data-remote="{:U('read?id='.$vo['id'])}">编辑</button>
 						<a class="bat_a_handle RSconfirm btn btn-danger btn-sm" href="{:U('Goods/state?id='.$vo['id'].'&act=del')}">删除</a>
 					</td>
 				</tr>
@@ -86,6 +86,7 @@
 	</div>
 	{$_page}
 </div>
+
 <div class="modal fade" id="addGoods" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -142,13 +143,14 @@
 						<div class="form-group">
 							<label class="col-xs-3 control-label"> 状态 </label>
 							<div class="radio col-xs-4">
-								<label> <!-- <if condition="$info['status'] eq 1"> -->
-									<input name="status" value="1" type="radio" class="ace"
-									checked="checked"> <span class="lbl"> 正常</span>
-								</label> <label> <input name="status" value="0" type="radio"
-									class="ace"> <span class="lbl"> 禁用</span>
-								</label> <label> <input name="status" value="-1" type="radio"
-									class="ace"> <span class="lbl"> 删除</span>
+								<label>
+									<input name="status" value="1" type="radio" checked="checked"> <span class="lbl"> 正常</span>
+								</label>
+								<label>
+									<input name="status" value="0" type="radio"> <span class="lbl"> 禁用</span>
+								</label>
+								<label>
+									<input name="status" value="-1" type="radio"> <span class="lbl"> 删除</span>
 								</label>
 							</div>
 						</div>
@@ -165,6 +167,12 @@
 	</div>
 </div>
 
+<div class="modal fade" id="readGoods" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+		</div>
+	</div>
+</div>
 <!-- JS script include start -->
 <!--[if !IE]> -->
 <script src="__JS__/jquery.2.1.1.min.js"></script>
@@ -228,13 +236,35 @@ var setting = {
 		}
 	}
 };
+var setting2 = setting;
+setting2.callback.beforeClick = function(treeId, treeNode) {
+	$("#read_cate_name").val(treeNode.name);
+	$("#read_cate_id").val(treeNode.id);
+	read_hidecate();
+	return true;
+}
 var zNodes = {$tree_json};
 var org_height , new_height;
 
 $(document).ready(function() {
 	$.fn.zTree.init($("#selectcate"), setting, zNodes);
 	
-	$('#addGoods').on('shown.bs.modal', function (e) {
+	$(".RSread").on("click",function(e) {
+		$(this).attr("data-remote");
+		$.ajax({
+			cache: false,
+			type: "get",
+			url: $(this).attr("data-remote"),
+			dataType: "json",
+			success: function(dd) {
+				$("#readGoods .modal-content").html(dd.info);
+				$.fn.zTree.init($("#read_selectcate"), setting, zNodes);
+				$("#readGoods").modal();
+			}
+		});
+	});
+	
+	$('#addGoods,#readGoods').on('shown.bs.modal', function (e) {
 		org_height = document.body.scrollHeight;
 		new_height = $('.modal-backdrop').height();
 		if (org_height < new_height) {
@@ -242,14 +272,14 @@ $(document).ready(function() {
 			$(parent.document).find("#content_frame").height(new_height);
 		}
 	});
-	$('#addGoods').on('hidden.bs.modal', function (e) {
+	$('#addGoods,#readGoods').on('hidden.bs.modal', function (e) {
 		if (org_height < new_height) {
 			$("body").height(org_height);
 			$(parent.document).find("#content_frame").height(org_height);
 		}
 	});
 
-	$('#addGoodsForm').on('submit', function(e) {
+	$('#addGoodsForm,#readGoodsForm').on('submit', function(e) {
 		//$(this).RSsubmit({success_alert:true});return false;
 		e.preventDefault(); // <-- important
 		$(this).ajaxSubmit({

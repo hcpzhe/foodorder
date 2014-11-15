@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : 127.0.0.1
-Source Server Version : 50524
+Source Server Version : 50516
 Source Host           : localhost:3306
 Source Database       : foodorder
 
 Target Server Type    : MYSQL
-Target Server Version : 50524
+Target Server Version : 50516
 File Encoding         : 65001
 
-Date: 2014-11-15 17:48:21
+Date: 2014-11-16 01:03:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -449,7 +449,7 @@ CREATE TABLE `fdo_goods` (
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '255' COMMENT '排序',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '-1删除 0-禁用 1-正常',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='商品表';
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='商品表';
 
 -- ----------------------------
 -- Records of fdo_goods
@@ -460,9 +460,11 @@ INSERT INTO `fdo_goods` VALUES ('3', '5', '0', '炒面', null, '8.00', '255', '-
 INSERT INTO `fdo_goods` VALUES ('4', '5', '6', '快餐（二荤一素）', null, '10.00', '255', '1');
 INSERT INTO `fdo_goods` VALUES ('5', '2', '0', '123', null, '255.00', '255', '1');
 INSERT INTO `fdo_goods` VALUES ('6', '2', '0', '11', '', '255.00', '255', '-1');
-INSERT INTO `fdo_goods` VALUES ('7', '2', '0', '22', '', '255.00', '255', '1');
+INSERT INTO `fdo_goods` VALUES ('7', '2', '0', '22', '/Uploads/Picture/2014-11-16/546786d356f7b.jpg', '22.00', '255', '1');
 INSERT INTO `fdo_goods` VALUES ('8', '2', '0', '111', '', '255.00', '255', '-1');
 INSERT INTO `fdo_goods` VALUES ('9', '2', '0', '132423', '', '5.00', '255', '-1');
+INSERT INTO `fdo_goods` VALUES ('10', '2', '0', 'asd2', '/Uploads/Picture/2014-11-16/546786a38a999.jpg', '11.00', '255', '1');
+INSERT INTO `fdo_goods` VALUES ('11', '2', '0', 'ccc', '/Uploads/Picture/2014-11-16/546786ee5d46f.jpg', '11.00', '255', '1');
 
 -- ----------------------------
 -- Table structure for `fdo_member`
