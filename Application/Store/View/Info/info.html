@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+	<title>{$Think.config.web_site_title}</title>
+	<meta name="keywords" content="{$Think.config.web_site_keyword}" />
+	<meta name="description" content="{$Think.config.web_site_description}" />
+	
+	<!-- Bootstrap -->
+	<link href="__PUBLIC__/twbs.3.3.1/css/bootstrap.min.css" rel="stylesheet">
+	<link href="__PUBLIC__/font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet"/>
+	
+	<!-- store basic css -->
+	<link href="__CSS__/store.css" rel="stylesheet">
+	
+	<!--[if lt IE 9]>
+	<script src="__JS__/html5shiv.min.js"></script>
+	<script src="__JS__/respond.min.js"></script>
+	<![endif]-->
+</head>
+<body>
+<div class="page-content">
+	<div class="main-title">
+		<h3>店铺信息</h3>
+	</div>
+	<div class="row">
+		<div class="col-sm-12">
+		<form class="form-horizontal" action="{:U('update')}" method="post">
+		<fieldset>
+			<div class="form-group">
+				<label class="col-sm-3 control-label"> 帐号 </label>
+				<div class="col-sm-4 RS_form_text">{$info['account']}</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label"> 店铺名 </label>
+				<div class="col-sm-4">
+					<input type="text" name="store_name" value="{$info['store_name']}" class="form-control" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label"> 店铺地址 </label>
+				<div class="col-sm-4">
+					<input type="text" name="address" value="{$info['address']}" class="form-control" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label"> 联系电话 </label>
+				<div class="col-sm-4">
+					<input type="text" name="tel" value="{$info['tel']}" class="form-control" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label"> 店铺余额 </label>
+				<div class="col-sm-4 RS_form_text">{$info['balance']} 元</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label"> 评价分数 </label>
+				<div class="col-sm-4 RS_form_text">{$info['rating']}</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label"> 最低起送价 </label>
+				<div class="col-sm-1">
+					<input type="text" name="min_send" value="{$info['min_send']}" class="form-control" />
+				</div>
+				<div class="help-block">单位: 元</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label"> 推荐 </label>
+				<div class="col-sm-4 RS_form_text">
+					<!-- <if condition="$info['is_recom'] eq 1"> -->
+					<i class="fa fa-check text-success"></i>
+					<!-- <else /> -->
+					<i class="fa fa-times text-danger"></i>
+					<!-- </if> -->
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label"> 营业 </label>
+				<div class="radio col-sm-9">
+					<label>
+						<!-- <if condition="$info['is_close'] eq 0"> -->
+						<input name="is_close" value="0" type="radio" class="ace" checked="checked">
+						<!-- <else /> -->
+						<input name="is_close" value="0" type="radio" class="ace">
+						<!-- </if> -->
+						<span class="lbl"> 是</span>
+					</label>
+					<label>
+						<!-- <if condition="$info['is_close'] eq 1"> -->
+						<input name="is_close" value="1" type="radio" class="ace" checked="checked">
+						<!-- <else /> -->
+						<input name="is_close" value="1" type="radio" class="ace">
+						<!-- </if> -->
+						<span class="lbl"> 否</span>
+					</label>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label"> 停业原因 </label>
+				<div class="col-sm-4">
+					<textarea rows="3" name="close_reason" class="form-control">{$info['close_reason']}</textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label"> 店铺LOGO </label>
+				<div class="col-sm-3">
+					<input type="file" name="store_logo" class="RS_form_text" />
+				</div>
+			</div>
+			<!-- <if condition="$info['store_logo']"> -->
+			<div class="form-group">
+				<label class="col-sm-3 control-label"></label>
+				<div class="col-sm-9">
+					<img style="width:200px;" alt="" src="__ROOT__{$info['store_logo']}">
+				</div>
+			</div>
+			<!-- </if> -->
+			<div class="form-group">
+				<label class="col-sm-3 control-label"> 入驻时间 </label>
+				<div class="col-sm-4 RS_form_text">{:date('Y-m-d H:i',$info['add_time'])}</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label"> 上次登录时间 </label>
+				<div class="col-sm-4 RS_form_text">{:date('Y-m-d H:i',$info['last_login'])}</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label"> 上次登录IP </label>
+				<div class="col-sm-4 RS_form_text">{$info['last_ip']}</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label"> 登录次数 </label>
+				<div class="col-sm-4 RS_form_text">{$info['logins']}</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-10 col-sm-offset-2">
+					<button type="submit" class="btn btn-primary RS_submit_btn">确认</button>
+					<button class="btn btn-default RS_submit_btn">返回</button>
+				</div>
+			</div>
+		</fieldset>
+		</form>
+		</div>
+	</div>
+</div>
+<!-- JS script include start -->
+<!--[if !IE]> -->
+<script src="__JS__/jquery.2.1.1.min.js"></script>
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script src="__JS__/jquery.1.11.1.min.js"></script>
+<![endif]-->
+
+<!--[if IE]>
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='__JS__/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+
+<script src="__PUBLIC__/twbs.3.3.1/js/bootstrap.min.js"></script>
+<script src="__JS__/store.content.js"></script>
+<!-- JS script include start end -->
+</body>
+</html>

@@ -29,7 +29,14 @@ textarea {
 .btn {
 	margin-right: 5px;
 }
-
+.RS_form_text {
+	min-height: 27px;
+	padding-top: 7px;
+	margin-top: 0;
+	margin-bottom: 0;
+	position: relative;
+	display: block;
+}
 .icon-animated-vertical {
 	display: inline-block;
 	-moz-animation: vertical 2s 8 ease 3s;

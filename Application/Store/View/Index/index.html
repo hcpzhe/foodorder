@@ -76,7 +76,7 @@
 $(document).ready(function() {
 	//frame自动高度
 	$("#content_frame").on("load",function(){
-		var mainheight = $(this).contents().height()+30;
+		var mainheight = $(this).contents().height();
 		$(this).height(mainheight);
 	});
 	//导航栏的active样式
