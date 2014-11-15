@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50516
 File Encoding         : 65001
 
-Date: 2014-11-16 01:03:34
+Date: 2014-11-16 03:55:02
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -368,7 +368,7 @@ CREATE TABLE `fdo_category` (
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '255',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '-1删除 0-禁用 1-正常',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='店铺内商品分类';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='店铺内商品分类';
 
 -- ----------------------------
 -- Records of fdo_category
@@ -380,7 +380,11 @@ INSERT INTO `fdo_category` VALUES ('4', 'haha_1', '1', '3', '255', '1');
 INSERT INTO `fdo_category` VALUES ('5', '饮料', '0', '3', '255', '1');
 INSERT INTO `fdo_category` VALUES ('6', '中式', '0', '5', '255', '1');
 INSERT INTO `fdo_category` VALUES ('7', '西餐', '0', '5', '255', '1');
-INSERT INTO `fdo_category` VALUES ('8', '阿斯', '0', '2', '255', '1');
+INSERT INTO `fdo_category` VALUES ('8', '阿斯a', '0', '2', '255', '-1');
+INSERT INTO `fdo_category` VALUES ('9', '111', '0', '2', '255', '1');
+INSERT INTO `fdo_category` VALUES ('10', '222', '9', '2', '255', '1');
+INSERT INTO `fdo_category` VALUES ('11', 'a1', '0', '2', '255', '1');
+INSERT INTO `fdo_category` VALUES ('12', 'bbb', '0', '2', '255', '1');
 
 -- ----------------------------
 -- Table structure for `fdo_config`
@@ -449,7 +453,7 @@ CREATE TABLE `fdo_goods` (
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '255' COMMENT '排序',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '-1删除 0-禁用 1-正常',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='商品表';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='商品表';
 
 -- ----------------------------
 -- Records of fdo_goods
@@ -465,6 +469,7 @@ INSERT INTO `fdo_goods` VALUES ('8', '2', '0', '111', '', '255.00', '255', '-1')
 INSERT INTO `fdo_goods` VALUES ('9', '2', '0', '132423', '', '5.00', '255', '-1');
 INSERT INTO `fdo_goods` VALUES ('10', '2', '0', 'asd2', '/Uploads/Picture/2014-11-16/546786a38a999.jpg', '11.00', '255', '1');
 INSERT INTO `fdo_goods` VALUES ('11', '2', '0', 'ccc', '/Uploads/Picture/2014-11-16/546786ee5d46f.jpg', '11.00', '255', '1');
+INSERT INTO `fdo_goods` VALUES ('12', '2', '8', 'fff', '/Uploads/Picture/2014-11-16/54678796a0846.jpg', '11.00', '255', '1');
 
 -- ----------------------------
 -- Table structure for `fdo_member`

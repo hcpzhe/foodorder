@@ -34,8 +34,12 @@ class CateController extends StoreBaseController {
 		
 		$model = new \Manage\Model\CategoryModel();
 		$cate_tree = $model->ztreeArr($map);
+		$cate_tree_select = array_merge(array(array('id'=>'0', 'pId'=>'0', 'name'=>'顶级分类','open'=>true)),$cate_tree);
+		
 		$cate_tree = json_encode($cate_tree);
+		$cate_tree_select = json_encode($cate_tree_select);
 		$this->assign('tree_json', $cate_tree); //ztree json
+		$this->assign('tree_select_json', $cate_tree_select); //ztree json
 		
 		$this->assign('now_status',$now_status); //当前页面筛选的状态
 		// 记录当前列表页的cookie
