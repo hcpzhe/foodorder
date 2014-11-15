@@ -23,7 +23,7 @@ class Page{
         'last'   => '<i class="fa fa-angle-double-right"></i>',
         'theme'  => 
 '<div class="row">
-	<div class="col-xs-6">
+	<div class="col-sm-6">
 		<div class="dataTables_paginate">
 			<ul class="pagination">
 				%FIRST%
@@ -34,7 +34,7 @@ class Page{
 			</ul>
 		</div>
 	</div>
-	<div class="col-xs-6"><div class="dataTables_info">共  %TOTAL_PAGE%页, %TOTAL_ROW%条记录</div></div>
+	<div class="col-sm-6"><div class="dataTables_info">共  %TOTAL_PAGE%页, %TOTAL_ROW%条记录</div></div>
 </div>'
     );
 
