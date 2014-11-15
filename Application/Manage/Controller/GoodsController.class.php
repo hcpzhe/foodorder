@@ -119,6 +119,7 @@ class GoodsController extends ManageBaseController {
 		$map['status'] = '1';//只要状态正常商品分类
 		$cate_M = new CategoryModel();
 		$cate_tree = $cate_M->ztreeArr($map);
+		$cate_tree = array_merge(array(array('id'=>0, 'pId'=>0, 'name'=>'无分类','open'=>true)),$cate_tree);
 		$cate_tree = json_encode($cate_tree);
 		$this->assign('tree_json', $cate_tree); //category ztree json
 		
