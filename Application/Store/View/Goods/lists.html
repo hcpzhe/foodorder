@@ -236,15 +236,31 @@ var setting = {
 		}
 	}
 };
-var setting2 = setting;
-setting2.callback.beforeClick = function(treeId, treeNode) {
-	$("#read_cate_name").val(treeNode.name);
-	$("#read_cate_id").val(treeNode.id);
-	read_hidecate();
-	return true;
-}
+var setting2 = {
+	view: {
+		dblClickExpand: true,
+		showLine: true,
+		selectedMulti: false,
+		expandSpeed: "",
+		showIcon:function(treeId, treeNode){
+			return treeNode.id !=0; //根节点不显示图标
+		}
+	},
+	data: {
+		simpleData: {
+			enable: true
+		}
+	},
+	callback: {
+		beforeClick: function(treeId, treeNode) {
+			$("#read_cate_name").val(treeNode.name);
+			$("#read_cate_id").val(treeNode.id);
+			read_hidecate();
+			return true;
+		}
+	}
+};
 var zNodes = {$tree_json};
-var org_height , new_height;
 
 $(document).ready(function() {
 	$.fn.zTree.init($("#selectcate"), setting, zNodes);
@@ -258,27 +274,12 @@ $(document).ready(function() {
 			dataType: "json",
 			success: function(dd) {
 				$("#readGoods .modal-content").html(dd.info);
-				$.fn.zTree.init($("#read_selectcate"), setting, zNodes);
+				$.fn.zTree.init($("#read_selectcate"), setting2, zNodes);
 				$("#readGoods").modal();
 			}
 		});
 	});
 	
-	$('#addGoods,#readGoods').on('shown.bs.modal', function (e) {
-		org_height = document.body.scrollHeight;
-		new_height = $('.modal-backdrop').height();
-		if (org_height < new_height) {
-			$("body").height(new_height);
-			$(parent.document).find("#content_frame").height(new_height);
-		}
-	});
-	$('#addGoods,#readGoods').on('hidden.bs.modal', function (e) {
-		if (org_height < new_height) {
-			$("body").height(org_height);
-			$(parent.document).find("#content_frame").height(org_height);
-		}
-	});
-
 	$('#addGoodsForm,#readGoodsForm').on('submit', function(e) {
 		//$(this).RSsubmit({success_alert:true});return false;
 		e.preventDefault(); // <-- important

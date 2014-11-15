@@ -1,4 +1,7 @@
 @CHARSET "UTF-8";
+body{
+	overflow-x:hidden;
+}
 .navbar {
 	margin-bottom: 0px;
 }

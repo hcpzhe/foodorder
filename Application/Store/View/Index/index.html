@@ -74,10 +74,14 @@
 <script src="__PUBLIC__/twbs.3.3.1/js/bootstrap.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-	
+	$(window).resize(function(){
+		//frame自动高度
+		var mainheight = $("#content_frame").contents().find("body").height();
+		$("#content_frame").height(mainheight);
+	});
 	$("#content_frame").on("load",function(){
 		//frame自动高度
-		var mainheight = $(this).contents().height();
+		var mainheight = $(this).contents().find("body").height();
 		$(this).height(mainheight);
 		//回到顶部
 		$("html,body").scrollTop(0);
