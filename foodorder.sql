@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50516
 File Encoding         : 65001
 
-Date: 2014-11-16 03:55:02
+Date: 2014-11-16 05:18:24
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -437,7 +437,7 @@ INSERT INTO `fdo_config` VALUES ('33', 'ALLOW_VISIT', '3', '不受限控制器�
 INSERT INTO `fdo_config` VALUES ('34', 'DENY_VISIT', '3', '超管专限控制器方法', '0', '', '仅超级管理员可访问的控制器方法', '1386644141', '1386644659', '1', '0:Addons/addhook\r\n1:Addons/edithook\r\n2:Addons/delhook\r\n3:Addons/updateHook\r\n4:Admin/getMenus\r\n5:Admin/recordList\r\n6:AuthManager/updateRules\r\n7:AuthManager/tree', '0');
 INSERT INTO `fdo_config` VALUES ('35', 'REPLY_LIST_ROWS', '0', '回复列表每页条数', '2', '', '', '1386645376', '1387178083', '1', '10', '0');
 INSERT INTO `fdo_config` VALUES ('36', 'ADMIN_ALLOW_IP', '2', '后台允许访问IP', '4', '', '多个用逗号分隔，如果不配置表示不限制IP访问', '1387165454', '1387165553', '1', '', '12');
-INSERT INTO `fdo_config` VALUES ('37', 'SHOW_PAGE_TRACE', '4', '是否显示页面Trace', '4', '0:关闭\r\n1:开启', '是否显示页面Trace信息', '1387165685', '1387165685', '1', '1', '1');
+INSERT INTO `fdo_config` VALUES ('37', 'SHOW_PAGE_TRACE', '4', '是否显示页面Trace', '4', '0:关闭\r\n1:开启', '是否显示页面Trace信息', '1387165685', '1387165685', '1', '0', '1');
 
 -- ----------------------------
 -- Table structure for `fdo_goods`
@@ -567,7 +567,7 @@ CREATE TABLE `fdo_order` (
 -- ----------------------------
 -- Records of fdo_order
 -- ----------------------------
-INSERT INTO `fdo_order` VALUES ('1', '12332543', '3', '85fce697249c4be2c1f86418da3b4842683afc65', '哈哈', '洛阳西工区紫金城', '13333333333', null, '30.00', '1', '0', '1415691280', '0', '0', '0', '1', '0', '1', '0', '0', '0', '0', '0', '0', '1');
+INSERT INTO `fdo_order` VALUES ('1', '12332543', '2', '85fce697249c4be2c1f86418da3b4842683afc65', '哈哈', '洛阳西工区紫金城', '13333333333', null, '30.00', '1', '0', '1415691280', '0', '0', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '1');
 
 -- ----------------------------
 -- Table structure for `fdo_order_goods`
