@@ -61,6 +61,7 @@ class CategoryModel extends Model {
     		return false;
     	}
     	unset($data['id']);
+    	if ($id == $data['parent_id']) $data['parent_id'] = 0; //所属分类等于自己时, 更正为顶级分类
     	//验证数据
     	if (false === $this->create($data,self::MODEL_UPDATE)) return false;
 		//验证 parent_id合法性
