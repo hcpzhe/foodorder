@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : 127.0.0.1
-Source Server Version : 50516
+Source Server Version : 50524
 Source Host           : localhost:3306
 Source Database       : foodorder
 
 Target Server Type    : MYSQL
-Target Server Version : 50516
+Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2014-11-15 00:49:50
+Date: 2014-11-15 17:48:21
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -368,7 +368,7 @@ CREATE TABLE `fdo_category` (
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '255',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '-1删除 0-禁用 1-正常',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='店铺内商品分类';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='店铺内商品分类';
 
 -- ----------------------------
 -- Records of fdo_category
@@ -380,6 +380,7 @@ INSERT INTO `fdo_category` VALUES ('4', 'haha_1', '1', '3', '255', '1');
 INSERT INTO `fdo_category` VALUES ('5', '饮料', '0', '3', '255', '1');
 INSERT INTO `fdo_category` VALUES ('6', '中式', '0', '5', '255', '1');
 INSERT INTO `fdo_category` VALUES ('7', '西餐', '0', '5', '255', '1');
+INSERT INTO `fdo_category` VALUES ('8', '阿斯', '0', '2', '255', '1');
 
 -- ----------------------------
 -- Table structure for `fdo_config`
@@ -448,7 +449,7 @@ CREATE TABLE `fdo_goods` (
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '255' COMMENT '排序',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '-1删除 0-禁用 1-正常',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='商品表';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='商品表';
 
 -- ----------------------------
 -- Records of fdo_goods
@@ -457,6 +458,11 @@ INSERT INTO `fdo_goods` VALUES ('1', '3', '0', '测试商品12', null, '10.00', 
 INSERT INTO `fdo_goods` VALUES ('2', '4', '0', '测试商品', null, '10.00', '255', '1');
 INSERT INTO `fdo_goods` VALUES ('3', '5', '0', '炒面', null, '8.00', '255', '-1');
 INSERT INTO `fdo_goods` VALUES ('4', '5', '6', '快餐（二荤一素）', null, '10.00', '255', '1');
+INSERT INTO `fdo_goods` VALUES ('5', '2', '0', '123', null, '255.00', '255', '1');
+INSERT INTO `fdo_goods` VALUES ('6', '2', '0', '11', '', '255.00', '255', '-1');
+INSERT INTO `fdo_goods` VALUES ('7', '2', '0', '22', '', '255.00', '255', '1');
+INSERT INTO `fdo_goods` VALUES ('8', '2', '0', '111', '', '255.00', '255', '-1');
+INSERT INTO `fdo_goods` VALUES ('9', '2', '0', '132423', '', '5.00', '255', '-1');
 
 -- ----------------------------
 -- Table structure for `fdo_member`
@@ -671,6 +677,7 @@ CREATE TABLE `fdo_store_attr` (
 INSERT INTO `fdo_store_attr` VALUES ('1', '1');
 INSERT INTO `fdo_store_attr` VALUES ('1', '2');
 INSERT INTO `fdo_store_attr` VALUES ('2', '2');
+INSERT INTO `fdo_store_attr` VALUES ('2', '8');
 INSERT INTO `fdo_store_attr` VALUES ('3', '2');
 INSERT INTO `fdo_store_attr` VALUES ('3', '3');
 INSERT INTO `fdo_store_attr` VALUES ('3', '4');

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+	<title>{$Think.config.web_site_title}</title>
+	<meta name="keywords" content="{$Think.config.web_site_keyword}" />
+	<meta name="description" content="{$Think.config.web_site_description}" />
+	
+	<!-- Bootstrap -->
+	<link href="__PUBLIC__/twbs.3.3.1/css/bootstrap.min.css" rel="stylesheet">
+	<link href="__PUBLIC__/font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet"/>
+	
+	<!-- zTree -->
+	<link rel="stylesheet" href="__PUBLIC__/zTree/zTreeMetro.css" />
+	
+	<!-- store basic css -->
+	<link href="__CSS__/store.css" rel="stylesheet">
+	
+	<!--[if lt IE 9]>
+	<script src="__JS__/html5shiv.min.js"></script>
+	<script src="__JS__/respond.min.js"></script>
+	<![endif]-->
+	<style type="text/css">
+.ztree li span.button.switch.level0 {visibility:hidden; width:1px;}
+.ztree li ul.level0 {padding:0; background:none;}
+	</style>
+</head>
+<body>
+<div class="page-content">
+	<div class="main-title row">
+		<div class="col-xs-2 ">
+			<h2>商品管理</h2>
+		</div>
+		<div class="col-xs-1">
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addGoods">
+				新建商品
+			</button>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12">
+			<table class="table table-bordered table-striped table-hover">
+				<thead class="thin-border-bottom">
+				<tr>
+					<th>商品名称</th>
+					<th>所属分类</th>
+					<th>单价</th>
+					<th>排序</th>
+					<th>状态</th>
+					<th>操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				<!-- <foreach name="list" item="vo"> -->
+				<tr>
+					<td>{$vo['goods_name']}</td>
+					<td>
+					<!-- <if condition="$vo['cate_id']" > -->
+						{$catelist[$vo['cate_id']]}
+					<!-- <else /> -->
+						无分类
+					<!-- </if> -->
+					</td>
+					<td>{$vo['price']}</td>
+					<td>{$vo['sort']}</td>
+					<td>
+						<!-- <if condition="$vo['status'] eq 1"> -->
+						<a class="bat_a_handle" href="{:U('Goods/state?id='.$vo['id'].'&act=forbid')}"><span class="label label-success">正常</span></a>
+						<!-- <elseif condition="$vo['status'] eq 0" /> -->
+						<a class="bat_a_handle" href="{:U('Goods/state?id='.$vo['id'].'&act=allow')}"><span class="label label-danger">禁用</span></a>
+						<!-- <else /> -->
+						<span class="label label-grey">删除</span>
+						<!-- </if> -->
+					</td>
+					<td>
+						<button class="btn btn-info btn-sm" data-toggle="modal" data-target="#addGoods" data-remote="{:U('read?id='.$vo['id'])}">编辑</button>
+						<a class="bat_a_handle RSconfirm btn btn-danger btn-sm" href="{:U('Goods/state?id='.$vo['id'].'&act=del')}">删除</a>
+					</td>
+				</tr>
+				<!-- </foreach> -->
+				</tbody>
+			</table>
+		</div>
+	</div>
+	{$_page}
+</div>
+<div class="modal fade" id="addGoods" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">新建商品</h4>
+			</div>
+			<form id="addGoodsForm" class="form-horizontal" role="form" action="{:U('insert')}" method="post" enctype="multipart/form-data">
+			<fieldset>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="form-group">
+							<label class="col-xs-3 control-label"> 商品名称 </label>
+							<div class="col-xs-4">
+								<input type="text" name="goods_name" class="form-control" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-3 control-label"> 所属分类 </label>
+							<div class="col-xs-4">
+								<input type="text" id="cate_name" onclick="showcate();" name="cate_name" value="无分类" class="form-control" readonly="readonly" />
+								<div id="selectcateContent" style="display:none; position: absolute; z-index:2;">
+									<div class="widget-body" style="background: #f0f6e4;overflow-y:scroll;overflow-x:auto;border: 1px solid #617775;">
+										<div class="widget-main no-padding-left no-padding-right">
+											<ul id="selectcate" class="ztree" style="margin-top:0;"></ul>
+										</div>
+									</div>
+								</div>
+							</div>
+							<input id="cate_id" type="hidden" name="cate_id" value="0">
+						</div>
+						<div class="form-group">
+							<label class="col-xs-3 control-label"> 商品价格 </label>
+							<div class="col-xs-2">
+								<input type="text" name="price" value="" class="form-control" />
+							</div>
+							<div class="help-block">单位: 元</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-3 control-label"> 商品缩略图 </label>
+							<div class="col-xs-3">
+								<input type="file" name="image" class="RS_form_text" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-3 control-label"> 排序 </label>
+							<div class="col-xs-2">
+								<input type="text" name="sort" value="255" class="form-control" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-3 control-label"> 状态 </label>
+							<div class="radio col-xs-4">
+								<label> <!-- <if condition="$info['status'] eq 1"> -->
+									<input name="status" value="1" type="radio" class="ace"
+									checked="checked"> <span class="lbl"> 正常</span>
+								</label> <label> <input name="status" value="0" type="radio"
+									class="ace"> <span class="lbl"> 禁用</span>
+								</label> <label> <input name="status" value="-1" type="radio"
+									class="ace"> <span class="lbl"> 删除</span>
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal"> 关 闭 </button>
+				<button type="submit" class="btn btn-primary"> 保 存 </button>
+			</div>
+			</fieldset>
+			</form>
+		</div>
+	</div>
+</div>
+
+<!-- JS script include start -->
+<!--[if !IE]> -->
+<script src="__JS__/jquery.2.1.1.min.js"></script>
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script src="__JS__/jquery.1.11.1.min.js"></script>
+<![endif]-->
+
+<!--[if IE]>
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='__JS__/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+
+<script src="__PUBLIC__/twbs.3.3.1/js/bootstrap.min.js"></script>
+<script src="__PUBLIC__/zTree/jquery.ztree.core-3.5.min.js"></script>
+<script src="__JS__/jquery.form.js"></script>
+<script src="__JS__/RSsubmit.js"></script>
+<script src="__JS__/store.content.js"></script>
+<!-- JS script include start end -->
+
+<script type="text/javascript">
+function showcate() {
+	//var selectObj = $("#cate_name");
+	//var selectOffset = $("#cate_name").offset();
+	$("#selectcateContent").slideDown("fast");
+	$("body").bind("mousedown", onBodyDown);
+}
+function hidecate() {
+	$("#selectcateContent").fadeOut("fast");
+	$("body").unbind("mousedown", onBodyDown);
+}
+function onBodyDown(event) {
+	if (!(event.target.id == "cate_name" || event.target.id == "selectcateContent" || $(event.target).parents("#selectcateContent").length>0)) {
+		hidecate();
+	}
+}
+//选择父级用的 树
+var setting = {
+	view: {
+		dblClickExpand: true,
+		showLine: true,
+		selectedMulti: false,
+		expandSpeed: "",
+		showIcon:function(treeId, treeNode){
+			return treeNode.id !=0; //根节点不显示图标
+		}
+	},
+	data: {
+		simpleData: {
+			enable: true
+		}
+	},
+	callback: {
+		beforeClick: function(treeId, treeNode) {
+			$("#cate_name").val(treeNode.name);
+			$("#cate_id").val(treeNode.id);
+			hidecate();
+			return true;
+		}
+	}
+};
+var zNodes = {$tree_json};
+var org_height , new_height;
+
+$(document).ready(function() {
+	$.fn.zTree.init($("#selectcate"), setting, zNodes);
+	
+	$('#addGoods').on('shown.bs.modal', function (e) {
+		org_height = document.body.scrollHeight;
+		new_height = $('.modal-backdrop').height();
+		if (org_height < new_height) {
+			$("body").height(new_height);
+			$(parent.document).find("#content_frame").height(new_height);
+		}
+	});
+	$('#addGoods').on('hidden.bs.modal', function (e) {
+		if (org_height < new_height) {
+			$("body").height(org_height);
+			$(parent.document).find("#content_frame").height(org_height);
+		}
+	});
+
+	$('#addGoodsForm').on('submit', function(e) {
+		//$(this).RSsubmit({success_alert:true});return false;
+		e.preventDefault(); // <-- important
+		$(this).ajaxSubmit({
+		dataType: 'json',
+		success: function(dd) {
+				if (dd.status == 1) {
+					alert(dd.info);
+				}else {
+					alert(dd.info);
+				}
+				if (dd.url) window.location.href = dd.url;
+				else if (dd.status == 1) window.location.reload();
+			}
+		});
+	});
+	
+});
+</script>
+</body>
+</html>

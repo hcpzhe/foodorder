@@ -23,33 +23,36 @@
 <body>
 <div class="page-content">
 	<div class="main-title">
-		<h3>修改密码</h3>
+		<h3>店铺类别</h3>
 	</div>
 	<div class="row">
 		<div class="col-sm-12">
-		<form class="form-horizontal" action="{:U('chgPwd')}" method="post">
+		<form class="form-horizontal" action="{:U('attrUpdate')}" method="post">
 		<fieldset>
-			<div class="form-group">
-				<label for="inputorg" class="col-sm-2 control-label">原密码</label>
-				<div class="col-sm-3">
-					<input type="password" class="form-control" name="org" id="inputorg">
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="inputnew" class="col-sm-2 control-label">新密码</label>
-				<div class="col-sm-3">
-					<input type="password" class="form-control" name="new" id="inputnew">
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="inputrenew" class="col-sm-2 control-label">确认密码</label>
-				<div class="col-sm-3">
-					<input type="password" class="form-control" name="renew" id="inputrenew">
-				</div>
-			</div>
+			<table class="table table-bordered table-hover">
+				<tbody>
+					<!-- <foreach name="attr_hash" item="attr"> -->
+					<tr>
+						<td class="text-center"><b>{$attr['attr_name']}</b></td>
+						<td>
+							<!-- <foreach name="attr" item="attr_val"> --> <!-- <foreach name="attr_val" item="vo"> -->
+							<span style="padding-left: 10px;"> <!-- <if condition="in_array($vo['id'],$store_attrs)"> -->
+								<input name="vals[]" type="checkbox" class="ace"
+								value="{$vo['id']}" checked="checked"> <!-- <else /> -->
+								<input name="vals[]" type="checkbox" class="ace"
+								value="{$vo['id']}"> <!-- </if> --> <span class="lbl">
+									{$vo['attr_val']}</span>
+							</span>
+							<!-- </foreach> --> <!-- </foreach> -->
+						</td>
+					</tr>
+					<!-- </foreach> -->
+				</tbody>
+			</table>
 			<div class="form-group">
 				<div class="col-sm-10 col-sm-offset-2">
 					<button type="submit" class="btn btn-primary RS_submit_btn">确认</button>
+					<button type="reset" class="btn btn-default RS_submit_btn">重置</button>
 				</div>
 			</div>
 		</fieldset>

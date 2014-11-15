@@ -18,7 +18,7 @@ textarea {
 	padding-bottom: 10px;
 	padding-top: 7px;
 }
-.main-title > h3 {
+.main-title h3,.main-title h2 {
 	margin:0;
 	color: #445566;
 }
@@ -36,6 +36,12 @@ textarea {
 	margin-bottom: 0;
 	position: relative;
 	display: block;
+}
+.dataTables_paginate {
+	text-align: right;
+}
+.dataTables_paginate .pagination {
+	margin: 0 12px;
 }
 .icon-animated-vertical {
 	display: inline-block;

@@ -74,10 +74,13 @@
 <script src="__PUBLIC__/twbs.3.3.1/js/bootstrap.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-	//frame自动高度
+	
 	$("#content_frame").on("load",function(){
+		//frame自动高度
 		var mainheight = $(this).contents().height();
 		$(this).height(mainheight);
+		//回到顶部
+		$("html,body").scrollTop(0);
 	});
 	//导航栏的active样式
 	$(".RSselect>li").on("click",function(){

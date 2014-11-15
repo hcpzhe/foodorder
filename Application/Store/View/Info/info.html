@@ -27,7 +27,7 @@
 	</div>
 	<div class="row">
 		<div class="col-sm-12">
-		<form class="form-horizontal" action="{:U('update')}" method="post">
+		<form class="form-horizontal" action="{:U('update')}" method="post" enctype="multipart/form-data">
 		<fieldset>
 			<div class="form-group">
 				<label class="col-sm-3 control-label"> 帐号 </label>
@@ -136,7 +136,7 @@
 			<div class="form-group">
 				<div class="col-sm-10 col-sm-offset-2">
 					<button type="submit" class="btn btn-primary RS_submit_btn">确认</button>
-					<button class="btn btn-default RS_submit_btn">返回</button>
+					<button type="reset" class="btn btn-default RS_submit_btn">重置</button>
 				</div>
 			</div>
 		</fieldset>

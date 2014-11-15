@@ -47,11 +47,18 @@ class GoodsController extends StoreBaseController {
 			$this->assign('catelist',$catelist); //列表用到的分类, ID为key索引
 		}
 		
+		/*****用于添加商品的商品分类树**/
+		$catetreemap = array('store_id'=>STID,'status'=>'1');//只要状态正常商品分类
+		$cate_M = new CategoryModel();
+		$cate_tree = $cate_M->ztreeArr($catetreemap);
+		$cate_tree = array_merge(array(array('id'=>0, 'pId'=>0, 'name'=>'无分类','open'=>true)),$cate_tree);
+		$cate_tree = json_encode($cate_tree);
+		$this->assign('tree_json', $cate_tree); //category ztree json
+		
 		// 记录当前列表页的cookie
 		cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
 		
 		$this->display();
-		
 	}
 	/**
 	 * 新建商品
@@ -83,12 +90,13 @@ class GoodsController extends StoreBaseController {
 		if (false === $model->myAdd($data)) {
 			$this->error($model->getError());
 		}
-		$this->success('新建成功',U(CONTROLLER_NAME.'/lists'));
+		$this->success('新建成功',cookie(C('CURRENT_URL_NAME')));
 	}
 	/**
 	 * 查看商品
 	 */
 	public function read($id) {
+		die('123');
 		$map['id'] = (int)$id;
 		if ($map['id'] <= 0) {
 			$this->error('请选择商品');
