@@ -13,15 +13,62 @@ class OrderController extends StoreBaseController {
 	/**
 	 * 订单筛选列表
 	 * 存在  sn 则忽略其他查询条件
-	 * @param number $status	状态
+	 * @param number $status	启用,删除的状态
 	 * @param number $sn		order_sn 订单编号
 	 * @param string $ph		phone 电话(like查询)
 	 * @param number $cfm		confirm 客户收货确认 0-否 1-是(订单完结)
 	 * @param number $unr		unreceived 用户未收货申请1-是,0-否;必须在收货截止时间内才能申请
+	 * @param number $st		store_status 店铺接收订单状态 0-否 1-是;
+	 * @param number $ship		ship_status 配送状态 0-未开始 1-是;
 	 */
-	public function lists($status=null,$sn=null,$ph=null,$cfm=null,$unr=null) {
+	public function lists($status=null,$sn=null,$ph=null,$cfm=null,$unr=null,$st=null,$ship=null) {
 		$model = new OrderModel(); $map = array('store_id'=>STID);
 		$status_view = array('default'=>'所有','del'=>'已删除','forbid'=>'禁用','allow'=>'正常');
+		//查询条件 处理
+		 $now_status = $status_view['default'];
+		if (isset($sn)) {
+			$map['order_sn'] = $sn;
+		}else {
+			if (isset($ph)) {
+				$map['phone'] =array('like', '%'.$ph.'%');
+			}
+			if (isset($cfm) && in_array($cfm, OrderModel::$S_confirm)) {
+				$map['confirm'] = $cfm;
+			}
+			if (isset($unr) && in_array($unr, OrderModel::$S_unreceived)) {
+				$map['unreceived'] = $unr;
+			}
+			if (isset($st) && in_array($unr, OrderModel::$S_store_status)) {
+				$map['store_status'] = $st;
+			}
+			if (isset($ship) && in_array($unr, OrderModel::$S_ship_status)) {
+				$map['ship_status'] = $ship;
+			}
+			if (isset($status) && key_exists($status, OrderModel::$mystat)) { //指定查询状态
+				$map['status'] = OrderModel::$mystat[$status];
+				$now_status = $status_view[$status];
+			}else {
+				$map['status'] = array('EGT',0); //默认查询状态为未删除的数据
+			}
+		}
+		/******************/
+		
+		$list = $this->_lists($model,$map);
+		$this->assign('list', $list); //列表
+		$this->assign('now_status',$now_status); //当前页面筛选的状态
+		
+		//支付方式
+		if (!empty($list)) {
+			$payment_M = new Model('Payment');
+			$pay_ids = field_unique($list, 'payment_id');
+			$map = array('id'=>array('in',$pay_ids));
+			$paylist = $payment_M->where($map)->getField('id,pay_name');
+			$this->assign('paylist',$paylist); //列表用到的支付方式, ID为key索引
+		}
+		// 记录当前列表页的cookie
+		cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
+		
+		$this->display();
 	}
 	
 	/**

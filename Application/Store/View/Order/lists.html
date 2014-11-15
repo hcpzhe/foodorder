@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+	<title>{$Think.config.web_site_title}</title>
+	<meta name="keywords" content="{$Think.config.web_site_keyword}" />
+	<meta name="description" content="{$Think.config.web_site_description}" />
+	
+	<!-- Bootstrap -->
+	<link href="__PUBLIC__/twbs.3.3.1/css/bootstrap.min.css" rel="stylesheet">
+	<link href="__PUBLIC__/font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet"/>
+	
+	<!-- store basic css -->
+	<link href="__CSS__/store.css" rel="stylesheet">
+	
+	<!--[if lt IE 9]>
+	<script src="__JS__/html5shiv.min.js"></script>
+	<script src="__JS__/respond.min.js"></script>
+	<![endif]-->
+</head>
+<body>
+<div class="page-content">
+	<div class="main-title">
+		<h3>订单管理</h3>
+	</div>
+	<div class="row">
+		<div class="col-sm-12 table-responsive">
+			<table class="table table-bordered table-striped table-hover">
+				<thead class="thin-border-bottom">
+				<tr>
+					<th>订单编号</th>
+					<th>收货人</th>
+					<th>总金额</th>
+					<th>下单时间</th>
+					<th>支付</th>
+					<th>店铺接收</th>
+					<th>配送</th>
+					<th>收货确认</th>
+					<th>操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				<!-- <foreach name="list" item="vo"> -->
+				<tr>
+					<td>{$vo['order_sn']}</td>
+					<td>
+						{$vo['buyer_name']} [电话: {$vo['phone']}]<br />
+						{$vo['address']}
+					</td>
+					<td>{$vo['amount']}</td>
+					<td>{:date('Y-m-d',$vo['add_time'])}<br>{:date('H:i',$vo['add_time'])}</td>
+					<td>
+						{$paylist[$vo['payment_id']]}<br />
+						<!-- <if condition="$vo['pay_status'] eq 1"> -->
+						<span class="label label-success">已支付</span>
+						<!-- <else /> -->
+						<span class="label label-danger">未支付</span>
+						<!-- </if> -->
+					</td>
+					<td>
+						<!-- <if condition="$vo['store_status'] eq 1"> -->
+						<span class="label label-info">已接收</span>
+						<!-- <else /> -->
+						<a class="bat_a_handle btn btn-warning btn-sm" href="{:U('store?oid='.$vo['id'])}">接收订单</a>
+						<!-- </if> -->
+					</td>
+					<td>
+						<!-- <if condition="$vo['ship_status'] eq 1"> -->
+						<span class="label label-info">已发货</span>
+						<!-- <else /> -->
+						<a class="bat_a_handle btn btn-warning btn-sm" href="{:U('ship?oid='.$vo['id'])}">发货</a>
+						<!-- </if> -->
+					</td>
+					<td>
+						<!-- <if condition="$vo['confirm'] eq 1"> -->
+						<span class="label label-info">已确认</span>
+						<!-- <else /> -->
+						<span class="label label-danger">待确认</span>
+						<!-- </if> -->
+					</td>
+					<td>
+						<button class="btn btn-warning btn-sm" data-remote="{:U('read?id='.$vo['id'])}">修改金额</button>
+						<button class="btn btn-primary btn-sm" data-remote="{:U('read?id='.$vo['id'])}">查看订单</button>
+					</td>
+				</tr>
+				<!-- </foreach> -->
+				</tbody>
+			</table>
+		</div>
+	</div>
+	{$_page}
+</div>
+<!-- JS script include start -->
+<!--[if !IE]> -->
+<script src="__JS__/jquery.2.1.1.min.js"></script>
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script src="__JS__/jquery.1.11.1.min.js"></script>
+<![endif]-->
+
+<!--[if IE]>
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='__JS__/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+
+<script src="__PUBLIC__/twbs.3.3.1/js/bootstrap.min.js"></script>
+<script src="__JS__/store.content.js"></script>
+<!-- JS script include start end -->
+</body>
+</html>
