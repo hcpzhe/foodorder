@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : 127.0.0.1
-Source Server Version : 50516
+Source Server Version : 50524
 Source Host           : localhost:3306
 Source Database       : foodorder
 
 Target Server Type    : MYSQL
-Target Server Version : 50516
+Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2014-11-16 05:18:24
+Date: 2014-11-17 17:17:28
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -458,7 +458,7 @@ CREATE TABLE `fdo_goods` (
 -- ----------------------------
 -- Records of fdo_goods
 -- ----------------------------
-INSERT INTO `fdo_goods` VALUES ('1', '3', '0', '测试商品12', null, '10.00', '255', '1');
+INSERT INTO `fdo_goods` VALUES ('1', '2', '0', '测试商品12', '/Uploads/Picture/2014-11-17/5469abf324d28.jpg', '10.00', '255', '1');
 INSERT INTO `fdo_goods` VALUES ('2', '4', '0', '测试商品', null, '10.00', '255', '1');
 INSERT INTO `fdo_goods` VALUES ('3', '5', '0', '炒面', null, '8.00', '255', '-1');
 INSERT INTO `fdo_goods` VALUES ('4', '5', '6', '快餐（二荤一素）', null, '10.00', '255', '1');
@@ -567,7 +567,7 @@ CREATE TABLE `fdo_order` (
 -- ----------------------------
 -- Records of fdo_order
 -- ----------------------------
-INSERT INTO `fdo_order` VALUES ('1', '12332543', '2', '85fce697249c4be2c1f86418da3b4842683afc65', '哈哈', '洛阳西工区紫金城', '13333333333', null, '30.00', '1', '0', '1415691280', '0', '0', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '1');
+INSERT INTO `fdo_order` VALUES ('1', '12332543', '2', '85fce697249c4be2c1f86418da3b4842683afc65', '哈哈', '洛阳西工区紫金城', '13333333333', null, '31.00', '1', '0', '1416211831', '0', '0', '0', '1', '1416211796', '1', '0', '1416211831', '0', '0', '0', '0', '1');
 
 -- ----------------------------
 -- Table structure for `fdo_order_goods`
