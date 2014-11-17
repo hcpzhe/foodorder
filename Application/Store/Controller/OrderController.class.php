@@ -98,7 +98,7 @@ class OrderController extends StoreBaseController {
 		
 		$order = $model->find($oid);
 		if ($order['store_status'] == '1') $this->error('已经接收, 无需重复接收');
-
+		
 		$model->store_status = '1';
 		$model->store_time = NOW_TIME;
 		$model->update_time = NOW_TIME;
@@ -116,11 +116,44 @@ class OrderController extends StoreBaseController {
 		
 		$order = $model->find($oid);
 		if ($order['ship_status'] == '1') $this->error('已经发货, 无需重复发货');
-
+		
 		$model->ship_status = '1';
 		$model->ship_time = NOW_TIME;
 		$model->update_time = NOW_TIME;
 		if (false ===$model->where("`id`=$oid")->save()) $this->error('发货失败, 请重试');
 		$this->success('更新成功, 开始发货');
+	}
+	
+	/**
+	 * 订单查看页面
+	 */
+	public function read($id) {
+		$map['id'] = (int)$id;
+		if ($map['id'] <= 0) {
+			$this->error('请选择要查看的订单');
+		}
+		$model = new OrderModel();
+		if (false === $model->checkAuth($map['id'])) $this->error('没有权限');
+		
+		$info = $model->where($map)->find();
+		$this->assign('info',$info); //订单信息
+		
+		$pay_M = new Model('Payment');
+		$pay_info = $pay_M->find($info['payment_id']);
+		$this->assign('pay_info',$pay_info);//支付方式信息
+		
+		$og_M = new Model('OrderGoods');
+		$ordergoods = $og_M->where('order_id='.$id)->select();
+		$this->assign('ordergoods',$ordergoods); //订单商品列表
+		if (!empty($ordergoods)) {
+			$goods_M = new Model('goods');
+			$goods_ids = field_unique($ordergoods, 'goods_id');
+			$map = array('id'=>array('in',$goods_ids));
+			$goodslist = $goods_M->where($map)->getField('id,goods_name,image');
+			$this->assign('goodslist',$goodslist); //列表用到的, ID为key索引
+		}
+		
+		cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
+		$this->display();
 	}
 }

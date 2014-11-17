@@ -50,7 +50,7 @@
 						{$vo['address']}
 					</td>
 					<td>{$vo['amount']}</td>
-					<td>{:date('Y-m-d',$vo['add_time'])}<br>{:date('H:i',$vo['add_time'])}</td>
+					<td>{:date('Y/m/d',$vo['add_time'])}<br>{:date('H:i',$vo['add_time'])}</td>
 					<td>
 						{$paylist[$vo['payment_id']]}<br />
 						<!-- <if condition="$vo['pay_status'] eq 1"> -->
@@ -81,8 +81,8 @@
 						<!-- </if> -->
 					</td>
 					<td>
-						<button class="btn btn-warning btn-sm" data-remote="{:U('read?id='.$vo['id'])}">修改金额</button>
-						<button class="btn btn-primary btn-sm" data-remote="{:U('read?id='.$vo['id'])}">查看订单</button>
+						<button class="RSeditAmount btn btn-warning btn-sm" data-oid="{$vo['id']}" data-amt="{$vo['amount']}" >修改金额</button>
+						<a class="btn btn-primary btn-sm" href="{:U('read?id='.$vo['id'])}" target="main">查看订单</a>
 					</td>
 				</tr>
 				<!-- </foreach> -->
@@ -91,6 +91,39 @@
 		</div>
 	</div>
 	{$_page}
+</div>
+<div class="modal fade" id="editAmount" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">订单总金额</h4>
+			</div>
+			<form id="editAmountForm" class="form-horizontal" role="form" action="{:U('amount')}" method="post">
+			<fieldset>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="form-group">
+							<label class="col-sm-4 control-label"> 订单金额 </label>
+							<div class="col-sm-8">
+								<input type="text" name="amt" class="form-control" />
+							</div>
+							<input type="hidden" name="oid" value="">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal"> 关 闭 </button>
+				<button type="submit" class="btn btn-primary"> 保 存 </button>
+			</div>
+			</fieldset>
+			</form>
+		</div>
+	</div>
 </div>
 <!-- JS script include start -->
 <!--[if !IE]> -->
@@ -110,5 +143,16 @@
 <script src="__PUBLIC__/twbs.3.3.1/js/bootstrap.min.js"></script>
 <script src="__JS__/store.content.js"></script>
 <!-- JS script include start end -->
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$(".RSeditAmount").on("click",function(e) {
+		$("#editAmountForm :input[name='oid']").val($(this).attr("data-oid"));
+		$("#editAmountForm :input[name='amt']").val($(this).attr("data-amt"));
+		$("#editAmount").modal();
+	});
+	
+});
+</script>
 </body>
 </html>

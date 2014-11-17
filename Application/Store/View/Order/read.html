@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+	<title>{$Think.config.web_site_title}</title>
+	<meta name="keywords" content="{$Think.config.web_site_keyword}" />
+	<meta name="description" content="{$Think.config.web_site_description}" />
+	
+	<!-- Bootstrap -->
+	<link href="__PUBLIC__/twbs.3.3.1/css/bootstrap.min.css" rel="stylesheet">
+	<link href="__PUBLIC__/font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet"/>
+	
+	<!-- store basic css -->
+	<link href="__CSS__/store.css" rel="stylesheet">
+	
+	<!--[if lt IE 9]>
+	<script src="__JS__/html5shiv.min.js"></script>
+	<script src="__JS__/respond.min.js"></script>
+	<![endif]-->
+</head>
+<body>
+<div class="page-content">
+	<div class="main-title">
+		<div class="col-sm-2 ">
+			<h2>订单详情</h2>
+		</div>
+		<div class="col-sm-1">
+			<a class="btn btn-primary" href="{:U(lists)}" target="main" >返回订单页面</a>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-sm-12 table-responsive">
+			<table class="table table-bordered table-striped table-hover">
+				<tbody>
+				<tr>
+					<td><b>订单编号</b></td>
+					<td>{$info['order_sn']}</td>
+					
+					<td><b>收货人</b></td>
+					<td>{$info['buyer_name']}</td>
+					
+					<td><b>联系电话</b></td>
+					<td>{$info['phone']}</td>
+				</tr>
+				<tr>
+					<td><b>收货地址</b></td>
+					<td colspan="3">{$info['address']}</td>
+					
+					<td><b>下单时间</b></td>
+					<td>{:date('Y/m/d H:i',$info['add_time'])}</td>
+				</tr>
+				<tr>
+					<td><b>订单留言</b></td>
+					<td colspan="5">{$info['order_note']}</td>
+				</tr>
+				<tr>
+					<td><b>订单总金额</b></td>
+					<td>{$info['amount']}</td>
+					
+					<td><b>支付方式</b></td>
+					<td>{$pay_info['pay_name']}</td>
+					
+					<td><b>支付状态</b></td>
+					<td>
+						<!-- <if condition="$info['pay_status'] eq 1"> -->
+						<span class="label label-success">已支付</span>
+						<!-- <else /> -->
+						<span class="label label-danger">未支付</span>
+						<!-- </if> -->
+					</td>
+				</tr>
+				<tr>
+					<td><b>店铺接收</b></td>
+					<td>
+						<!-- <if condition="$info['store_status'] eq 1"> -->
+						<span class="label label-info">已接收</span>
+						<!-- <else /> -->
+						<a class="bat_a_handle btn btn-warning btn-sm" href="{:U('store?oid='.$info['id'])}">接收订单</a>
+						<!-- </if> -->
+					</td>
+					<td><b>接收时间</b></td>
+					<td>
+						<!-- <if condition="$info['store_time'] gt 1"> -->
+						{:date('Y/m/d H:i',$info['store_time'])}
+						<!-- </if> -->
+					</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td><b>配送状态</b></td>
+					<td>
+						<!-- <if condition="$info['ship_status'] eq 1"> -->
+						<span class="label label-info">已发货</span>
+						<!-- <else /> -->
+						<a class="bat_a_handle btn btn-warning btn-sm" href="{:U('ship?oid='.$info['id'])}">发货</a>
+						<!-- </if> -->
+					</td>
+					
+					<td><b>配送时间</b></td>
+					<td>
+						<!-- <if condition="$info['ship_time'] gt 1"> -->
+						{:date('Y/m/d H:i',$info['ship_time'])}
+						<!-- </if> -->
+					</td>
+					
+					<td><b>收货确认</b></td>
+					<td>
+						<!-- <if condition="$info['confirm'] eq 1"> -->
+						<span class="label label-info">已确认</span>
+						<!-- <else /> -->
+						<span class="label label-danger">待确认</span>
+						<!-- </if> -->
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-sm-12 table-responsive">
+			<table class="table table-bordered table-striped table-hover">
+				<thead class="thin-border-bottom">
+				<tr>
+					<th>商品名称</th>
+					<th>缩略图</th>
+					<th>单价</th>
+					<th>数量</th>
+					<th>小计</th>
+				</tr>
+				</thead>
+				<tbody>
+					<!-- <foreach name="ordergoods" item="vo"> -->
+					<tr>
+						<td>{$goodslist[$vo['goods_id']]['goods_name']}</td>
+						<td>
+							<!-- <if condition="$goodslist[$vo['goods_id']]['image'] neq ''"> -->
+							<img style="height:100px" alt="" src="__ROOT__{$goodslist[$vo['goods_id']]['image']}">
+							<!-- </if> -->
+						</td>
+						<td>{$vo['price']}</td>
+						<td>{$vo['quantity']}</td>
+						<td>{$vo['amount']}</td>
+					</tr>
+					<!-- </foreach> -->
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<!-- JS script include start -->
+<!--[if !IE]> -->
+<script src="__JS__/jquery.2.1.1.min.js"></script>
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script src="__JS__/jquery.1.11.1.min.js"></script>
+<![endif]-->
+
+<!--[if IE]>
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='__JS__/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+
+<script src="__PUBLIC__/twbs.3.3.1/js/bootstrap.min.js"></script>
+<script src="__JS__/store.content.js"></script>
+<!-- JS script include start end -->
+</body>
+</html>
