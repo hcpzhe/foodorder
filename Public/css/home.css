@@ -1,0 +1,178 @@
+@CHARSET "UTF-8";
+body{
+	overflow-x:hidden;
+}
+.navbar {
+	margin-bottom: 0px;
+}
+.navbar-fixed-top .navbar-collapse {
+	max-height: none;
+}
+.page-content {
+	background-color: #fff;
+	position: relative;
+	margin: 0;
+	padding: 8px 15px 24px;
+}
+textarea {
+	max-width: 100%;
+}
+.main-title {
+	margin: 0 0 12px;
+	border-bottom: 1px dotted #e2e2e2;
+	padding-bottom: 10px;
+	padding-top: 7px;
+}
+.main-title h3,.main-title h2 {
+	margin:0;
+	color: #445566;
+}
+.RS_submit_btn {
+	font-weight: bold;
+	padding: 6px 40px;
+}
+.btn {
+	margin-right: 5px;
+}
+.RS_form_text {
+	min-height: 27px;
+	padding-top: 7px;
+	margin-top: 0;
+	margin-bottom: 0;
+	position: relative;
+	display: block;
+}
+.dataTables_paginate {
+	text-align: right;
+}
+.dataTables_paginate .pagination {
+	margin: 0 12px;
+}
+.icon-animated-vertical {
+	display: inline-block;
+	-moz-animation: vertical 2s 8 ease 3s;
+	-webkit-animation: vertical 2s 8 ease 3s;
+	-o-animation: vertical 2s 8 ease 3s;
+	-ms-animation: vertical 2s 8 ease 3s;
+	animation: vertical 2s 8 ease 3s
+}
+
+@-moz-keyframes vertical {
+    0% {
+        -moz-transform: translate(0,0)
+    }
+
+    4% {
+        -moz-transform: translate(0,3px)
+    }
+
+    8% {
+        -moz-transform: translate(0,-3px)
+    }
+
+    12% {
+        -moz-transform: translate(0,3px)
+    }
+
+    16% {
+        -moz-transform: translate(0,-3px)
+    }
+
+    20% {
+        -moz-transform: translate(0,3px)
+    }
+
+    22% {
+        -moz-transform: translate(0,0)
+    }
+}
+
+@-webkit-keyframes vertical {
+    0% {
+        -webkit-transform: translate(0,0)
+    }
+
+    4% {
+        -webkit-transform: translate(0,3px)
+    }
+
+    8% {
+        -webkit-transform: translate(0,-3px)
+    }
+
+    12% {
+        -webkit-transform: translate(0,3px)
+    }
+
+    16% {
+        -webkit-transform: translate(0,-3px)
+    }
+
+    20% {
+        -webkit-transform: translate(0,3px)
+    }
+
+    22% {
+        -webkit-transform: translate(0,0)
+    }
+}
+
+@-ms-keyframes vertical {
+    0% {
+        -ms-transform: translate(0,0)
+    }
+
+    4% {
+        -ms-transform: translate(0,3px)
+    }
+
+    8% {
+        -ms-transform: translate(0,-3px)
+    }
+
+    12% {
+        -ms-transform: translate(0,3px)
+    }
+
+    16% {
+        -ms-transform: translate(0,-3px)
+    }
+
+    20% {
+        -ms-transform: translate(0,3px)
+    }
+
+    22% {
+        -ms-transform: translate(0,0)
+    }
+}
+
+@keyframes vertical {
+    0% {
+        transform: translate(0,0)
+    }
+
+    4% {
+        transform: translate(0,3px)
+    }
+
+    8% {
+        transform: translate(0,-3px)
+    }
+
+    12% {
+        transform: translate(0,3px)
+    }
+
+    16% {
+        transform: translate(0,-3px)
+    }
+
+    20% {
+        transform: translate(0,3px)
+    }
+
+    22% {
+        transform: translate(0,0)
+    }
+}
