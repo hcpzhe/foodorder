@@ -32,7 +32,7 @@
 			</button>
 			<a class="navbar-brand" href="#"><i class="fa fa-pie-chart"></i> 店铺管理中心</a>
 		</div>
-		<div class="navbar-collapse collapse navbar-responsive-collapse">
+		<div class="RS_navbar_toggle navbar-collapse collapse navbar-responsive-collapse">
 			<ul class="nav navbar-nav RSselect">
 				<li class="active"><a href="{:U('Info/info')}" target="main">店铺信息</a></li>
 				<li><a href="{:U('Order/lists')}" target="main">订单管理</a></li>
@@ -88,10 +88,12 @@ $(document).ready(function() {
 	});
 	//导航栏的active样式
 	$(".RSselect>li").on("click",function(){
+		$(".RS_navbar_toggle").collapse('hide'); //修复  手机页面点击后不隐藏
 		$(".RSselect>li").removeClass("active");
 		$(this).addClass("active");
 	});
 	$(".dropdown-menu>li").on("click",function(){
+		$(".RS_navbar_toggle").collapse('hide'); //修复  手机页面点击后不隐藏
 		$(".RSselect>li").removeClass("active");
 	});
 	/********************/
