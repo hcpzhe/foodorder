@@ -12,17 +12,45 @@
 	<link href="__PUBLIC__/twbs.3.3.1/css/bootstrap.min.css" rel="stylesheet">
 	<link href="__PUBLIC__/font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet"/>
 	
+	<!-- store basic css -->
+	<link href="__CSS__/store.css" rel="stylesheet">
+	<link href="__CSS__/store.login.css" rel="stylesheet">
+	
 	<!--[if lt IE 9]>
 	<script src="__JS__/html5shiv.min.js"></script>
 	<script src="__JS__/respond.min.js"></script>
 	<![endif]-->
 </head>
 <body>
-<h1>你好，世界！</h1>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-4 col-sm-offset-4" style="margin-top: 50px;">
+			<div id="login-wraper">
+				<form class="login-form" action="" method="post">
+				<fieldset>
+					<legend>登录管理中心</legend>
+					<div class="login_body">
+						<label for="inputUser">用户名</label> <input type="text" name=""
+							id="inputUser"> <label for="inputPass">密码</label> <input
+							type="password" name="" id="inputPass"> <label
+							for="inputVer">验证码</label> <input class="verify" type="text"
+							name="" id="inputVer"> <span> <img id="" name=""
+							src="" title="看不清？点击更换" style="cursor: pointer;" onclick="">
+						</span>
+					</div>
+					<div class="login_footer">
+						<button type="submit" class="RS_submit_btn btn btn-success">登录</button>
+					</div>
+				</fieldset>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 
 
 
-<!-- JS script include start -->
+	<!-- JS script include start -->
 <!--[if !IE]> -->
 <script src="__JS__/jquery.2.1.1.min.js"></script>
 <!-- <![endif]-->
