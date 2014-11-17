@@ -86,16 +86,23 @@ $(document).ready(function() {
 		//回到顶部
 		$("html,body").scrollTop(0);
 	});
+	
 	//导航栏的active样式
 	$(".RSselect>li").on("click",function(){
-		$(".RS_navbar_toggle").collapse('hide'); //修复  手机页面点击后不隐藏
 		$(".RSselect>li").removeClass("active");
 		$(this).addClass("active");
 	});
 	$(".dropdown-menu>li").on("click",function(){
-		$(".RS_navbar_toggle").collapse('hide'); //修复  手机页面点击后不隐藏
 		$(".RSselect>li").removeClass("active");
 	});
+	
+	//修复  手机页面点击后不隐藏
+	$('.RS_navbar_toggle').on('shown.bs.collapse', function () {
+		var navbar_coll = $(this);
+		$(".RSselect>li , .dropdown-menu>li").one("click",function(){
+			navbar_coll.collapse('hide');
+		});
+	})
 	/********************/
 });
 </script>
