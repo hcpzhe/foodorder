@@ -2,6 +2,8 @@
 body{
 	overflow-x:hidden;
 }
+
+/*************导定制航条************/
 .navbar {
 	margin-bottom: 0px;
 }
@@ -14,6 +16,87 @@ body{
 	margin: 0;
 	padding: 8px 15px 24px;
 }
+.navbar-inverse {
+	background-color: #FF4A30;
+	border-color: #FF4A30;
+}
+.navbar-inverse .navbar-brand {
+	color: #fff;
+}
+.navbar-inverse .navbar-toggle {
+	border-color: #C0392B;
+	float:left;
+	margin-left: 15px;
+}
+.navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus {
+	border-color: #C0392B;
+	background-color: #C0392B;
+}
+.navbar-inverse .navbar-nav>li>a {
+	color: #fff;
+}
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:hover, .navbar-inverse .navbar-nav>.active>a:focus {
+	background-color: #C0392B;
+}
+.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
+	border-color: #C0392B;
+}
+.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover, .navbar-inverse .navbar-nav>.open>a:focus {
+	background-color: #C0392B;
+}
+.navbar-inverse .navbar-nav .open .dropdown-menu .divider {
+	background-color: #C0392B;
+}
+.navbar-inverse .navbar-nav .open .dropdown-menu>li>a {
+	color: #fff;
+}
+.navbar-brand {
+	padding: 0;
+	position: relative;
+}
+.RS_navbar_td {
+	width:33%;
+	display: table-cell;
+}
+.RS_navbar_cart {
+	position: relative;
+	float: right;
+	height:100%;
+	color: #fff;
+	font-size: 30px;
+	line-height: 50px;
+	margin-right: 15px;
+	background-color: transparent;
+	background-image: none;
+}
+/**********************************/
+/*************首页搜索框定制************/
+.RS_search_input_group {
+	width: 95%;
+	margin:0 auto;
+}
+
+.RS_search_input_group .form-control {
+	font-size: 18px;
+	height: 40px;
+}
+.RS_search_input_group .form-control:first-child{
+	border-top-left-radius: 22px;
+	border-bottom-left-radius: 22px;
+}
+.RS_search_btn {
+	color: #fff;
+	background: #B1B1B1 ;
+	height: 40px;
+	font-size: 24px;
+	padding: 2px 12px;
+	border-top-right-radius: 22px;
+	border-bottom-right-radius: 22px;
+	
+}
+/**********************************/
+
+
 textarea {
 	max-width: 100%;
 }
