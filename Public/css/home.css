@@ -95,8 +95,37 @@ body{
 	
 }
 /**********************************/
-
-
+/*************首页分类***************/
+.RS_idx_cate {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+.RS_idx_cate a {
+	color: #4c4c4c;
+	font-size: 0.8em;
+}
+/**********************************/
+/*************首页底部***************/
+.navbar-default {
+	background: #A3A3A3;
+}
+.RS_idx_foot div{
+	height: 49px;
+}
+.RS_idx_foot a {
+	display: block;
+	color: #F0F0F0;
+	font-size: 12px;
+}
+.RS_idx_foot a.icon {
+	color: #fff;
+	font-size: 22px;
+	height: 31px;
+}
+.RS_idx_foot .active a {
+	color: #FF4A30;
+}
+/**********************************/
 textarea {
 	max-width: 100%;
 }

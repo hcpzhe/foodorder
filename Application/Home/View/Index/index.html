@@ -20,7 +20,7 @@
 	<script src="__JS__/respond.min.js"></script>
 	<![endif]-->
 </head>
-<body style="padding-top:50px;">
+<body style="padding:50px 0;">
 <div class="navbar navbar-inverse navbar-fixed-top " role="navigation">
 	<div class="container-fluid">
 		<div class="navbar-header">
@@ -40,22 +40,9 @@
 		</div>
 		<div class="RS_navbar_toggle navbar-collapse collapse navbar-responsive-collapse">
 			<ul class="nav navbar-nav RSselect">
-				<li class="active"><a href="{:U('Info/info')}" target="main">店铺信息</a></li>
-				<li><a href="{:U('Order/lists')}" target="main">订单管理</a></li>
-				<li><a href="{:U('Info/attrRead')}" target="main">店铺类别</a></li>
-				<li><a href="{:U('Cate/tree')}" target="main">商品分类</a></li>
-				<li><a href="{:U('Goods/lists')}" target="main">商品管理</a></li>
-			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown">
-					<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {:session('user_auth')['account']} <b class="caret"></b></a>
-					<ul class="dropdown-menu">
-						<li><a href="{:U('Info/onwerInfo')}" target="main"><i class="fa fa-pencil-square-o"></i> 个人信息</a></li>
-						<li><a href="{:U('Index/changePwd')}" target="main"><i class="fa fa-key"></i> 修改密码</a></li>
-						<li class="divider"></li>
-						<li><a href="{:U('Common/logout')}"><i class="fa fa-power-off"></i> 退出登录</a></li>
-					</ul>
-				</li>
+				<!-- <foreach name="attrval" item="vo" key="ky"> -->
+				<li><a href="{:U('Order/lists')}">{$vo}</a></li>
+				<!-- </foreach> -->
 			</ul>
 		</div>
 	</div>
@@ -78,125 +65,61 @@
 			</form>
 		</div>
 	</div>
-	<div class="main-title">
-		<h3>店铺信息</h3>
+	<div class="row RS_idx_cate">
+		<div class="col-xs-3 text-center">
+			<a href="#"><img width="95%" src="__IMG__/all-attr.png"></a>
+			<a href="#">全部分类</a>
+		</div>
+		<div class="col-xs-3 text-center">
+			<a href="#"><img width="95%" src="__IMG__/cake.png"></a>
+			<a href="#">蛋糕甜点</a>
+		</div>
+		<div class="col-xs-3 text-center">
+			<a href="#"><img width="95%" src="__IMG__/tangguo.png"></a>
+			<a href="#">休闲零食</a>
+		</div>
+		<div class="col-xs-3 text-center">
+			<a href="#"><img width="95%" src="__IMG__/hanbao.png"></a>
+			<a href="#">快餐</a>
+		</div>
+		
+		<div class="col-xs-3 text-center">
+			<a href="#"><img width="95%" src="__IMG__/cherry.png"></a>
+			<a href="#">鲜果</a>
+		</div>
+		<div class="col-xs-3 text-center">
+			<a href="#"><img width="95%" src="__IMG__/noodle.png"></a>
+			<a href="#">面条米线</a>
+		</div>
+		<div class="col-xs-3 text-center">
+			<a href="#"><img width="95%" src="__IMG__/niunai.png"></a>
+			<a href="#">饮品</a>
+		</div>
+		<div class="col-xs-3 text-center">
+			<a href="#"><img width="95%" src="__IMG__/soup.png"></a>
+			<a href="#">养生粥</a>
+		</div>
 	</div>
-	<div class="row">
-		<div class="col-sm-12">
-		<form class="form-horizontal" action="{:U('update')}" method="post" enctype="multipart/form-data">
-		<fieldset>
-			<div class="form-group">
-				<label class="col-sm-3 control-label"> 帐号 </label>
-				<div class="col-sm-4 RS_form_text">{$info['account']}</div>
+</div>
+<div class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+	<div class="container-fluid">
+		<div class="row RS_idx_foot">
+			<div class="col-xs-3 text-center active">
+				<a class="icon" href="#"><i class="fa fa-home"></i></a>
+				<a href="#">首页</a>
 			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label"> 店铺名 </label>
-				<div class="col-sm-4">
-					<input type="text" name="store_name" value="{$info['store_name']}" class="form-control" />
-				</div>
+			<div class="col-xs-3 text-center">
+				<a class="icon" href="#"><i class="fa fa-heart-o"></i></a>
+				<a href="#">我的收藏</a>
 			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label"> 店铺地址 </label>
-				<div class="col-sm-4">
-					<input type="text" name="address" value="{$info['address']}" class="form-control" />
-				</div>
+			<div class="col-xs-3 text-center">
+				<a class="icon" href="#"><i class="fa fa-file-text-o"></i></a>
+				<a href="#">我的订单</a>
 			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label"> 联系电话 </label>
-				<div class="col-sm-4">
-					<input type="text" name="tel" value="{$info['tel']}" class="form-control" />
-				</div>
+			<div class="col-xs-3 text-center">
+				<a class="icon" href="#"><i class="fa fa-user"></i></a>
+				<a href="#">个人中心</a>
 			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label"> 店铺余额 </label>
-				<div class="col-sm-4 RS_form_text">{$info['balance']} 元</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label"> 评价分数 </label>
-				<div class="col-sm-4 RS_form_text">{$info['rating']}</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label"> 最低起送价 </label>
-				<div class="col-sm-1">
-					<input type="text" name="min_send" value="{$info['min_send']}" class="form-control" />
-				</div>
-				<div class="help-block">单位: 元</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label"> 推荐 </label>
-				<div class="col-sm-4 RS_form_text">
-					<!-- <if condition="$info['is_recom'] eq 1"> -->
-					<i class="fa fa-check text-success"></i>
-					<!-- <else /> -->
-					<i class="fa fa-times text-danger"></i>
-					<!-- </if> -->
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label"> 营业 </label>
-				<div class="radio col-sm-9">
-					<label>
-						<!-- <if condition="$info['is_close'] eq 0"> -->
-						<input name="is_close" value="0" type="radio" class="ace" checked="checked">
-						<!-- <else /> -->
-						<input name="is_close" value="0" type="radio" class="ace">
-						<!-- </if> -->
-						<span class="lbl"> 是</span>
-					</label>
-					<label>
-						<!-- <if condition="$info['is_close'] eq 1"> -->
-						<input name="is_close" value="1" type="radio" class="ace" checked="checked">
-						<!-- <else /> -->
-						<input name="is_close" value="1" type="radio" class="ace">
-						<!-- </if> -->
-						<span class="lbl"> 否</span>
-					</label>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label"> 停业原因 </label>
-				<div class="col-sm-4">
-					<textarea rows="3" name="close_reason" class="form-control">{$info['close_reason']}</textarea>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label"> 店铺LOGO </label>
-				<div class="col-sm-3">
-					<input type="file" name="store_logo" class="RS_form_text" />
-				</div>
-			</div>
-			<!-- <if condition="$info['store_logo']"> -->
-			<div class="form-group">
-				<label class="col-sm-3 control-label"></label>
-				<div class="col-sm-9">
-					<img style="width:200px;" alt="" src="__ROOT__{$info['store_logo']}">
-				</div>
-			</div>
-			<!-- </if> -->
-			<div class="form-group">
-				<label class="col-sm-3 control-label"> 入驻时间 </label>
-				<div class="col-sm-4 RS_form_text">{:date('Y-m-d H:i',$info['add_time'])}</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label"> 上次登录时间 </label>
-				<div class="col-sm-4 RS_form_text">{:date('Y-m-d H:i',$info['last_login'])}</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label"> 上次登录IP </label>
-				<div class="col-sm-4 RS_form_text">{$info['last_ip']}</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label"> 登录次数 </label>
-				<div class="col-sm-4 RS_form_text">{$info['logins']}</div>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-10 col-sm-offset-2">
-					<button type="submit" class="btn btn-primary RS_submit_btn">确认</button>
-					<button type="reset" class="btn btn-default RS_submit_btn">重置</button>
-				</div>
-			</div>
-		</fieldset>
-		</form>
 		</div>
 	</div>
 </div>
