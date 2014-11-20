@@ -2,7 +2,45 @@
 body{
 	overflow-x:hidden;
 }
-
+/*************bootcss全局定制*******/
+.input-group-btn>.btn {
+	height:34px;
+}
+/********************************/
+/*************评价分数*************/
+/*****HTML
+<span class="rating">
+	<span class="star"></span>5
+	<span class="star"></span>4
+	<span class="star"></span>3
+	<span class="star"></span>2
+	<span class="star stared"></span>1
+</span>
+*/
+.rating {
+	unicode-bidi: bidi-override;
+	direction: rtl;
+	/*font-size: 30px;*/
+}
+.rating span.star {
+	font-family: FontAwesome;
+	font-weight: normal;
+	font-style: normal;
+	display: inline-block;
+}
+.rating span.star:hover {
+	cursor: pointer;
+}
+.rating span.star:before {
+	content: "\f006";
+	/*padding-right: 5px;*/
+	color: #777777;
+}
+.rating span.stared:before, .rating span.star:hover:before, .rating span.star:hover ~ span.star:before {
+	content: "\f005";
+	color: #e3cf7a;
+}
+/********************************/
 /*************导定制航条************/
 .navbar {
 	margin-bottom: 0px;
@@ -57,6 +95,8 @@ body{
 .RS_navbar_td {
 	width:33%;
 	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
 }
 .RS_navbar_cart {
 	position: relative;
@@ -87,7 +127,7 @@ body{
 .RS_search_btn {
 	color: #fff;
 	background: #B1B1B1 ;
-	height: 40px;
+	height: 40px !important;
 	font-size: 24px;
 	padding: 2px 12px;
 	border-top-right-radius: 22px;
@@ -126,6 +166,145 @@ body{
 	color: #FF4A30;
 }
 /**********************************/
+/*************列表页顶部***************/
+.RS_navbar_back {
+	position: relative;
+	float: left;
+	height:100%;
+	color: #fff;
+	font-size: 18px;
+	line-height: 50px;
+	background-color: transparent;
+	background-image: none;
+	display: block;
+	width: 100%;
+}
+.RS_list_top {
+	position: fixed;
+	right: 0;
+	left: 0;
+	z-index: 1030;
+	top: 50px;
+	border-bottom: 1px #DBDBDB solid;
+	background: #F6F6F6;
+	color: #8C8D8D;
+}
+.RS_list_top a{
+	color: #8C8D8D;
+}
+/**********************************/
+/*************列表页列表***************/
+.RS_list_content {
+	background: #ddd;
+	padding: 0;
+}
+.RS_list_content a:hover, .RS_list_content a:focus{
+	text-decoration: none;
+}
+.RS_list_content .RS_list_dl:first-child {
+	padding-top: 0px;
+}
+.RS_list_dl {
+	padding: 3px 0;
+	background: #fff;
+	margin-bottom: 5px;
+}
+.RS_list_dl dt {
+	padding: 5px 15px;
+	border-bottom: 1px #DBDBDB solid;
+}
+.RS_list_dl dt p {
+	margin: 0;
+	float: right;
+}
+.RS_list_dl dt p a {
+	font-size: 16px;
+	color: red;
+}
+.RS_list_dl dd {
+	padding: 5px 15px;
+}
+.RS_list_dl dd a {
+	display: block;
+	color: inherit;
+	height: 100%;
+}
+.RS_list_imgbox {
+	position:absolute;
+	width: 94px;
+	height: 94px;
+	text-align: center;
+	overflow: hidden;
+}
+.RS_list_imgbox-block-right {
+	margin-left: 108px;
+	height: 94px;
+}
+.RS_list_imgbox-block-right .text-block {
+	height:40px;
+	line-height:20px;
+	margin:6px 0 10px 0;
+	font-size:15px;
+	overflow: hidden;
+}
+.RS_list_imgbox-block-right .price {
+	position: relative;
+	color:#FDB338;
+	
+}
+.RS_list_imgbox-block-right .price strong {
+	font-size: 27px;
+	font-weight: bold;
+}
+.RS_list_imgbox-block-right .price .strong-color {
+	color:#888;
+}
+.RS_list_imgbox-block-right .price .line-right {
+	font-size: 20px;
+	position: absolute;
+	right: 0;
+	bottom: 4px;
+}
+/**********************************/
+/*************商品列表 底部购物车***************/
+.RS_menu_cart {
+	display: block;
+	position: fixed;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	z-index: 1030;
+	background: #323941;
+	height: 42px;
+	line-height: 42px;
+	padding: 0 10px;
+	font-size: 17px;
+	color: #fff;
+	font-family: 'Microsoft Yahei', sans-serif;
+	letter-spacing: 2px;
+}
+.RS_menu_cart:hover, .RS_menu_cart:focus {
+	color: #fff;
+	text-decoration: none;
+}
+.RS_menu_cart i.fa {
+	font-size: 24px;
+}
+.RS_menu_cart .RS_cart_note {
+	position: absolute;
+	right: 10px;
+	color: #999;
+}
+.RS_menu_cart .RS_cart_note button {
+	color: #fff;
+	background-color: #4CD964;
+	font-size: 16px;
+	padding: 3px 18px;
+}
+/**********************************/
+
+
+
 textarea {
 	max-width: 100%;
 }

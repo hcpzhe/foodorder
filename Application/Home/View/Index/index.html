@@ -41,7 +41,7 @@
 		<div class="RS_navbar_toggle navbar-collapse collapse navbar-responsive-collapse">
 			<ul class="nav navbar-nav RSselect">
 				<!-- <foreach name="attrval" item="vo" key="ky"> -->
-				<li><a href="{:U('Order/lists')}">{$vo}</a></li>
+				<li><a href="{:U('Store/lists?attrs='.$ky)}">{$vo}</a></li>
 				<!-- </foreach> -->
 			</ul>
 		</div>
@@ -53,7 +53,7 @@
 <div class="page-content">
 	<div class="row">
 		<div class="col-sm-12 text-center">
-			<form class="form-horizontal" action="{:U('chgPwd')}" method="get">
+			<form class="form-horizontal" action="{:U('Store/lists')}" method="get">
 			<fieldset>
 				<div class="RS_search_input_group input-group">
 					<input name="keywords" type="text" class="form-control" placeholder="请输入商家名、商品等">
@@ -67,62 +67,41 @@
 	</div>
 	<div class="row RS_idx_cate">
 		<div class="col-xs-3 text-center">
-			<a href="#"><img width="95%" src="__IMG__/all-attr.png"></a>
-			<a href="#">全部分类</a>
+			<a href="{:U('Store/lists')}"><img width="95%" src="__IMG__/all-attr.png"></a>
+			<a href="{:U('Store/lists')}">全部分类</a>
 		</div>
 		<div class="col-xs-3 text-center">
-			<a href="#"><img width="95%" src="__IMG__/cake.png"></a>
-			<a href="#">蛋糕甜点</a>
+			<a href="{:U('Store/lists?attrs=5')}"><img width="95%" src="__IMG__/cake.png"></a>
+			<a href="{:U('Store/lists?attrs=5')}">蛋糕甜点</a>
 		</div>
 		<div class="col-xs-3 text-center">
-			<a href="#"><img width="95%" src="__IMG__/tangguo.png"></a>
-			<a href="#">休闲零食</a>
+			<a href="{:U('Store/lists?attrs=4')}"><img width="95%" src="__IMG__/tangguo.png"></a>
+			<a href="{:U('Store/lists?attrs=4')}">休闲零食</a>
 		</div>
 		<div class="col-xs-3 text-center">
-			<a href="#"><img width="95%" src="__IMG__/hanbao.png"></a>
-			<a href="#">快餐</a>
+			<a href="{:U('Store/lists?attrs=3')}"><img width="95%" src="__IMG__/hanbao.png"></a>
+			<a href="{:U('Store/lists?attrs=3')}">快餐</a>
 		</div>
 		
 		<div class="col-xs-3 text-center">
-			<a href="#"><img width="95%" src="__IMG__/cherry.png"></a>
-			<a href="#">鲜果</a>
+			<a href="{:U('Store/lists?attrs=2')}"><img width="95%" src="__IMG__/cherry.png"></a>
+			<a href="{:U('Store/lists?attrs=2')}">鲜果</a>
 		</div>
 		<div class="col-xs-3 text-center">
-			<a href="#"><img width="95%" src="__IMG__/noodle.png"></a>
-			<a href="#">面条米线</a>
+			<a href="{:U('Store/lists?attrs=1')}"><img width="95%" src="__IMG__/noodle.png"></a>
+			<a href="{:U('Store/lists?attrs=1')}">面条米线</a>
 		</div>
 		<div class="col-xs-3 text-center">
-			<a href="#"><img width="95%" src="__IMG__/niunai.png"></a>
-			<a href="#">饮品</a>
+			<a href="{:U('Store/lists?attrs=12')}"><img width="95%" src="__IMG__/niunai.png"></a>
+			<a href="{:U('Store/lists?attrs=12')}">饮品</a>
 		</div>
 		<div class="col-xs-3 text-center">
-			<a href="#"><img width="95%" src="__IMG__/soup.png"></a>
-			<a href="#">养生粥</a>
+			<a href="{:U('Store/lists?attrs=13')}"><img width="95%" src="__IMG__/soup.png"></a>
+			<a href="{:U('Store/lists?attrs=13')}">养生粥</a>
 		</div>
 	</div>
 </div>
-<div class="navbar navbar-default navbar-fixed-bottom" role="navigation">
-	<div class="container-fluid">
-		<div class="row RS_idx_foot">
-			<div class="col-xs-3 text-center active">
-				<a class="icon" href="#"><i class="fa fa-home"></i></a>
-				<a href="#">首页</a>
-			</div>
-			<div class="col-xs-3 text-center">
-				<a class="icon" href="#"><i class="fa fa-heart-o"></i></a>
-				<a href="#">我的收藏</a>
-			</div>
-			<div class="col-xs-3 text-center">
-				<a class="icon" href="#"><i class="fa fa-file-text-o"></i></a>
-				<a href="#">我的订单</a>
-			</div>
-			<div class="col-xs-3 text-center">
-				<a class="icon" href="#"><i class="fa fa-user"></i></a>
-				<a href="#">个人中心</a>
-			</div>
-		</div>
-	</div>
-</div>
+{:W('Page/foot',array('Index/index'))}
 <!-- JS script include start -->
 <!--[if !IE]> -->
 <script src="__JS__/jquery.2.1.1.min.js"></script>

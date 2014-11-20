@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : 127.0.0.1
-Source Server Version : 50524
+Source Server Version : 50516
 Source Host           : localhost:3306
 Source Database       : foodorder
 
 Target Server Type    : MYSQL
-Target Server Version : 50524
+Target Server Version : 50516
 File Encoding         : 65001
 
-Date: 2014-11-17 17:17:28
+Date: 2014-11-20 13:36:27
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -45,22 +45,24 @@ CREATE TABLE `fdo_attr_val` (
   `sort` smallint(5) unsigned NOT NULL DEFAULT '255' COMMENT '排序',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '-1删除 0禁用 1正常',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='筛选属性可选值表;  `筛选属性表`一对多的关系';
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='筛选属性可选值表;  `筛选属性表`一对多的关系';
 
 -- ----------------------------
 -- Records of fdo_attr_val
 -- ----------------------------
-INSERT INTO `fdo_attr_val` VALUES ('1', '1', '炒菜', '255', '1');
-INSERT INTO `fdo_attr_val` VALUES ('2', '1', '面食', '255', '1');
-INSERT INTO `fdo_attr_val` VALUES ('3', '1', '盖浇饭', '255', '1');
-INSERT INTO `fdo_attr_val` VALUES ('4', '1', '甜品', '255', '1');
-INSERT INTO `fdo_attr_val` VALUES ('5', '1', '快餐', '255', '1');
+INSERT INTO `fdo_attr_val` VALUES ('1', '1', '面条米线', '255', '1');
+INSERT INTO `fdo_attr_val` VALUES ('2', '1', '鲜果', '255', '1');
+INSERT INTO `fdo_attr_val` VALUES ('3', '1', '快餐', '255', '1');
+INSERT INTO `fdo_attr_val` VALUES ('4', '1', '休闲零食', '255', '1');
+INSERT INTO `fdo_attr_val` VALUES ('5', '1', '蛋糕甜点', '255', '1');
 INSERT INTO `fdo_attr_val` VALUES ('6', '2', '涧西', '255', '1');
 INSERT INTO `fdo_attr_val` VALUES ('7', '2', '西工', '255', '1');
 INSERT INTO `fdo_attr_val` VALUES ('8', '2', '老城', '255', '1');
 INSERT INTO `fdo_attr_val` VALUES ('9', '2', '洛龙区', '255', '0');
 INSERT INTO `fdo_attr_val` VALUES ('10', '3', 'A', '255', '1');
 INSERT INTO `fdo_attr_val` VALUES ('11', '3', 'B', '255', '1');
+INSERT INTO `fdo_attr_val` VALUES ('12', '1', '饮品', '255', '1');
+INSERT INTO `fdo_attr_val` VALUES ('13', '1', '养生粥', '255', '1');
 
 -- ----------------------------
 -- Table structure for `fdo_auth_group`
@@ -663,7 +665,7 @@ CREATE TABLE `fdo_store` (
 -- ----------------------------
 -- Records of fdo_store
 -- ----------------------------
-INSERT INTO `fdo_store` VALUES ('2', 'aaa', 'fa157449ce7b9bbfcb47e4cb70b2ee22', '演示店铺', '张老板', '123456789012345678', '人民大街16号', '010-88886666-8866', '6.00', '2.7', '10', '0', '', '', '', '', '0', null, '0', '22', '1249543819', '0', '0', '', '1');
+INSERT INTO `fdo_store` VALUES ('2', 'aaa', 'fa157449ce7b9bbfcb47e4cb70b2ee22', '演示店铺', '张老板', '123456789012345678', '人民大街16号', '010-88886666-8866', '6.00', '2.7', '10', '1', '', '', '', '', '0', null, '0', '22', '1249543819', '0', '0', '', '1');
 INSERT INTO `fdo_store` VALUES ('3', 'aaaa', '2b02f38867b04a7120e65394c6d6cba4', '某某快餐店', '李哲', '', '紫金城', '', '0.00', '3.0', '0', '0', '/Uploads/Picture/2014-11-11/54617cce202cc.jpg', null, null, null, '0', null, '0', '255', '1414482653', '0', '0', '', '1');
 INSERT INTO `fdo_store` VALUES ('4', 'ceshi', 'c8dbcf6665483e2cc9f2fbc79c1ef875', 'ceshi', 'ceshi', '', '', '', '0.00', '3.0', '0', '0', null, null, null, null, '0', null, '0', '255', '1415674766', '0', '0', '', '1');
 INSERT INTO `fdo_store` VALUES ('5', 'ceshi2', '9c97893f2d530f93c5b76841af9af5b6', 'ceshi2', 'ceshi2', '', '', '', '0.00', '3.0', '0', '0', '/Uploads/Picture/2014-11-11/54617db6360be.jpg', null, null, null, '0', null, '0', '255', '1415675318', '0', '0', '', '1');
