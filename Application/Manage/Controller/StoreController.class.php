@@ -51,9 +51,6 @@ class StoreController extends ManageBaseController {
 				$tmp_store_ids = $StoreAttr_M->getStoreByAttr($attrs);
 				$map['id'] = array('in', $tmp_store_ids);
 			}
-			if (isset($recom) && in_array($recom, $haystack)) {
-				$map['store_name'] = array('like', '%'.$name.'%');
-			}
 			if (isset($recom)) {
 				$map['is_recom'] = in_array($recom, StoreModel::$recom) ? $recom : 1;
 			}
