@@ -42,7 +42,10 @@ class StoreController extends HomeBaseController {
 			}else {
 				$list = array();
 			}
+		}else {
+			$list = $this->_lists($model,$map,$order);
 		}
+		
 		$this->assign('list', $list); //列表
 		
 		// 记录当前列表页的cookie
@@ -58,7 +61,13 @@ class StoreController extends HomeBaseController {
 	public function goods($sid) {
 		$sid = (int)$sid;
 		if ($sid<=0) $this->error('请选择正确的店铺');
-
+		
+		//店铺名称
+		$store_M = new Model('Store');
+		$store_info = $store_M->find($sid);
+		if (empty($store_info) || false === $store_info) $this->error('店铺不存在, 请选择正确的店铺');
+		$this->assign('storeinfo',$store_info);//店铺信息
+		
 		//先取出所有分类, 然后把商品放进去
 		$cate_M = new Model('Category');
 		$cate_where = array(
@@ -68,16 +77,15 @@ class StoreController extends HomeBaseController {
 		$cate_list = $cate_M->where($cate_where)->order('sort ASC, id DESC')->select();
 		
 		$returnlist = array(); $goods_M = New Model('Goods');
-		$basemap = array('status'=>'1');
 		//先取出无分类的商品
-		$tmpmap = $basemap; $tmpmap['cate_id']='0';
+		$tmpmap = array('status'=>'1','cate_id'=>'0');
 		$nocate_goods = $goods_M->where($tmpmap)->order('sort ASC, id DESC')->select();
 		if (!empty($nocate_goods)) {
-			$returnlist[] = array('id'=>'0','goods'=>$nocate_goods);
+			$returnlist[] = array('id'=>'0','goods'=>$nocate_goods,'cate_name'=>'默认分类');
 		}
 		
 		foreach ($cate_list as $cate_row) {
-			$tmpmap = $basemap; $tmpmap['cate_id']=$cate_row['id`'];
+			$tmpmap = array('status'=>array('EGT',0),'cate_id'=>$cate_row['id']);
 			$tmp_goods = $goods_M->where($tmpmap)->order('sort ASC, id DESC')->select();
 			if (!empty($tmp_goods)) {
 				$tmp_cate = $cate_row;
@@ -87,6 +95,7 @@ class StoreController extends HomeBaseController {
 		}
 		
 		$this->assign('list',$returnlist);//分类-商品 列表
+		cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
 		$this->display();
 	}
 	

@@ -54,6 +54,9 @@ body{
 	margin: 0;
 	padding: 8px 15px 24px;
 }
+.goods-page-content {
+	padding:0 0 24px 0;
+}
 .navbar-inverse {
 	background-color: #FF4A30;
 	border-color: #FF4A30;
@@ -97,17 +100,6 @@ body{
 	display: table-cell;
 	vertical-align: middle;
 	text-align: center;
-}
-.RS_navbar_cart {
-	position: relative;
-	float: right;
-	height:100%;
-	color: #fff;
-	font-size: 30px;
-	line-height: 50px;
-	margin-right: 15px;
-	background-color: transparent;
-	background-image: none;
 }
 /**********************************/
 /*************首页搜索框定制************/
@@ -166,7 +158,44 @@ body{
 	color: #FF4A30;
 }
 /**********************************/
-/*************列表页顶部***************/
+/*************列表页顶部定制***************/
+.RS_topbar_left {
+	float: left;
+	width: 80px;
+	margin-left: -100%;
+}
+.RS_topbar_right {
+	float: left;
+	width: 60px;
+	margin-left: -60px;
+}
+.RS_topbar_mid {
+	float: left;
+	width: 100%;
+	height: 100%;
+}
+.RS_topbar_mid_auto {
+	margin: 8px 60px 8px 80px;
+}
+.RS_topbar_mid_auto, .RS_topbar_mid_auto a {
+	color : #fff;
+	font-size: 20px;
+	line-height: 34px;
+	display: block;
+	text-align: center;
+}
+.RS_navbar_cart {
+	position: relative;
+	height:100%;
+	color: #fff;
+	font-size: 30px;
+	line-height: 50px;
+	background-color: transparent;
+	background-image: none;
+	display: block;
+	width: 100%;
+	text-align:center;
+}
 .RS_navbar_back {
 	position: relative;
 	float: left;
@@ -178,6 +207,7 @@ body{
 	background-image: none;
 	display: block;
 	width: 100%;
+	text-align:center;
 }
 .RS_list_top {
 	position: fixed;
@@ -192,7 +222,7 @@ body{
 .RS_list_top a{
 	color: #8C8D8D;
 }
-/**********************************/
+/*************************************/
 /*************列表页列表***************/
 .RS_list_content {
 	background: #ddd;
@@ -266,6 +296,67 @@ body{
 	bottom: 4px;
 }
 /**********************************/
+.RS_goods {
+	position: relative;
+}
+.RS_goods ul.nav-tabs {
+	width: 72px;
+	border: none;
+	position: fixed;
+	top: 51px;
+	left: 0;
+	z-index:100;
+}
+.RS_goods ul.nav-tabs li {
+	float: none;
+	font-size: 13px;
+}
+.RS_goods ul.nav-tabs li a {
+	border: 1px solid #ddd;
+	border-radius: 0;
+	border-left: 2px solid transparent;
+	padding: 10px 3px 10px 3px;
+	word-break: break-all;
+	word-wrap:break-word;
+	color: #666;
+}
+.RS_goods ul.nav-tabs li.active a {
+	border-left: 2px solid #FF4A30;
+	border-right: 1px solid transparent;
+}
+.RS_goods .tab-content {
+	margin: 0 0 0 72px;
+}
+.RS_goods .RS_goods_li {
+	border-bottom: 1px solid #ddd;
+	padding: 13px 10px;
+	color: #666;
+	position: relative;
+}
+.RS_goods .RS_goods_li .RS_goods_img {
+	width: 80px; height: 80px; overflow: hidden; vertical-align: middle;
+	border: 1px solid #ddd;
+	position: relative;
+}
+.RS_goods .RS_goods_li .RS_goods_img img {
+	width: 100%;
+	position: absolute;left: 50%;top: 50%;
+	-webkit-transform: translate(-50%,-50%);
+	-ms-transform: translate(-50%,-50%);
+	-moz-transform: translate(-50%,-50%)
+}
+.RS_goods .RS_goods_li .RS_goods_price {
+	position: absolute; right: 5px; bottom: 13px; line-height: 28px;
+}
+.RS_goods .RS_goods_li .RS_goods_price .RS_goods_price_del {
+	line-height: 28px; padding: 0; width:28px;
+}
+.RS_goods .RS_goods_li .RS_goods_price .RS_goods_price_num {
+	line-height: 28px; margin-right:5px;
+}
+.RS_goods .RS_goods_li .RS_goods_price .RS_goods_price_add {
+	line-height: 28px; padding: 0; width:60px;
+}
 /*************商品列表 底部购物车***************/
 .RS_menu_cart {
 	display: block;
