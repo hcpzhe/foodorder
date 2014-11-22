@@ -65,7 +65,7 @@
 	<!-- </if> -->
 	</div>
 </div>
-<a class="RS_menu_cart" href="#">
+<a class="RS_menu_cart" href="{:U('Index/cart?sid='.$storeinfo['id'])}">
 	<i class="fa fa-shopping-cart"></i>
 	<span id="cart_num">0</span>份 <span id="cart_fee">0</span>
 	<span class="RS_cart_note">
@@ -91,15 +91,26 @@
 
 <script src="__PUBLIC__/twbs.3.3.1/js/bootstrap.min.js"></script>
 <!-- JS script include start end -->
+<script src="__JS__/localstorge.package.js"></script>
 
 <script type="text/javascript">
+var storeid = {$storeinfo['id']};
 var minsend = {$storeinfo['min_send']}; //当前店铺起送价
 var cart = {
 		fee : 0, //总金额,只用于当前页面显示计算	不用做订单统计
-		num : 0, //总数量,只用于当前页面显示计算	不用做订单统计
-		goods : {} //商品对象集合, 用于订单统计 {id:数量,id:数量}
+		num : 0 //总数量,只用于当前页面显示计算	不用做订单统计
 }; //购物车
+var storage_cart = LS.get("cart");
+try {
+	storage_cart = JSON.parse(storage_cart);
+} catch (e) {
+	storage_cart = new Object();
+}
+if (typeof storage_cart != "object") storage_cart = new Object();
+if (typeof storage_cart[storeid] != "object") storage_cart[storeid] = new Object();
+
 $(function($) {
+	initcart();
 	$(".RS_goods_price_add").on("click",function() {
 		cartgoods(this.dataset.goods,1);
 		cart.fee += parseFloat(this.dataset.price);
@@ -117,25 +128,46 @@ $(function($) {
 		jiesuan();
 	});
 });
+//购物车初始化
+function initcart() {
+	//storage_cart[storeid] 格式 {id:数量,id:数量}
+	$.each(storage_cart[storeid],function(k,v) {
+		v = parseInt(v);
+		if (v > 0) { //数量小于等于0 忽略
+			var $tmp_num = $(".RS_goods_price_num[data-goods='"+k+"']");
+			var $tmp_del = $(".RS_goods_price_del[data-goods='"+k+"']");
+			if ($tmp_num.length == 1 && $tmp_del.length ==1) {
+				$tmp_num.html(v);
+				$tmp_del.show();
+				$tmp_num.show();
+				cart.num += v;
+				cart.fee += parseFloat($tmp_del.attr("data-price")) * v;
+			}
+		}
+	});
+	jiesuan();
+}
 function cartgoods(goodsid,num) {
 	num = parseInt(num);
-	if (cart.goods[goodsid] === undefined || cart.goods[goodsid] <=0) {
+	if (storage_cart[storeid][goodsid] === undefined || storage_cart[storeid][goodsid] <=0) {
 		//购物车中没有这个商品 , 或商品数量 <=0
 		if (num > 0) { //如果是减少数量就忽略
-			cart.goods[goodsid] = num; //数量
+			storage_cart[storeid][goodsid] = num; //数量
 		}
 	}else {
 		//购物车中有这个商品
-		cart.goods[goodsid] += num; //数量
+		storage_cart[storeid][goodsid] += num; //数量
 	}
-	$(".RS_goods_price_num[data-goods='"+goodsid+"']").html(cart.goods[goodsid]);
-	if (cart.goods[goodsid] <= 0) {
+	$(".RS_goods_price_num[data-goods='"+goodsid+"']").html(storage_cart[storeid][goodsid]);
+	if (storage_cart[storeid][goodsid] <= 0) {
 		$(".RS_goods_price_del[data-goods='"+goodsid+"']").hide();
 		$(".RS_goods_price_num[data-goods='"+goodsid+"']").hide();
 	}else {
 		$(".RS_goods_price_del[data-goods='"+goodsid+"']").show();
 		$(".RS_goods_price_num[data-goods='"+goodsid+"']").show();
 	}
+	storage_cart.time = new Date().getTime();
+	LS.set("cart",JSON.stringify(storage_cart));
 }
 function jiesuan() {
 	$("#cart_num").html(cart.num);
