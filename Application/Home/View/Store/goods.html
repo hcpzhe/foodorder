@@ -53,9 +53,9 @@
 						<img src="__ROOT__{$goodsrow['image']}">
 					</div>
 					<div class="RS_goods_price">
-						<button class="RS_goods_price_del btn btn-primary"><b>—</b></button>
-						<span class="RS_goods_price_num">1</span>
-						<button class="RS_goods_price_add btn btn-primary">¥{$goodsrow['price']}</button>
+						<button class="RS_goods_price_del btn btn-primary" data-price="{$goodsrow['price']}" data-goods="{$goodsrow['id']}"><b>—</b></button>
+						<span class="RS_goods_price_num" data-goods="{$goodsrow['id']}">1</span>
+						<button class="RS_goods_price_add btn btn-primary" data-price="{$goodsrow['price']}" data-goods="{$goodsrow['id']}">¥{$goodsrow['price']}</button>
 					</div>
 				</div>
 			<!-- </foreach> -->
@@ -67,10 +67,10 @@
 </div>
 <a class="RS_menu_cart" href="#">
 	<i class="fa fa-shopping-cart"></i>
-	<span id="cart_num">0</span>份 ¥<span id="cart_fee">0</span>
+	<span id="cart_num">0</span>份 <span id="cart_fee">0</span>
 	<span class="RS_cart_note">
-		<span>还差¥8起送</span>
-		<!-- <button class="btn btn-success">去结算</button> -->
+		<span>还差￥{$storeinfo['min_send']}起送</span>
+		<button class="btn btn-success" style="display: none;">去结算</button>
 	</span>
 </a>
 
@@ -93,10 +93,62 @@
 <!-- JS script include start end -->
 
 <script type="text/javascript">
+var minsend = {$storeinfo['min_send']}; //当前店铺起送价
+var cart = {
+		fee : 0, //总金额,只用于当前页面显示计算	不用做订单统计
+		num : 0, //总数量,只用于当前页面显示计算	不用做订单统计
+		goods : {} //商品对象集合, 用于订单统计 {id:数量,id:数量}
+}; //购物车
 $(function($) {
-	// 你可以在这里继续使用$作为别名...
-	
+	$(".RS_goods_price_add").on("click",function() {
+		cartgoods(this.dataset.goods,1);
+		cart.fee += parseFloat(this.dataset.price);
+		cart.num++;
+		jiesuan();
+	});
+	$(".RS_goods_price_del").on("click",function() {
+		if (cart.num <= 0) {
+			cart.fee = 0;cart.num = 0;
+		}else {
+			cartgoods(this.dataset.goods,-1);
+			cart.fee -= parseFloat(this.dataset.price);
+			cart.num--;
+		}
+		jiesuan();
+	});
 });
+function cartgoods(goodsid,num) {
+	num = parseInt(num);
+	if (cart.goods[goodsid] === undefined || cart.goods[goodsid] <=0) {
+		//购物车中没有这个商品 , 或商品数量 <=0
+		if (num > 0) { //如果是减少数量就忽略
+			cart.goods[goodsid] = num; //数量
+		}
+	}else {
+		//购物车中有这个商品
+		cart.goods[goodsid] += num; //数量
+	}
+	$(".RS_goods_price_num[data-goods='"+goodsid+"']").html(cart.goods[goodsid]);
+	if (cart.goods[goodsid] <= 0) {
+		$(".RS_goods_price_del[data-goods='"+goodsid+"']").hide();
+		$(".RS_goods_price_num[data-goods='"+goodsid+"']").hide();
+	}else {
+		$(".RS_goods_price_del[data-goods='"+goodsid+"']").show();
+		$(".RS_goods_price_num[data-goods='"+goodsid+"']").show();
+	}
+}
+function jiesuan() {
+	$("#cart_num").html(cart.num);
+	$("#cart_fee").html(cart.fee);
+	if (cart.fee >= minsend && cart.fee>0) {
+		$(".RS_cart_note span").hide();
+		$(".RS_cart_note button").show();
+	}else {
+		$(".RS_cart_note span").html("还差￥"+ parseInt(minsend-cart.fee) +"起送");
+		$(".RS_cart_note button").hide();
+		$(".RS_cart_note span").show();
+	}
+}
 </script>
 </body>
 </html>

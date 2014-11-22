@@ -349,10 +349,10 @@ body{
 	position: absolute; right: 5px; bottom: 13px; line-height: 28px;
 }
 .RS_goods .RS_goods_li .RS_goods_price .RS_goods_price_del {
-	line-height: 28px; padding: 0; width:28px;
+	line-height: 28px; padding: 0; width:28px; display: none;
 }
 .RS_goods .RS_goods_li .RS_goods_price .RS_goods_price_num {
-	line-height: 28px; margin-right:5px;
+	line-height: 28px; margin-right:5px; display: none;
 }
 .RS_goods .RS_goods_li .RS_goods_price .RS_goods_price_add {
 	line-height: 28px; padding: 0; width:60px;
@@ -380,6 +380,9 @@ body{
 }
 .RS_menu_cart i.fa {
 	font-size: 24px;
+}
+#cart_fee:BEFORE {
+	content: "￥";
 }
 .RS_menu_cart .RS_cart_note {
 	position: absolute;
