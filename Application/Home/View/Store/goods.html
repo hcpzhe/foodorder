@@ -106,8 +106,16 @@ try {
 } catch (e) {
 	storage_cart = new Object();
 }
-if (typeof storage_cart != "object") storage_cart = new Object();
-if (typeof storage_cart[storeid] != "object") storage_cart[storeid] = new Object();
+if (typeof(storage_cart) !== "object" || storage_cart === null) {
+	storage_cart = new Object();
+	eval("storage_cart['"+storeid+"'] = new Object();");
+}else {
+	try {
+		if (typeof(storage_cart[storeid]) !== "object") storage_cart[storeid] = new Object();
+	} catch (e) {
+		eval("storage_cart['"+storeid+"'] = new Object();");
+	}
+}
 
 $(function($) {
 	initcart();
@@ -149,7 +157,7 @@ function initcart() {
 }
 function cartgoods(goodsid,num) {
 	num = parseInt(num);
-	if (storage_cart[storeid][goodsid] === undefined || storage_cart[storeid][goodsid] <=0) {
+	if (storage_cart[storeid][goodsid] == undefined || storage_cart[storeid][goodsid] <=0) {
 		//购物车中没有这个商品 , 或商品数量 <=0
 		if (num > 0) { //如果是减少数量就忽略
 			storage_cart[storeid][goodsid] = num; //数量
@@ -166,7 +174,7 @@ function cartgoods(goodsid,num) {
 		$(".RS_goods_price_del[data-goods='"+goodsid+"']").show();
 		$(".RS_goods_price_num[data-goods='"+goodsid+"']").show();
 	}
-	storage_cart.time = new Date().getTime();
+	storage_cart[storeid].time = new Date().getTime();
 	LS.set("cart",JSON.stringify(storage_cart));
 }
 function jiesuan() {
