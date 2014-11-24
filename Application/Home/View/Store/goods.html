@@ -98,30 +98,33 @@
 <script src="__JS__/localstorge.package.js"></script>
 
 <script type="text/javascript">
+var mytokenurl = "{:U('Index/bulidMem?tk='.session('__HmId__'))}";
 var storeid = {$storeinfo['id']};
 var minsend = {$storeinfo['min_send']}; //当前店铺起送价
 var cart = {
 		fee : 0, //总金额,只用于当前页面显示计算	不用做订单统计
 		num : 0 //总数量,只用于当前页面显示计算	不用做订单统计
 }; //购物车
-var storage_cart = LS.get("cart");
-try {
-	storage_cart = JSON.parse(storage_cart);
-} catch (e) {
-	storage_cart = new Object();
-}
-if (typeof(storage_cart) !== "object" || storage_cart === null) {
-	storage_cart = new Object();
-	eval("storage_cart['"+storeid+"'] = new Object();");
-}else {
-	try {
-		if (typeof(storage_cart[storeid]) !== "object") storage_cart[storeid] = new Object();
-	} catch (e) {
-		eval("storage_cart['"+storeid+"'] = new Object();");
-	}
-}
+var storage_cart;
 
 $(function($) {
+	storage_cart = LS.get("cart");
+	try {
+		storage_cart = JSON.parse(storage_cart);
+	} catch (e) {
+		storage_cart = new Object();
+	}
+	if (typeof(storage_cart) !== "object" || storage_cart === null) {
+		storage_cart = new Object();
+		eval("storage_cart['"+storeid+"'] = new Object();");
+	}else {
+		try {
+			if (typeof(storage_cart[storeid]) !== "object") storage_cart[storeid] = new Object();
+		} catch (e) {
+			eval("storage_cart['"+storeid+"'] = new Object();");
+		}
+	}
+	
 	initcart();
 	$(".RS_goods_price_add").on("click",function() {
 		cartgoods(this.dataset.goods,1);

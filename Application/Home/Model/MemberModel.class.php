@@ -2,7 +2,7 @@
 namespace Home\Model;
 use Think\Model;
 
-class MemberModel extends Model {
+class MemberModel extends \Manage\Model\MemberModel {
 	
 	/**
 	 * 登录用户
@@ -70,5 +70,32 @@ class MemberModel extends Model {
 		session('user_auth', $auth);
 		session('user_auth_sign', data_auth_sign($auth));
 	
+	}
+	
+	/**
+	 * 生成新用户
+	 */
+	public function bulidNew() {
+		if (MID) {
+			//当前session已经创建过用户了
+			return MID;
+		}else {
+			$data = array(
+				'id'         => $this->_memberId(),
+				'logins'     => '1',
+				'reg_time' => NOW_TIME,
+				'last_ip'    => get_client_ip(1)
+			);
+			if (false===$this->add($data)) return false;
+			else {
+				session("__HmId__",$data['id']);
+				
+				//记录登录信息
+				session('user_auth', $data);
+				session('user_auth_sign', data_auth_sign($data));
+				
+				return $data['id'];
+			}
+		}
 	}
 }

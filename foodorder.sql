@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2014-11-21 17:37:36
+Date: 2014-11-24 17:06:38
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -492,13 +492,54 @@ CREATE TABLE `fdo_member` (
 -- ----------------------------
 -- Records of fdo_member
 -- ----------------------------
-INSERT INTO `fdo_member` VALUES ('1', null, null, '0', '0', null, '0', '1');
-INSERT INTO `fdo_member` VALUES ('2', '2', '2', '0', '0', null, '0', '0');
+INSERT INTO `fdo_member` VALUES ('09a2cc5be89311542f6f966c6221d9ba2af9d879', null, null, '1416818170', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('0a3d52730609c7e870e293fff30dd4060703bd7e', null, null, '1416818177', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('0a8591f1eeb702f08a9440f5eeb3853029e86a12', null, null, '1416818203', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('0e2e819b9874f6b51f4d9638dffb3f88ac55da5a', null, null, '1416818166', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('13e48fe20a63947a6ce82ba73e7146098970da12', null, null, '1416818168', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('15d55bb2d631e5af9076fe38b9b12987441a8be2', null, null, '1416818193', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('1cc0b6fec8894c4ea4007cc9bef99bdf266d8545', null, null, '1416818169', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('23cba171df280508877314605757f82cb3253216', null, null, '1416818167', '0', '2130706433', '1', '1');
 INSERT INTO `fdo_member` VALUES ('268f7d9f28b89bce2643f024a4ebba833b1154d9', 'aaaa', 'a04bbc6ca0d14e50cd9e9b6258b6842a', '1415691576', '0', null, '0', '1');
-INSERT INTO `fdo_member` VALUES ('3', '3', '3', '0', '0', null, '0', '1');
-INSERT INTO `fdo_member` VALUES ('4', '4', '4', '0', '0', null, '0', '1');
-INSERT INTO `fdo_member` VALUES ('5', '5', '5', '0', '0', null, '0', '1');
-INSERT INTO `fdo_member` VALUES ('85fce697249c4be2c1f86418da3b4842683afc65', null, 'cd679c70e94a01dd1bc71e53d76ab7d6', '1414466311', '0', null, '0', '1');
+INSERT INTO `fdo_member` VALUES ('28c5aea86dc2cc77c86bae525913c673ff80e76c', null, null, '1416818184', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('2eb9eb2c2d295abdd0ba9f957f28bff862514025', null, null, '1416818165', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('2ed535c597054035fa09dfab6abf7ce4b2762d10', null, null, '1416818244', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('3068f2fe7e74f55239dd3e52d6eebabbf91d22bf', null, null, '1416818164', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('333d1caded9b69502a93190f4b1968570ed40b11', null, null, '1416818180', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('3a3e46f3cd2c9eabfe2bb1bb7ebbea7b8eec426b', null, null, '1416818188', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('3d629a2a04a474ddfd28e6a10e1b47b044f650da', null, null, '1416818205', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('3e5fbc50be6d93a3573f3f3fb13c39379f51c1af', null, null, '1416818171', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('484d81475fde736840dba63c8e004ed8efbd3372', null, null, '1416818191', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('488e90e59f1d8211046744e26e91a542777c1f0c', null, null, '1416818185', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('4ee626a7e06883ab66a1312fe501d123e6b78825', null, null, '1416818194', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('4f2274a5b9fbcefe954b3a17b951618997fe0338', null, null, '1416818178', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('550426ed8d49b8083f336c09e19e9addae7858e6', null, null, '1416818181', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('5a95f2eae29698352ab712541f4eee80564fc78a', null, null, '1416818201', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('5c00826514893b1e1b3d6bcaa60b54bf5a734299', null, null, '1416818163', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('6dbeb5b9cb1b601985938d82f132504b3645b779', null, null, '1416818165', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('6e40106d05a16a99bc668480d7423ee62c54ffa1', null, null, '1416818173', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('70945e25778025b0c8382465a99da67539aeccde', null, null, '1416818198', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('7ab1e825ecb4afd8c1fd9a33cf99da7fb5efcbf7', null, null, '1416818183', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('83605fad6e65fc20407b70a5f12d8c7684ed2e53', null, null, '1416818200', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('87683c0cdff442f331d92c03a02f8bfc50ae9ddd', null, null, '1416818189', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('92902bf33785d7bf120f8614bd8fd9f4ffaf3b52', null, null, '1416818162', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('9bc757f1b509fe31a2485a28d7bdac242a5aaab3', null, null, '1416818176', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('9d13d14aa6d313ed41399966205a308a31d162c6', null, null, '1416818108', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('a71658c04c8accd6f2d11294828fcaa151fac4e0', null, null, '1416818161', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('a9918b4f9e64d6cf89db34b73620f64f48602b81', null, null, '1416818204', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('abf9ea5e612bc3b885f837ae5e0cb152d3d64373', null, null, '1416818199', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('ac37226d49775a132f8c787e68119665da89d971', null, null, '1416818192', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('afd090a252592f4d41f353d35aa3819005e6c255', null, null, '1416818164', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('b928bd55efbf543f4eecaff8ba2e954f111d2e48', null, null, '1416818175', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('bab399c741c2e42129dcb99ff5770512b8ce8607', null, null, '1416818174', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('bed94f9a925d693d7cff778624c6e00582a2db5f', null, null, '1416818182', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('c638838e15b2cc4d9508cd94a73643e22fe0ad13', null, null, '1416818163', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('d44c2a8ca2e5258609b71c4a4da8ed9560cded99', null, null, '1416818080', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('dc47d4b0566368697f665f3f7fafaf407a59e700', null, null, '1416818186', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('df1c3b26a4e743a47b8913eb7085904a77fd4fc9', null, null, '1416818197', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('e60bb2fd72d625aebc47b56bc60af04ddb47f723', null, null, '1416818190', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('ee2cf0bc36d06d62034a42abe38e11338a88f0b3', null, null, '1416818196', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('faf92e32f3823cc15a971e0b04db4f77faac3a6d', null, null, '1416818160', '0', '2130706433', '1', '1');
 
 -- ----------------------------
 -- Table structure for `fdo_menu`

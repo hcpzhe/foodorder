@@ -35,3 +35,23 @@ window.LS = window.LS || LS;
 //if(j) j.LS = j.LS || LS;
 //if(c) c.LS = c.LS || LS;
 })(window,window.localStorage);
+
+$(function($) {
+	var member = LS.get("id");
+	if (typeof(member)!='string' || member.length != 40) {
+		//生成会员
+		$.ajax({
+			cache: false,
+			type: "get",
+			url: mytokenurl,
+			async: true, //同步请求, 其它操作必须等待请求完成才可以执行
+			success: function(dd) {
+				if (dd.status == 1) {
+					//成功
+					member = dd.info;
+					LS.set("id",member);
+				}
+			}
+		});
+	}
+});

@@ -14,15 +14,36 @@ abstract class HomeBaseController extends Controller {
 	 * 需要登录的控制器extends别的基类
 	 */
 	protected function _initialize() {
-        define('MID',is_login());
-        
+		define('MID',is_login());
+		
 		$model = new ConfigModel();
 		$model->loadConfig();
+		
+		$this->_idtoken(); //session令牌, 用于避免页面重复生成member_id
 	}
 	
 	public function _empty() {
 		//TODO 判断是否存在当前controller的模板文件, 若存在,则display 不存在,再跳转
 		$this->redirect('Index/index');
+	}
+	
+	/**
+	 * session令牌, 用于避免页面重复生成member_id
+	 * @param string $token
+	 * @return boolean
+	 */
+	protected function _idtoken($token='') {
+		$orgtk = session("__HmId__");
+		if (empty($token)) {
+			//生成当前session的唯一令牌
+			if (empty($orgtk)) {
+				session("__HmId__",hash("ripemd128","to".time()."ken"));//令牌
+			}
+			return true;
+		}else {
+			//验证令牌是否正确
+			return $orgtk==$token;
+		}
 	}
 	
 	protected function _state($id,$act,$modelname) {

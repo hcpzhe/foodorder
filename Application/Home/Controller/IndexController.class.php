@@ -2,6 +2,7 @@
 namespace Home\Controller;
 use Common\Controller\HomeBaseController;
 use Think\Model;
+use Home\Model\MemberModel;
 
 class IndexController extends HomeBaseController {
 
@@ -16,5 +17,24 @@ class IndexController extends HomeBaseController {
 	
 	public function welcome() {
 		$this->display();
+	}
+	
+	/**
+	 * 生成新用户 接口
+	 * @param string $tk 令牌
+	 */
+	public function bulidMem($tk) {
+		if ($this->_idtoken($tk)) {
+			//验证成功
+			$member_M = new MemberModel();
+			$newid = $member_M->bulidNew();
+			if (false === $newid) {
+				$this->error($member_M->getError());
+			}
+			$this->success($newid);
+		}else {
+			//验证失败
+			$this->error("非法操作!!!");
+		}
 	}
 }
