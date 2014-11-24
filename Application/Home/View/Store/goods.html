@@ -50,7 +50,11 @@
 				<div class="RS_goods_li">
 					<div>{$goodsrow['goods_name']}</div>
 					<div class="RS_goods_img">
+						<!-- <if condition="$goodsrow['image']"> -->
 						<img src="__ROOT__{$goodsrow['image']}">
+						<!-- <else /> -->
+						<img src="__IMG__/none.png">
+						<!-- </if> -->
 					</div>
 					<div class="RS_goods_price">
 						<button class="RS_goods_price_del btn btn-primary" data-price="{$goodsrow['price']}" data-goods="{$goodsrow['id']}"><b>—</b></button>
