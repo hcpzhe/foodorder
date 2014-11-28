@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+	<title>{$Think.config.web_site_title}</title>
+	<meta name="keywords" content="{$Think.config.web_site_keyword}" />
+	<meta name="description" content="{$Think.config.web_site_description}" />
+	
+	<!-- Bootstrap -->
+	<link href="__PUBLIC__/twbs.3.3.1/css/bootstrap.min.css" rel="stylesheet">
+	<link href="__PUBLIC__/font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet"/>
+	
+	<!-- home basic css -->
+	<link href="__CSS__/home.css" rel="stylesheet">
+	
+	<!--[if lt IE 9]>
+	<script src="__JS__/html5shiv.min.js"></script>
+	<script src="__JS__/respond.min.js"></script>
+	<![endif]-->
+</head>
+<body style="padding-top:51px;">
+<div class="RS_topbar navbar navbar-inverse navbar-fixed-top " role="navigation">
+	<div class="RS_topbar_mid">
+		<div class="RS_topbar_mid_auto">
+			购物车
+		</div>
+	</div>
+	<div class="RS_topbar_left">
+		<a class="RS_navbar_back" href="{:U('Store/lists')}"><i class="fa fa-chevron-left"></i>返回</a>
+	</div>
+</div>
+<div class="page-content default-page-content">
+	<div class="RS_cart">
+	<!-- <if condition="empty($list)"> -->
+		<div class="alert alert-dismissable alert-danger text-center">
+			<i class="fa fa-shopping-cart"></i> 购物车是空的,快快去订餐吧
+		</div>
+	<!-- <else /> -->
+		<div class="RS_cart_li">
+			<div>鸡蛋肉丝炒米粉</div>
+			<div class="RS_goods_img">
+				<img src="__ROOT__/Uploads/Picture/2014-11-17/5469abf324d28.jpg">
+			</div>
+			<div class="RS_goods_info row">
+				<div class="col-xs-9 text-center">
+					<div class="btn-group">
+						<button class="btn btn-default">－</button>
+						<button class="btn btn-default">1</button>
+						<button class="btn btn-default">＋</button>
+					</div>
+				</div>
+				<div class="col-xs-3 price text-right">
+					¥10.00
+				</div>
+			</div>
+		</div>
+		<div class="RS_cart_li">
+			<div>鸡蛋肉丝炒米粉</div>
+			<div class="RS_goods_img">
+				<img src="__ROOT__/Uploads/Picture/2014-11-17/5469abf324d28.jpg">
+			</div>
+			<div class="RS_goods_info row">
+				<div class="col-xs-9 text-center">
+					<div class="btn-group">
+						<button class="btn btn-default">－</button>
+						<button class="btn btn-default">1</button>
+						<button class="btn btn-default">＋</button>
+					</div>
+				</div>
+				<div class="col-xs-3 price text-right">
+					¥10.00
+				</div>
+			</div>
+		</div>
+		<div class="RS_cart_li">
+			<div>鸡蛋肉丝炒米粉</div>
+			<div class="RS_goods_img">
+				<img src="__ROOT__/Uploads/Picture/2014-11-17/5469abf324d28.jpg">
+			</div>
+			<div class="RS_goods_info row">
+				<div class="col-xs-9 text-center">
+					<div class="btn-group">
+						<button class="btn btn-default">－</button>
+						<button class="btn btn-default">1</button>
+						<button class="btn btn-default">＋</button>
+					</div>
+				</div>
+				<div class="col-xs-3 price text-right">
+					¥10.00
+				</div>
+			</div>
+		</div>
+		<div class="RS_cart_total row">
+			<div class="col-xs-7 text-right">
+				共 3 件商品
+			</div>
+			<div class="col-xs-5 price text-right">
+				合计: ¥10.00
+			</div>
+		</div>
+		<div class="RS_cart_confirm">
+			<button class="btn btn-success">确认结算</button>
+		</div>
+	<!-- </if> -->
+	</div>
+</div>
+
+<!-- JS script include start -->
+<!--[if !IE]> -->
+<script src="__JS__/jquery.2.1.1.min.js"></script>
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script src="__JS__/jquery.1.11.1.min.js"></script>
+<![endif]-->
+
+<!--[if IE]>
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='__JS__/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+
+<script src="__PUBLIC__/twbs.3.3.1/js/bootstrap.min.js"></script>
+<!-- JS script include start end -->
+<script src="__JS__/localstorge.package.js"></script>
+
+<script type="text/javascript">
+var storeid = {$storeinfo['id']};
+var minsend = {$storeinfo['min_send']}; //当前店铺起送价
+var cart = {
+		fee : 0, //总金额,只用于当前页面显示计算	不用做订单统计
+		num : 0 //总数量,只用于当前页面显示计算	不用做订单统计
+}; //购物车
+var storage_cart = LS.get("cart");
+try {
+	storage_cart = JSON.parse(storage_cart);
+} catch (e) {
+	storage_cart = new Object();
+}
+if (typeof storage_cart != "object") storage_cart = new Object();
+if (typeof storage_cart[storeid] != "object") storage_cart[storeid] = new Object();
+
+$(function($) {
+	initcart();
+	$(".RS_goods_price_add").on("click",function() {
+		cartgoods(this.dataset.goods,1);
+		cart.fee += parseFloat(this.dataset.price);
+		cart.num++;
+		jiesuan();
+	});
+	$(".RS_goods_price_del").on("click",function() {
+		if (cart.num <= 0) {
+			cart.fee = 0;cart.num = 0;
+		}else {
+			cartgoods(this.dataset.goods,-1);
+			cart.fee -= parseFloat(this.dataset.price);
+			cart.num--;
+		}
+		jiesuan();
+	});
+});
+//购物车初始化
+function initcart() {
+	//storage_cart[storeid] 格式 {id:数量,id:数量}
+	$.each(storage_cart[storeid],function(k,v) {
+		v = parseInt(v);
+		if (v > 0) { //数量小于等于0 忽略
+			var $tmp_num = $(".RS_goods_price_num[data-goods='"+k+"']");
+			var $tmp_del = $(".RS_goods_price_del[data-goods='"+k+"']");
+			if ($tmp_num.length == 1 && $tmp_del.length ==1) {
+				$tmp_num.html(v);
+				$tmp_del.show();
+				$tmp_num.show();
+				cart.num += v;
+				cart.fee += parseFloat($tmp_del.attr("data-price")) * v;
+			}
+		}
+	});
+	jiesuan();
+}
+function cartgoods(goodsid,num) {
+	num = parseInt(num);
+	if (storage_cart[storeid][goodsid] === undefined || storage_cart[storeid][goodsid] <=0) {
+		//购物车中没有这个商品 , 或商品数量 <=0
+		if (num > 0) { //如果是减少数量就忽略
+			storage_cart[storeid][goodsid] = num; //数量
+		}
+	}else {
+		//购物车中有这个商品
+		storage_cart[storeid][goodsid] += num; //数量
+	}
+	$(".RS_goods_price_num[data-goods='"+goodsid+"']").html(storage_cart[storeid][goodsid]);
+	if (storage_cart[storeid][goodsid] <= 0) {
+		$(".RS_goods_price_del[data-goods='"+goodsid+"']").hide();
+		$(".RS_goods_price_num[data-goods='"+goodsid+"']").hide();
+	}else {
+		$(".RS_goods_price_del[data-goods='"+goodsid+"']").show();
+		$(".RS_goods_price_num[data-goods='"+goodsid+"']").show();
+	}
+	storage_cart.time = new Date().getTime();
+	LS.set("cart",JSON.stringify(storage_cart));
+}
+function jiesuan() {
+	$("#cart_num").html(cart.num);
+	$("#cart_fee").html(cart.fee);
+	if (cart.fee >= minsend && cart.fee>0) {
+		$(".RS_cart_note span").hide();
+		$(".RS_cart_note button").show();
+	}else {
+		$(".RS_cart_note span").html("还差￥"+ parseInt(minsend-cart.fee) +"起送");
+		$(".RS_cart_note button").hide();
+		$(".RS_cart_note span").show();
+	}
+}
+</script>
+</body>
+</html>

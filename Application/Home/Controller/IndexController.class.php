@@ -18,6 +18,17 @@ class IndexController extends HomeBaseController {
 	public function welcome() {
 		$this->display();
 	}
+	public function cart() {
+		$this->assign('list','123');
+		$this->display();
+	}
+	
+	/**
+	 * 确认下单页面
+	 */
+	public function confirm() {
+		$this->display();
+	}
 	
 	/**
 	 * 生成新用户 接口

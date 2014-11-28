@@ -54,7 +54,7 @@ body{
 	margin: 0;
 	padding: 8px 15px 24px;
 }
-.goods-page-content {
+.default-page-content,.goods-page-content {
 	padding:0 0 24px 0;
 }
 .navbar-inverse {
@@ -295,7 +295,8 @@ body{
 	right: 0;
 	bottom: 4px;
 }
-/**********************************/
+/*************************************/
+/***********商品列表********************/
 .RS_goods {
 	position: relative;
 }
@@ -357,6 +358,7 @@ body{
 .RS_goods .RS_goods_li .RS_goods_price .RS_goods_price_add {
 	line-height: 28px; padding: 0; width:60px;
 }
+/****************************************/
 /*************商品列表 底部购物车***************/
 .RS_menu_cart {
 	display: block;
@@ -395,9 +397,57 @@ body{
 	font-size: 16px;
 	padding: 3px 18px;
 }
-/**********************************/
-
-
+/***************************************/
+/*************购物车页面********************/
+.RS_cart {
+	background: #F2F2F2;
+	padding-top: 10px;
+}
+.RS_cart .RS_cart_li:FIRST-CHILD{
+	border-top: 1px solid #ddd;
+	height: 98px;
+}
+.RS_cart .RS_cart_li {
+	border-bottom: 1px solid #ddd;
+	padding: 13px 10px;
+	color: #666;
+	position: relative;
+	background: #fff;
+	height: 97px;
+}
+.RS_cart .RS_cart_li .RS_goods_img {
+	width: 50px; height: 50px; overflow: hidden; vertical-align: middle;
+	border: 1px solid #ddd;
+	position: absolute; left: 10px; top: 33px;
+}
+.RS_cart .RS_cart_li .RS_goods_img img {
+	width: 100%;
+	position: absolute;left: 50%;top: 50%;
+	-webkit-transform: translate(-50%,-50%);
+	-ms-transform: translate(-50%,-50%);
+	-moz-transform: translate(-50%,-50%)
+}
+.RS_cart .RS_cart_li .RS_goods_info {
+	margin: 8px -10px 8px 50px;
+}
+.RS_cart .RS_cart_li .RS_goods_info .btn {
+	margin-right: 0;
+}
+.RS_cart .RS_cart_li .RS_goods_info .price {
+	line-height: 34px;
+}
+.RS_cart .RS_cart_total {
+	position: relative;
+	background: #fff; border-bottom: 1px solid #ddd; padding: 0 10px;
+	line-height: 40px; font-size: 15px;
+}
+.RS_cart .RS_cart_confirm {
+	padding-top: 40px; text-align: center; background: #fff;
+}
+.RS_cart .RS_cart_confirm button {
+	width: 70%; font-weight: bold;
+}
+/****************************************/
 
 textarea {
 	max-width: 100%;
