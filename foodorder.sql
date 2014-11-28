@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2014-11-24 17:06:38
+Date: 2014-11-28 17:38:30
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -513,6 +513,7 @@ INSERT INTO `fdo_member` VALUES ('484d81475fde736840dba63c8e004ed8efbd3372', nul
 INSERT INTO `fdo_member` VALUES ('488e90e59f1d8211046744e26e91a542777c1f0c', null, null, '1416818185', '0', '2130706433', '1', '1');
 INSERT INTO `fdo_member` VALUES ('4ee626a7e06883ab66a1312fe501d123e6b78825', null, null, '1416818194', '0', '2130706433', '1', '1');
 INSERT INTO `fdo_member` VALUES ('4f2274a5b9fbcefe954b3a17b951618997fe0338', null, null, '1416818178', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('52efba2ffdb06495bd6b9544057e7e32f4b8dfc8', null, null, '1417073064', '0', '3232235834', '1', '1');
 INSERT INTO `fdo_member` VALUES ('550426ed8d49b8083f336c09e19e9addae7858e6', null, null, '1416818181', '0', '2130706433', '1', '1');
 INSERT INTO `fdo_member` VALUES ('5a95f2eae29698352ab712541f4eee80564fc78a', null, null, '1416818201', '0', '2130706433', '1', '1');
 INSERT INTO `fdo_member` VALUES ('5c00826514893b1e1b3d6bcaa60b54bf5a734299', null, null, '1416818163', '0', '2130706433', '1', '1');
@@ -538,6 +539,7 @@ INSERT INTO `fdo_member` VALUES ('d44c2a8ca2e5258609b71c4a4da8ed9560cded99', nul
 INSERT INTO `fdo_member` VALUES ('dc47d4b0566368697f665f3f7fafaf407a59e700', null, null, '1416818186', '0', '2130706433', '1', '1');
 INSERT INTO `fdo_member` VALUES ('df1c3b26a4e743a47b8913eb7085904a77fd4fc9', null, null, '1416818197', '0', '2130706433', '1', '1');
 INSERT INTO `fdo_member` VALUES ('e60bb2fd72d625aebc47b56bc60af04ddb47f723', null, null, '1416818190', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('e9bc5e955b9fd766c7c6b302f347600bcd3d4ceb', null, null, '1417073793', '0', '3232235780', '1', '1');
 INSERT INTO `fdo_member` VALUES ('ee2cf0bc36d06d62034a42abe38e11338a88f0b3', null, null, '1416818196', '0', '2130706433', '1', '1');
 INSERT INTO `fdo_member` VALUES ('faf92e32f3823cc15a971e0b04db4f77faac3a6d', null, null, '1416818160', '0', '2130706433', '1', '1');
 
@@ -758,12 +760,3 @@ CREATE TABLE `fdo_user` (
 -- ----------------------------
 INSERT INTO `fdo_user` VALUES ('1', 'admin', 'de14566c080c81c80ffb5eacf68793a9', '0', '超管', '1', '0', '7', '1415689341', '3232235819', '1');
 INSERT INTO `fdo_user` VALUES ('2', 'administrator', 'de14566c080c81c80ffb5eacf68793a9', '0', '超管', '1', '0', '0', '0', '0', '1');
-
--- ----------------------------
--- Event structure for `test`
--- ----------------------------
-DROP EVENT IF EXISTS `test`;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` EVENT `test` ON SCHEDULE EVERY 1 DAY STARTS '2014-08-12 00:00:01' ON COMPLETION PRESERVE DISABLE DO INSERT INTO `erp_user_cust_prod` VALUES (1,2,3,4)
-;;
-DELIMITER ;
