@@ -78,7 +78,7 @@ class StoreController extends HomeBaseController {
 		
 		$returnlist = array(); $goods_M = New Model('Goods');
 		//先取出无分类的商品
-		$tmpmap = array('status'=>'1','cate_id'=>'0');
+		$tmpmap = array('status'=>'1','cate_id'=>'0','store_id' => $sid);
 		$nocate_goods = $goods_M->where($tmpmap)->order('sort ASC, id DESC')->select();
 		if (!empty($nocate_goods)) {
 			$returnlist[] = array('id'=>'0','goods'=>$nocate_goods,'cate_name'=>'默认分类');
