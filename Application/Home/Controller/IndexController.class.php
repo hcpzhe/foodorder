@@ -18,8 +18,40 @@ class IndexController extends HomeBaseController {
 	public function welcome() {
 		$this->display();
 	}
-	public function cart() {
-		$this->assign('list','123');
+	
+	public function cart($sid) {
+		$store_M = new Model('Store');
+		$storeinfo = $store_M->find($sid);
+		$this->assign('storeinfo',$storeinfo);
+		
+		$this->display();
+	}
+	
+	public function cartFlush($sid,$cart=array()) {
+		$cart = (array)$cart;
+		unset($cart['time']);
+		if (!empty($cart)) {
+			$goods_M = new Model('Goods');
+			$map = array(
+					'store_id'=>$sid,
+					'id' => array('in',array_keys($cart)),
+					'status' => '1'
+			);
+			$list = $goods_M->where($map)->order("sort ASC,id DESC")->select();
+			$goodslist = array(); $total = array('num'=>0,'price'=>0);
+			foreach ($list as $row) {
+				$tmp = $row;
+				$tmp['num'] = $cart[$tmp['id']];
+				if ($tmp['num'] > 0) {
+					$total['num'] += $tmp['num'];
+					$total['price'] += $tmp['num']*$tmp['price'];
+					$goodslist[] = $tmp;
+				}
+			}
+			$total['price'] = number_format($total['price'],2,".","");
+			$this->assign('goodslist',$goodslist);
+			$this->assign('total',$total);
+		}
 		$this->display();
 	}
 	

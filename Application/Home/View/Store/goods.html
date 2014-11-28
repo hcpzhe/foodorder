@@ -172,6 +172,9 @@ function cartgoods(goodsid,num) {
 	}else {
 		//购物车中有这个商品
 		storage_cart[storeid][goodsid] += num; //数量
+		if (storage_cart[storeid][goodsid] <= 0) {
+			delete storage_cart[storeid][goodsid];
+		}
 	}
 	$(".RS_goods_price_num[data-goods='"+goodsid+"']").html(storage_cart[storeid][goodsid]);
 	if (storage_cart[storeid][goodsid] <= 0) {

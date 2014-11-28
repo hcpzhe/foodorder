@@ -1,0 +1,42 @@
+
+	<!-- <if condition="empty($goodslist)"> -->
+		<div class="alert alert-dismissable alert-danger text-center">
+			<i class="fa fa-shopping-cart"></i> 购物车是空的,快快去订餐吧
+		</div>
+	<!-- <else /> -->
+		<!-- <foreach name="goodslist" item="vo"> -->
+		<div class="RS_cart_li">
+			<div>{$vo['goods_name']}</div>
+			<div class="RS_goods_img">
+				<!-- <if condition="$vo['image']"> -->
+				<img src="__ROOT__{$vo['image']}">
+				<!-- <else /> -->
+				<img src="__IMG__/none.png">
+				<!-- </if> -->
+			</div>
+			<div class="RS_goods_info row">
+				<div class="col-xs-9 text-center">
+					<div class="btn-group">
+						<button class="RS_goods_minus btn btn-default" data-price="{$vo['price']}" data-goods="{$vo['id']}">－</button>
+						<button class="RS_goods_num btn btn-default" data-nums="{$vo['num']}" data-goods="{$vo['id']}">{$vo['num']}</button>
+						<button class="RS_goods_plus btn btn-default" data-price="{$vo['price']}" data-goods="{$vo['id']}">＋</button>
+					</div>
+				</div>
+				<div class="col-xs-3 price text-right">
+					¥{$vo['price']}
+				</div>
+			</div>
+		</div>
+		<!-- </foreach> -->
+		<div class="RS_cart_total row">
+			<div class="col-xs-7 text-right">
+				共 <span id="RS_totalnum">{$total['num']}</span> 件商品
+			</div>
+			<div class="col-xs-5 price text-right">
+				合计: ¥ <span id="RS_totalprice">{$total['price']}</span>
+			</div>
+		</div>
+		<div class="RS_cart_confirm">
+			<a class="btn btn-success">确认结算</a>
+		</div>
+	<!-- </if> -->
