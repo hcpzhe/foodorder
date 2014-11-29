@@ -93,74 +93,51 @@ $(function($) {
 		async: true, //同步请求, 其它操作必须等待请求完成才可以执行
 		success: function(dd) {
 			$(".RS_cart").html(dd);
-			//初始化购物车统计信息
-			$(".RS_goods_num").attr("data-price")
 		}
 	});
 	$(".RS_cart").on("click",".RS_goods_minus",function(){
 		//减少数量
-		cartgoods(this.dataset.goods,-1);
-		
-		var goodsid = this.dataset.goods;
-		var num = parseInt($(".RS_goods_num[data-goods='"+goodsid+"']").attr("data-nums"));
-		if (num > 0) {
-			num = num-1;
-			$(".RS_goods_num[data-goods='"+goodsid+"']").attr("data-nums",num);
-			$("#RS_totalprice").html(parseInt($("#RS_totalprice").html())-parseInt(this.dataset.price));
-		}
-		if (num<=0){
-			$(this).parents(".RS_cart_li").hide("normal");
-		}
-		//TODO 储存localStorge
-		//TODO 结算一下, 看起送价够不够
+		cartgoods(this,-1);
 	});
 	$(".RS_cart").on("click",".RS_goods_plus",function(){
 		//增加数量
-		cartgoods(this.dataset.goods,1);
-		
-		var num = parseInt($(".RS_goods_num[data-goods='"+goodsid+"']").attr("data-nums"));
-		if (num > 0) {
-			num = num+1;
-			$(".RS_goods_num[data-goods='"+goodsid+"']").attr("data-nums",num);
-			$("#RS_totalprice").html(parseInt($("#RS_totalprice").html())-parseInt(this.dataset.price));
-		}
-		if (num<=0){
-			$(this).parents(".RS_cart_li").hide("normal");
-		}
-		//TODO 储存localStorge
-		//TODO 结算一下, 看起送价够不够
+		cartgoods(this,1);
 	});
 	
 });
 
-function cartgoods(goodsid,num) {
+function cartgoods(element,num) {
 	num = parseInt(num);
+	var goodsid = element.dataset.goods;
 	var goodsnum = parseInt($(".RS_goods_num[data-goods='"+goodsid+"']").attr("data-nums"));
-	if (goodsnum > 0) {
-		if (storage_cart[storeid][goodsid] == undefined || storage_cart[storeid][goodsid] <=0) {
-			//购物车中没有这个商品 , 或商品数量 <=0
-			if (num > 0) { //如果是减少数量就忽略
-				storage_cart[storeid][goodsid] = goodsnum = num; //数量
-			}
-		}else {
-			//购物车中有这个商品
-			storage_cart[storeid][goodsid] += num; //数量
-			if (storage_cart[storeid][goodsid] <= 0) {
-				delete storage_cart[storeid][goodsid];
-			}
+	if (goodsnum > 0 && storage_cart[storeid][goodsid] !== undefined && storage_cart[storeid][goodsid] >0) {
+		//购物车中有这个商品
+		storage_cart[storeid][goodsid] += num; //数量
+		if (storage_cart[storeid][goodsid] <= 0) {
+			//商品数量小于0时, 隐藏此元素, 并且storge中也要删除
+			delete storage_cart[storeid][goodsid];
+			$(element).parents(".RS_cart_li").hide("normal");
 		}
-	}
-	$(".RS_goods_price_num[data-goods='"+goodsid+"']").html(storage_cart[storeid][goodsid]);
-	if (storage_cart[storeid][goodsid] <= 0) {
-		$(".RS_goods_price_del[data-goods='"+goodsid+"']").hide();
-		$(".RS_goods_price_num[data-goods='"+goodsid+"']").hide();
+		
+		//计算统计数据
+		var tmpnum=parseInt($("#RS_totalnum").html()),tmpprice=parseInt($("#RS_totalprice").html());
+		tmpnum += num;
+		tmpprice += num * element.dataset.price;
+		$("#RS_totalnum").html(tmpnum);
+		$("#RS_totalprice").html(tmpprice.toFixed(2));
 	}else {
-		$(".RS_goods_price_del[data-goods='"+goodsid+"']").show();
-		$(".RS_goods_price_num[data-goods='"+goodsid+"']").show();
+		//页面商品数量小于0时, 隐藏此元素, 并且storge中也要删除
+		try {delete storage_cart[storeid][goodsid];}catch(e){}
+		$(element).parents(".RS_cart_li").hide("normal");
 	}
+	
+	$(".RS_goods_num[data-goods='"+goodsid+"']").html(storage_cart[storeid][goodsid]);
+	$(".RS_goods_num[data-goods='"+goodsid+"']").attr("data-nums",storage_cart[storeid][goodsid]);
+	
 	storage_cart[storeid].time = new Date().getTime();
 	LS.set("cart",JSON.stringify(storage_cart));
 }
+
 </script>
 </body>
 </html>
