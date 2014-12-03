@@ -1,6 +1,7 @@
 @CHARSET "UTF-8";
 body{
 	overflow-x:hidden;
+	font-family: "Helvetica Neue", "Microsoft Yahei", sans-serif;
 }
 /*************bootcss全局定制*******/
 .input-group-btn>.btn {
@@ -179,7 +180,7 @@ body{
 }
 .RS_topbar_mid_auto, .RS_topbar_mid_auto a {
 	color : #fff;
-	font-size: 20px;
+	font-size: 18px;
 	line-height: 34px;
 	display: block;
 	text-align: center;
@@ -201,7 +202,7 @@ body{
 	float: left;
 	height:100%;
 	color: #fff;
-	font-size: 18px;
+	font-size: 16px;
 	line-height: 50px;
 	background-color: transparent;
 	background-image: none;
@@ -441,11 +442,71 @@ body{
 	background: #fff; border-bottom: 1px solid #ddd; padding: 0 10px;
 	line-height: 40px; font-size: 15px;
 }
-.RS_cart .RS_cart_confirm {
-	padding-top: 40px; text-align: center; background: #fff;
+.RS_cart_confirm {
+	padding-top: 40px; text-align: center; background: #fff; margin: 0;
 }
-.RS_cart .RS_cart_confirm button {
-	width: 70%; font-weight: bold;
+.RS_cart_confirm .btn {
+	font-size: 16px; font-weight: bold;
+}
+.RS_cart_confirm .RS_70btn {
+	width: 70%;
+}
+/****************************************/
+/******送餐信息******************************/
+.RS_ship {
+	margin-top: 10px;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+}
+.RS_ship .RS_ship_box {
+	padding: 10px;
+	border-top: 1px solid #eee;
+	font-size: 16px;
+	position: relative;
+	display: table;
+	width: 100%;
+}
+.RS_ship .RS_ship_box:first-of-type {
+	border-top: none;
+}
+.RS_after_i:after {
+	vertical-align: middle;
+	display: table-cell;
+	width: 10px;
+	content: "\f105";
+	font-family: FontAwesome;
+	color: #aaa;
+	font-size: 16px;
+}
+.RS_ship .RS_ship_box p {
+	margin: 0;
+}
+.RS_ship .RS_ship_box div {
+	padding: 0;
+}
+.RS_ship_box_cont {
+	float: left;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+	overflow:hidden;
+	text-align: right;
+}
+.RS_ship_box_total {
+	color: #FF4A30;
+}
+.RS_ship .RS_ship_payments {
+	font-size: 14px;
+}
+.RS_ship .RS_ship_payments i {
+	float: right;
+	font-size: 22px;
+	color: #aaa;
+}
+.RS_ship .RS_ship_payments i.active {
+	color: #FF4A30;
+}
+.RS_ship .form-group {
+	margin: 0;
 }
 /****************************************/
 

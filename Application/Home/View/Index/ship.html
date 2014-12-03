@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+	<title>{$Think.config.web_site_title}</title>
+	<meta name="keywords" content="{$Think.config.web_site_keyword}" />
+	<meta name="description" content="{$Think.config.web_site_description}" />
+	
+	<!-- Bootstrap -->
+	<link href="__PUBLIC__/twbs.3.3.1/css/bootstrap.min.css" rel="stylesheet">
+	<link href="__PUBLIC__/font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet"/>
+	
+	<!-- home basic css -->
+	<link href="__CSS__/home.css" rel="stylesheet">
+	
+	<!--[if lt IE 9]>
+	<script src="__JS__/html5shiv.min.js"></script>
+	<script src="__JS__/respond.min.js"></script>
+	<![endif]-->
+</head>
+<body style="padding-top:51px;">
+<div ng-group="a">
+<div class="RS_topbar navbar navbar-inverse navbar-fixed-top " role="navigation">
+	<div class="RS_topbar_mid">
+		<div class="RS_topbar_mid_auto">
+			送餐信息
+		</div>
+	</div>
+	<div class="RS_topbar_left">
+		<a class="RS_navbar_back" href="{:U('cart?sid='.$_REQUEST['sid'])}"><i class="fa fa-chevron-left"></i>返回</a>
+	</div>
+</div>
+<div class="page-content default-page-content">
+	<div class="RS_ship" onclick="togglepage('b');">
+		<div class="RS_ship_box RS_after_i">
+			<div>
+				<p>添加送餐地址</p>
+				<p>啊啊啊啊 / 133333333333</p>
+			</div>
+		</div>
+	</div>
+	<div class="RS_ship">
+		<div class="RS_ship_box RS_after_i">
+			<div class="col-xs-3">订单备注</div>
+			<div class="RS_ship_box_cont col-xs-9">
+				没零钱 不要葱姜蒜 不吃辣 辣一点 多加米 没零钱 不要葱姜蒜 不吃辣 辣一点 多加米
+			</div>
+		</div>
+	</div>
+	<div class="RS_ship">
+		<div class="RS_ship_box">
+			<div class="col-xs-3">订单总计</div>
+			<div class="col-xs-9 text-right RS_ship_box_total">¥ 100</div>
+		</div>
+	</div>
+	<div class="RS_ship">
+		<div class="RS_ship_box">支付方式</div>
+		<div class="RS_ship_box RS_ship_payments">
+			餐到付款
+			<i class="fa fa-check-circle active"></i>
+		</div>
+	</div>
+	<div class="RS_cart_confirm row">
+		<a class="RS_70btn btn btn-success" href="{:U('ship?sid='.$_REQUEST['sid'])}">确认下单</a>
+	</div>
+</div>
+</div>
+<div ng-group="b" style="display: none;">
+<div class="RS_topbar navbar navbar-inverse navbar-fixed-top " role="navigation">
+	<div class="RS_topbar_mid">
+		<div class="RS_topbar_mid_auto">
+			选择地址
+		</div>
+	</div>
+	<div class="RS_topbar_left">
+		<a class="RS_navbar_back" href="javascript:void(0);" onclick="togglepage('a');"><i class="fa fa-chevron-left"></i>返回</a>
+	</div>
+</div>
+<div class="page-content default-page-content">
+	<div class="RS_ship">
+		<div class="RS_ship_box">
+			<div>
+				<p>添加送餐地址</p>
+				<p>啊啊啊啊 / 133333333333</p>
+			</div>
+		</div>
+	</div>
+	<div class="RS_ship">
+		<div class="RS_ship_box RS_after_i" onclick="togglepage('c');">新增地址</div>
+	</div>
+</div>
+</div>
+<div ng-group="c" style="display: none;">
+<div class="RS_topbar navbar navbar-inverse navbar-fixed-top " role="navigation">
+	<div class="RS_topbar_mid">
+		<div class="RS_topbar_mid_auto">
+			新增地址
+		</div>
+	</div>
+	<div class="RS_topbar_left">
+		<a class="RS_navbar_back" href="javascript:void(0);" onclick="togglepage('b');"><i class="fa fa-chevron-left"></i>返回</a>
+	</div>
+</div>
+<div class="page-content default-page-content">
+	<div class="RS_ship">
+		<form class="form-horizontal">
+		<fieldset>
+			<div class="form-group">
+				<label class="control-label" for="focusedInput">Focused input</label>
+				<input class="form-control" id="focusedInput" type="text" value="This is focused...">
+			</div>
+		</fieldset>
+		</form>
+	</div>
+	<div class="RS_ship">
+		<div class="RS_ship_box RS_after_i" onclick="togglepage('c');">新增地址</div>
+	</div>
+</div>
+</div>
+<!-- JS script include start -->
+<!--[if !IE]> -->
+<script src="__JS__/jquery.2.1.1.min.js"></script>
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script src="__JS__/jquery.1.11.1.min.js"></script>
+<![endif]-->
+
+<!--[if IE]>
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='__JS__/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+
+<script src="__PUBLIC__/twbs.3.3.1/js/bootstrap.min.js"></script>
+<!-- JS script include start end -->
+<script src="__JS__/localstorge.package.js"></script>
+
+<script type="text/javascript">
+var mytokenurl = "{:U('Index/bulidMem?tk='.session('__HmId__'))}";
+var storeid = {$_REQUEST['sid']};
+//var minsend = {$storeinfo['min_send']}; //当前店铺起送价
+var cart = {
+		fee : 0, //总金额,只用于当前页面显示计算	不用做订单统计
+		num : 0 //总数量,只用于当前页面显示计算	不用做订单统计
+}; //购物车
+
+$(function($) {
+	
+});
+
+function togglepage(group) {
+	$("div[ng-group]").hide();
+	$("div[ng-group='"+group+"']").show();
+}
+</script>
+</body>
+</html>

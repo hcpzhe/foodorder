@@ -56,9 +56,9 @@ class IndexController extends HomeBaseController {
 	}
 	
 	/**
-	 * 确认下单页面
+	 * 送餐信息页面
 	 */
-	public function confirm() {
+	public function ship($sid) {
 		$this->display();
 	}
 	
