@@ -463,20 +463,11 @@ body{
 	border-top: 1px solid #eee;
 	font-size: 16px;
 	position: relative;
-	display: table;
 	width: 100%;
+	margin: 0;
 }
 .RS_ship .RS_ship_box:first-of-type {
 	border-top: none;
-}
-.RS_after_i:after {
-	vertical-align: middle;
-	display: table-cell;
-	width: 10px;
-	content: "\f105";
-	font-family: FontAwesome;
-	color: #aaa;
-	font-size: 16px;
 }
 .RS_ship .RS_ship_box p {
 	margin: 0;
@@ -484,7 +475,13 @@ body{
 .RS_ship .RS_ship_box div {
 	padding: 0;
 }
-.RS_ship_box_cont {
+.RS_ship .RS_ship_box i {
+	float: right;
+	font-size: 22px;
+	color: #aaa;
+}
+.RS_ship .RS_ship_box .RS_ship_box_cont {
+	padding-left: 5px;
 	float: left;
 	text-overflow:ellipsis;
 	white-space:nowrap;
@@ -497,16 +494,19 @@ body{
 .RS_ship .RS_ship_payments {
 	font-size: 14px;
 }
-.RS_ship .RS_ship_payments i {
-	float: right;
-	font-size: 22px;
-	color: #aaa;
-}
 .RS_ship .RS_ship_payments i.active {
 	color: #FF4A30;
 }
+.RS_ship_address_del {
+	position: absolute;
+	right: 10px;
+	bottom: 10px;
+}
 .RS_ship .form-group {
-	margin: 0;
+	margin: 10px;
+}
+.RS_ship .form-group .form-control {
+	height: auto; font-size:16px;
 }
 /****************************************/
 

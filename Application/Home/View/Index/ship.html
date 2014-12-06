@@ -34,7 +34,7 @@
 </div>
 <div class="page-content default-page-content">
 	<div class="RS_ship" onclick="togglepage('b');">
-		<div class="RS_ship_box RS_after_i">
+		<div class="RS_ship_box row" id="RS_cur_ads">
 			<div>
 				<p>添加送餐地址</p>
 				<p>啊啊啊啊 / 133333333333</p>
@@ -42,7 +42,7 @@
 		</div>
 	</div>
 	<div class="RS_ship">
-		<div class="RS_ship_box RS_after_i">
+		<div class="RS_ship_box row">
 			<div class="col-xs-3">订单备注</div>
 			<div class="RS_ship_box_cont col-xs-9">
 				没零钱 不要葱姜蒜 不吃辣 辣一点 多加米 没零钱 不要葱姜蒜 不吃辣 辣一点 多加米
@@ -50,7 +50,7 @@
 		</div>
 	</div>
 	<div class="RS_ship">
-		<div class="RS_ship_box">
+		<div class="RS_ship_box row">
 			<div class="col-xs-3">订单总计</div>
 			<div class="col-xs-9 text-right RS_ship_box_total">¥ 100</div>
 		</div>
@@ -80,15 +80,19 @@
 </div>
 <div class="page-content default-page-content">
 	<div class="RS_ship">
-		<div class="RS_ship_box">
-			<div>
-				<p>添加送餐地址</p>
+		<div class="RS_ship_box row">
+			<div onclick="chgaddress(this);" data-ads="1">
+				<p>啊啊啊说说址</p>
 				<p>啊啊啊啊 / 133333333333</p>
 			</div>
+			<div class="RS_ship_address_del"><button class="btn btn-danger" onclick="deladdress(this);">删除</button></div>
 		</div>
 	</div>
 	<div class="RS_ship">
-		<div class="RS_ship_box RS_after_i" onclick="togglepage('c');">新增地址</div>
+		<div class="RS_ship_box RS_after_i" onclick="togglepage('c');">
+			新增地址
+			<i class="fa fa-angle-right"></i>
+		</div>
 	</div>
 </div>
 </div>
@@ -104,19 +108,24 @@
 	</div>
 </div>
 <div class="page-content default-page-content">
-	<div class="RS_ship">
-		<form class="form-horizontal">
+		<form class="form-horizontal" onsubmit="newaddress(this);return false;">
 		<fieldset>
+	<div class="RS_ship">
 			<div class="form-group">
-				<label class="control-label" for="focusedInput">Focused input</label>
-				<input class="form-control" id="focusedInput" type="text" value="This is focused...">
+				<input class="form-control" placeholder="请填写您的姓名" name="buyer" type="text" value="">
 			</div>
+			<div class="form-group">
+				<input class="form-control" placeholder="请填写详细送餐地址" name="address" type="text" value="">
+			</div>
+			<div class="form-group">
+				<input class="form-control" placeholder="请填写能够联系到您的手机号" name="phone" type="text" value="">
+			</div>
+	</div>
+	<div class="RS_cart_confirm row">
+		<button class="RS_70btn btn btn-success" type="submit">新增地址</button>
+	</div>
 		</fieldset>
 		</form>
-	</div>
-	<div class="RS_ship">
-		<div class="RS_ship_box RS_after_i" onclick="togglepage('c');">新增地址</div>
-	</div>
 </div>
 </div>
 <!-- JS script include start -->
@@ -148,12 +157,36 @@ var cart = {
 }; //购物车
 
 $(function($) {
+	storage_address = LS.get("address");
+	try {
+		storage_address = JSON.parse(storage_address);
+	} catch (e) {
+		storage_address = new Array();
+	}
 	
 });
 
 function togglepage(group) {
 	$("div[ng-group]").hide();
 	$("div[ng-group='"+group+"']").show();
+}
+
+function newaddress(form) {
+	var ads = new Object();
+	ads.buyer = form.buyer.value;
+	ads.address = form.address.value;
+	ads.phone = form.phone.value;
+	//TODO 插入页面中, 更新LS
+	togglepage('b');
+}
+function deladdress(ele) {
+	event.preventDefault();
+	$(ele).parents(".RS_ship_box").hide("normal");
+}
+function chgaddress(ele) {
+	$("#RS_cur_ads").html($(ele).html());
+	//TODO 更新LS
+	togglepage('a');
 }
 </script>
 </body>
