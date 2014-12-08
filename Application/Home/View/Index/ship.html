@@ -79,13 +79,15 @@
 	</div>
 </div>
 <div class="page-content default-page-content">
-	<div class="RS_ship">
-		<div class="RS_ship_box row">
-			<div onclick="chgaddress(this);" data-ads="1">
-				<p>啊啊啊说说址</p>
-				<p>啊啊啊啊 / 133333333333</p>
+	<div id="address_list">
+		<div class="RS_ship">
+			<div class="RS_ship_box row">
+				<div onclick="chgaddress(this);" data-ads="1">
+					<p>啊啊啊说说址</p>
+					<p>啊啊啊啊 / 133333333333</p>
+				</div>
+				<div class="RS_ship_address_del"><button class="btn btn-danger" onclick="deladdress(this);">删除</button></div>
 			</div>
-			<div class="RS_ship_address_del"><button class="btn btn-danger" onclick="deladdress(this);">删除</button></div>
 		</div>
 	</div>
 	<div class="RS_ship">
@@ -163,7 +165,7 @@ $(function($) {
 	} catch (e) {
 		storage_address = new Array();
 	}
-	
+	build_address();
 });
 
 function togglepage(group) {
@@ -176,17 +178,46 @@ function newaddress(form) {
 	ads.buyer = form.buyer.value;
 	ads.address = form.address.value;
 	ads.phone = form.phone.value;
-	//TODO 插入页面中, 更新LS
+	//更新LS
+	storage_address.push(ads);
+	LS.set("address",JSON.stringify(storage_address));
+	//重新生成地址列表
+	build_address();
+	//
 	togglepage('b');
 }
 function deladdress(ele) {
-	event.preventDefault();
-	$(ele).parents(".RS_ship_box").hide("normal");
+	//更新LS
+	var $parent = $(ele).parents(".RS_ship_box");
+	delete storage_address[$parent.children("div[data-ads]").attr("data-ads")];
+	LS.set("address",JSON.stringify(storage_address));
+	$parent.hide("normal");
 }
 function chgaddress(ele) {
 	$("#RS_cur_ads").html($(ele).html());
-	//TODO 更新LS
+	//更新LS, 默认的地址
+	LS.set("defaultAdd",ele.dataset.ads);
 	togglepage('a');
+}
+//地址列表生成
+function build_address() {
+	var html = '';
+	$.each(storage_address,function(i,v){
+		if (typeof(v) === "object") {
+			html += '<div class="RS_ship">';
+			html += '<div class="RS_ship_box row">';
+			html += '<div onclick="chgaddress(this);" data-ads="'+i+'">';
+			html += '<p>'+v.address+'</p>';
+			html += '<p>'+v.buyer+' / '+v.phone+'</p>';
+			html += '</div>';
+			html += '<div class="RS_ship_address_del"><button class="btn btn-danger" onclick="deladdress(this);">删除</button></div>';
+			html += '</div>';
+			html += '</div>';
+		}
+	});
+	if (html!='') {
+		$("#address_list").html(html);
+	}
 }
 </script>
 </body>
