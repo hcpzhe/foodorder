@@ -63,6 +63,7 @@ var cart = {
 		fee : 0, //总金额,只用于当前页面显示计算	不用做订单统计
 		num : 0 //总数量,只用于当前页面显示计算	不用做订单统计
 }; //购物车
+var storage_cart;
 
 $(function($) {
 	storage_cart = LS.get("cart");
@@ -104,6 +105,9 @@ $(function($) {
 		cartgoods(this,1);
 	});
 	
+	$(".RS_cart").on("submit","#RSformcart",function(){
+		this.totalprice.value = $("#RS_totalprice").html();
+	});
 });
 
 function cartgoods(element,num) {

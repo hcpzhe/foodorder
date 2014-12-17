@@ -58,8 +58,23 @@ class IndexController extends HomeBaseController {
 	/**
 	 * 送餐信息页面
 	 */
-	public function ship($sid) {
+	public function ship($sid,$totalprice) {
+		$this->assign('totalprice',$totalprice);
 		$this->display();
+	}
+	
+	/**
+	 * 确定订单,生成订单接口
+	 */
+	public function bulidOdr() {
+		$data = I('post.');
+		$data['member_id'] = MID;
+		$data['payment_id'] = 1;
+		$model = new \Manage\Model\OrderModel();
+		if (false === $model->myAdd($data)) {
+			$this->error($model->getError());
+		}
+		$this->success('下单成功');
 	}
 	
 	/**

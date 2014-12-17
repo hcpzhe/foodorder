@@ -37,7 +37,11 @@
 			</div>
 		</div>
 		<div class="RS_cart_confirm row">
+		<form id="RSformcart" action="{:U('ship')}" method="post">
+			<input type="hidden" name="sid" value="{$_REQUEST['sid']}" />
+			<input type="hidden" name="totalprice" value="{$total['price']}" />
 			<div class="col-xs-4"><a class="btn btn-warning" href="{:U('Store/goods?sid='.$_REQUEST['sid'])}">继续购物</a></div>
-			<div class="col-xs-8"><a class="RS_70btn btn btn-success" href="{:U('ship?sid='.$_REQUEST['sid'])}">确认结算</a></div>
+			<div class="col-xs-8"><button type="submit" class="RS_70btn btn btn-success">确认结算</button></div>
+		</form>
 		</div>
 	<!-- </if> -->

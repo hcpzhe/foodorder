@@ -82,7 +82,7 @@ class OrderModel extends Model {
     
     public function myAdd($data) {
     	/**
-    	 * $data['goods'][商品id] = array(id=>商品id,num=>购买数量);
+    	 * $data['goods'] = array([商品id]=>购买数量,...);
     	 */
     	$goods = $data['goods']; unset($data['goods']);
     	if (!is_array($goods) || empty($goods)) {
@@ -94,14 +94,15 @@ class OrderModel extends Model {
     	$goods_M = new Model('Goods');
     	$goods_list = $goods_M->where(array('goods_id'=>array('in',$goods_ids)))->getField('id,cate_id,goods_name,image,price');
     	$data['amount'] = 0; $newgoods = array();
-    	foreach ($goods as $row) {
-    		$tmparr = $row;
-    		$tmparr['num'] = (int)$tmparr['num'];
+    	foreach ($goods_list as $row) {
+    		$tmparr = array();
+    		$tmparr['id'] = $row['id'];
+    		$tmparr['num'] = (int)$goods[$row['id']];
     		if ($tmparr['num'] > 0) {
-	    		$tmparr['price'] = $goods_list[$tmparr['id']]['price'];
-	    		$tmparr['amount'] = $tmparr['price']*$tmparr['num'];
-	    		$data['amount'] += $tmparr['amount'];
-	    		$newgoods[] = $tmparr;
+				$tmparr['price'] = $row['price'];
+				$tmparr['amount'] = $tmparr['price']*$tmparr['num'];
+				$data['amount'] += $tmparr['amount'];
+				$newgoods[] = $tmparr;
     		}
     	}
     	if (empty($newgoods)) {

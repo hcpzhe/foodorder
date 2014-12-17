@@ -41,18 +41,18 @@
 			</div>
 		</div>
 	</div>
-	<div class="RS_ship">
+	<div class="RS_ship" onclick="togglepage('d');">
 		<div class="RS_ship_box row">
 			<div class="col-xs-3">订单备注</div>
-			<div class="RS_ship_box_cont col-xs-9">
-				没零钱 不要葱姜蒜 不吃辣 辣一点 多加米 没零钱 不要葱姜蒜 不吃辣 辣一点 多加米
+			<div class="RSodremark RS_ship_box_cont col-xs-9">
+				
 			</div>
 		</div>
 	</div>
 	<div class="RS_ship">
 		<div class="RS_ship_box row">
 			<div class="col-xs-3">订单总计</div>
-			<div class="col-xs-9 text-right RS_ship_box_total">¥ 100</div>
+			<div class="col-xs-9 text-right RS_ship_box_total">¥ {$totalprice}</div>
 		</div>
 	</div>
 	<div class="RS_ship">
@@ -63,10 +63,13 @@
 		</div>
 	</div>
 	<div class="RS_cart_confirm row">
-		<a class="RS_70btn btn btn-success" href="{:U('ship?sid='.$_REQUEST['sid'])}">确认下单</a>
+	<form id="bulidOdrForm" action="{:U('bulidOdr')}" method="post">
+		<button type="submit" class="RS_70btn btn btn-success">确认下单</button>
+	</form>
 	</div>
 </div>
 </div>
+
 <div ng-group="b" style="display: none;">
 <div class="RS_topbar navbar navbar-inverse navbar-fixed-top " role="navigation">
 	<div class="RS_topbar_mid">
@@ -80,15 +83,6 @@
 </div>
 <div class="page-content default-page-content">
 	<div id="address_list">
-		<div class="RS_ship">
-			<div class="RS_ship_box row">
-				<div onclick="chgaddress(this);" data-ads="1">
-					<p>啊啊啊说说址</p>
-					<p>啊啊啊啊 / 133333333333</p>
-				</div>
-				<div class="RS_ship_address_del"><button class="btn btn-danger" onclick="deladdress(this);">删除</button></div>
-			</div>
-		</div>
 	</div>
 	<div class="RS_ship">
 		<div class="RS_ship_box RS_after_i" onclick="togglepage('c');">
@@ -98,6 +92,7 @@
 	</div>
 </div>
 </div>
+
 <div ng-group="c" style="display: none;">
 <div class="RS_topbar navbar navbar-inverse navbar-fixed-top " role="navigation">
 	<div class="RS_topbar_mid">
@@ -110,7 +105,7 @@
 	</div>
 </div>
 <div class="page-content default-page-content">
-		<form class="form-horizontal" onsubmit="newaddress(this);return false;">
+		<form class="form-horizontal" onsubmit="return newaddress(this);">
 		<fieldset>
 	<div class="RS_ship">
 			<div class="form-group">
@@ -125,6 +120,33 @@
 	</div>
 	<div class="RS_cart_confirm row">
 		<button class="RS_70btn btn btn-success" type="submit">新增地址</button>
+	</div>
+		</fieldset>
+		</form>
+</div>
+</div>
+
+<div ng-group="d" style="display: none;">
+<div class="RS_topbar navbar navbar-inverse navbar-fixed-top " role="navigation">
+	<div class="RS_topbar_mid">
+		<div class="RS_topbar_mid_auto">
+			订单备注
+		</div>
+	</div>
+	<div class="RS_topbar_left">
+		<a class="RS_navbar_back" href="javascript:void(0);" onclick="togglepage('a');"><i class="fa fa-chevron-left"></i>返回</a>
+	</div>
+</div>
+<div class="page-content default-page-content">
+		<form class="form-horizontal" onsubmit="return update_remark(this);">
+		<fieldset>
+	<div class="RS_ship">
+		<div class="form-group">
+			<textarea name="odremark" class="form-control" rows="5" placeholder="请填写订单备注"></textarea>
+		</div>
+	</div>
+	<div class="RS_cart_confirm row">
+		<button class="RS_70btn btn btn-success" type="submit">修改备注</button>
 	</div>
 		</fieldset>
 		</form>
@@ -148,6 +170,7 @@
 <script src="__PUBLIC__/twbs.3.3.1/js/bootstrap.min.js"></script>
 <!-- JS script include start end -->
 <script src="__JS__/localstorge.package.js"></script>
+<script src="__JS__/RSsubmit.js"></script>
 
 <script type="text/javascript">
 var mytokenurl = "{:U('Index/bulidMem?tk='.session('__HmId__'))}";
@@ -157,15 +180,46 @@ var cart = {
 		fee : 0, //总金额,只用于当前页面显示计算	不用做订单统计
 		num : 0 //总数量,只用于当前页面显示计算	不用做订单统计
 }; //购物车
+var storage_address,defaultAdd;
 
 $(function($) {
 	storage_address = LS.get("address");
 	try {
 		storage_address = JSON.parse(storage_address);
+		if(typeof(storage_address) != 'object' || storage_address == null) {
+			storage_address = new Array();
+		}
 	} catch (e) {
 		storage_address = new Array();
 	}
+	defaultAdd = LS.get("defaultAdd");//默认地址编号
+	
+	default_address();
 	build_address();
+	
+	//总金额
+	storage_cart = LS.get("cart");
+	var cartdata = {};
+	try {
+		storage_cart = JSON.parse(storage_cart);
+		cartdata = storage_cart[storeid];
+	} catch (e) {
+		storage_cart = new Object();
+	}
+	
+	$("#bulidOdrForm").on("submit",function(){
+		var data={success_alert:true};
+		data.data = {
+				storeid : storeid,
+				goods : storage_cart[storeid],
+				buyer_name : storage_address[defaultAdd].buyer,
+				address : storage_address[defaultAdd].address,
+				phone : storage_address[defaultAdd].phone,
+				order_note : $(".RSodremark").html()
+		};
+		$(this).RSsubmit(data);
+		return false;
+	});
 });
 
 function togglepage(group) {
@@ -185,6 +239,8 @@ function newaddress(form) {
 	build_address();
 	//
 	togglepage('b');
+	form.reset();
+	return false;
 }
 function deladdress(ele) {
 	//更新LS
@@ -196,28 +252,52 @@ function deladdress(ele) {
 function chgaddress(ele) {
 	$("#RS_cur_ads").html($(ele).html());
 	//更新LS, 默认的地址
-	LS.set("defaultAdd",ele.dataset.ads);
+	defaultAdd = ele.dataset.ads;
+	LS.set("defaultAdd",defaultAdd);
 	togglepage('a');
 }
 //地址列表生成
 function build_address() {
 	var html = '';
-	$.each(storage_address,function(i,v){
-		if (typeof(v) === "object") {
-			html += '<div class="RS_ship">';
-			html += '<div class="RS_ship_box row">';
-			html += '<div onclick="chgaddress(this);" data-ads="'+i+'">';
-			html += '<p>'+v.address+'</p>';
-			html += '<p>'+v.buyer+' / '+v.phone+'</p>';
-			html += '</div>';
-			html += '<div class="RS_ship_address_del"><button class="btn btn-danger" onclick="deladdress(this);">删除</button></div>';
-			html += '</div>';
-			html += '</div>';
+	try {
+		var newaddress = new Array();
+		$.each(storage_address,function(i,v) {
+			if (typeof(v) === "object" && v !== null) {
+				var newid = newaddress.push(v);
+				newid--;
+				html += '<div class="RS_ship">';
+				html += '<div class="RS_ship_box row">';
+				html += '<div onclick="chgaddress(this);" data-ads="'+newid+'">';
+				html += '<p>'+v.address+'</p>';
+				html += '<p>'+v.buyer+' / '+v.phone+'</p>';
+				html += '</div>';
+				html += '<div class="RS_ship_address_del"><button class="btn btn-danger" onclick="deladdress(this);">删除</button></div>';
+				html += '</div>';
+				html += '</div>';
+			}
+		});
+		storage_address = newaddress;
+		LS.set("address",JSON.stringify(storage_address));
+		if (html!='') {
+			$("#address_list").html(html);
 		}
-	});
-	if (html!='') {
-		$("#address_list").html(html);
+	} catch (e) {}
+}
+//避免默认地址编号错误, 必须优先于列表生成
+function default_address() {
+	var html = '';
+	try {
+		html += '<div><p>'+storage_address[defaultAdd].address+'</p><p>'+storage_address[defaultAdd].buyer+' / '+storage_address[defaultAdd].phone+'</p></div>';
+	} catch (e) {
+		html += '<div>添加送餐地址</div>';
 	}
+	$("#RS_cur_ads").html(html);
+}
+//修改备注
+function update_remark(ele) {
+	$(".RSodremark").html(ele.odremark.value);
+	togglepage('a');
+	return false;
 }
 </script>
 </body>
