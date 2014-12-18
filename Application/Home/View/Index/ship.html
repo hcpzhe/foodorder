@@ -210,7 +210,8 @@ $(function($) {
 	$("#bulidOdrForm").on("submit",function(){
 		var data={success_alert:true};
 		data.data = {
-				storeid : storeid,
+				mid : LS.get("id"),
+				store_id : storeid,
 				goods : storage_cart[storeid],
 				buyer_name : storage_address[defaultAdd].buyer,
 				address : storage_address[defaultAdd].address,

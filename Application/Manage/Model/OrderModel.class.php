@@ -29,7 +29,7 @@ class OrderModel extends Model {
 	 * self::MODEL_BOTH或者3		全部情况下验证（默认）
 	 */
     protected $_validate = array(
-    		array('sotre_id','/^[1-9]+\d*$/','所属店铺必须',self::MUST_VALIDATE,'regex',self::MODEL_INSERT),
+    		array('store_id','/^[1-9]+\d*$/','所属店铺必须',self::MUST_VALIDATE,'regex',self::MODEL_INSERT),
     		array('member_id','40','购买用户编号非法',self::MUST_VALIDATE,'length',self::MODEL_INSERT),
     		array('order_sn','','订单编号已存在',self::EXISTS_VALIDATE,'unique'),
 			
@@ -70,7 +70,7 @@ class OrderModel extends Model {
      * 生成唯一的order_sn,并验证数据库中不存在此order_sn
      * @return order_sn
      */
-    private function _orderSn() {
+    protected function _orderSn() {
     	$map = array();
     	$map['order_sn'] = order_sn();
     	if($this->where($map)->find()) {

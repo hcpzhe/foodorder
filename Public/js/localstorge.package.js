@@ -38,12 +38,13 @@ window.LS = window.LS || LS;
 
 $(function($) {
 	var member = LS.get("id");
-	if (typeof(member)!='string' || member.length != 40) {
-		//生成会员
+//	if (typeof(member)!='string' || member.length != 40) {
+		//自动登录, 首次登录则生成会员
 		$.ajax({
 			cache: false,
 			type: "get",
 			url: mytokenurl,
+			data: {mid:member},
 			async: true, //同步请求, 其它操作必须等待请求完成才可以执行
 			success: function(dd) {
 				if (dd.status == 1) {
@@ -53,5 +54,5 @@ $(function($) {
 				}
 			}
 		});
-	}
+//	}
 });

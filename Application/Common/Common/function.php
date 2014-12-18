@@ -73,14 +73,13 @@ function member_id() {
  */
 function order_sn() {
 	static $seed=array();
-	if (empty($seed)) $seed = range(1000000000, 9999999999);
-	shuffle($seed);
-	
-	$max = count($seed) - 1;
-	$seed_k = mt_rand(0, $max);
-	$rs = $seed[$seed_k];
-	unset($seed[$seed_k]);
-	return $rs;
+	$rs = mt_rand(1000000000, 9999999999);
+	if (in_array($rs, $seed)) {
+		return order_sn();
+	}else {
+		$seed[] = $rs;
+		return $rs;
+	}
 }
 
 /**

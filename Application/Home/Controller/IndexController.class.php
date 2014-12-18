@@ -5,7 +5,7 @@ use Think\Model;
 use Home\Model\MemberModel;
 
 class IndexController extends HomeBaseController {
-
+	
 	public function index() {
 		//筛选属性id为1的所有属性值
 		$attrval_M = new Model('AttrVal');
@@ -68,24 +68,26 @@ class IndexController extends HomeBaseController {
 	 */
 	public function bulidOdr() {
 		$data = I('post.');
-		$data['member_id'] = MID;
+		$data['member_id'] = $data['mid'];
 		$data['payment_id'] = 1;
+		$data['order_note'] = trim($data['order_note']);
 		$model = new \Manage\Model\OrderModel();
 		if (false === $model->myAdd($data)) {
 			$this->error($model->getError());
 		}
 		$this->success('下单成功');
+		//跳转至"我的订单"页面
 	}
 	
 	/**
-	 * 生成新用户 接口
+	 * 自动登录, 首次登录则生成会员
 	 * @param string $tk 令牌
 	 */
-	public function bulidMem($tk) {
+	public function bulidMem($tk,$mid=null) {
 		if ($this->_idtoken($tk)) {
 			//验证成功
 			$member_M = new MemberModel();
-			$newid = $member_M->bulidNew();
+			$newid = $member_M->bulidNew($mid);
 			if (false === $newid) {
 				$this->error($member_M->getError());
 			}
@@ -94,5 +96,11 @@ class IndexController extends HomeBaseController {
 			//验证失败
 			$this->error("非法操作!!!");
 		}
+	}
+	
+	//我的订单
+	public function order() {
+		if (!MID) $this->error("非法操作!!!");
+		
 	}
 }

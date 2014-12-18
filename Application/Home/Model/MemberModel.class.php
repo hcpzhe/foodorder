@@ -73,29 +73,37 @@ class MemberModel extends \Manage\Model\MemberModel {
 	}
 	
 	/**
-	 * 生成新用户
+	 * 生成新用户,自动登录
 	 */
-	public function bulidNew() {
+	public function bulidNew($mid=null) {
 		if (MID) {
 			//当前session已经创建过用户了
 			return MID;
 		}else {
-			$data = array(
-				'id'         => $this->_memberId(),
-				'logins'     => '1',
-				'reg_time' => NOW_TIME,
-				'last_ip'    => get_client_ip(1)
-			);
-			if (false===$this->add($data)) return false;
-			else {
-				session("__HmId__",$data['id']);
-				
-				//记录登录信息
-				session('user_auth', $data);
-				session('user_auth_sign', data_auth_sign($data));
-				
-				return $data['id'];
+			if (strlen($mid) == 40) {
+				$member = $this->where("`id`='$mid'")->find();
+				if (empty($member)) return $this->bulidNew();
+				$data = array(
+					'id'         => $member['id'],
+					'logins'     => '1',
+					'reg_time' => NOW_TIME,
+					'last_ip'    => get_client_ip(1)
+				);
+			}else {
+				$data = array(
+						'id'         => $mid,
+						'logins'     => '1',
+						'reg_time' => NOW_TIME,
+						'last_ip'    => get_client_ip(1)
+				);
+				if (false===$this->add($data)) return false;
 			}
+			
+			//记录登录信息
+			session('user_auth', $data);
+			session('user_auth_sign', data_auth_sign($data));
+			
+			return $data['id'];
 		}
 	}
 }
