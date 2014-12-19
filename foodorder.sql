@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2014-11-28 17:38:30
+Date: 2014-12-19 12:00:53
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -521,6 +521,7 @@ INSERT INTO `fdo_member` VALUES ('6dbeb5b9cb1b601985938d82f132504b3645b779', nul
 INSERT INTO `fdo_member` VALUES ('6e40106d05a16a99bc668480d7423ee62c54ffa1', null, null, '1416818173', '0', '2130706433', '1', '1');
 INSERT INTO `fdo_member` VALUES ('70945e25778025b0c8382465a99da67539aeccde', null, null, '1416818198', '0', '2130706433', '1', '1');
 INSERT INTO `fdo_member` VALUES ('7ab1e825ecb4afd8c1fd9a33cf99da7fb5efcbf7', null, null, '1416818183', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('82356acf53d8dac7b80a1568506a083d20b8d00d', null, null, '1417501626', '0', '3232235783', '1', '1');
 INSERT INTO `fdo_member` VALUES ('83605fad6e65fc20407b70a5f12d8c7684ed2e53', null, null, '1416818200', '0', '2130706433', '1', '1');
 INSERT INTO `fdo_member` VALUES ('87683c0cdff442f331d92c03a02f8bfc50ae9ddd', null, null, '1416818189', '0', '2130706433', '1', '1');
 INSERT INTO `fdo_member` VALUES ('92902bf33785d7bf120f8614bd8fd9f4ffaf3b52', null, null, '1416818162', '0', '2130706433', '1', '1');
@@ -536,6 +537,7 @@ INSERT INTO `fdo_member` VALUES ('bab399c741c2e42129dcb99ff5770512b8ce8607', nul
 INSERT INTO `fdo_member` VALUES ('bed94f9a925d693d7cff778624c6e00582a2db5f', null, null, '1416818182', '0', '2130706433', '1', '1');
 INSERT INTO `fdo_member` VALUES ('c638838e15b2cc4d9508cd94a73643e22fe0ad13', null, null, '1416818163', '0', '2130706433', '1', '1');
 INSERT INTO `fdo_member` VALUES ('d44c2a8ca2e5258609b71c4a4da8ed9560cded99', null, null, '1416818080', '0', '2130706433', '1', '1');
+INSERT INTO `fdo_member` VALUES ('d8aacf23dbc8cdca798a9417a96e89a8e76ce32a', null, null, '1418615747', '0', '3232235779', '1', '1');
 INSERT INTO `fdo_member` VALUES ('dc47d4b0566368697f665f3f7fafaf407a59e700', null, null, '1416818186', '0', '2130706433', '1', '1');
 INSERT INTO `fdo_member` VALUES ('df1c3b26a4e743a47b8913eb7085904a77fd4fc9', null, null, '1416818197', '0', '2130706433', '1', '1');
 INSERT INTO `fdo_member` VALUES ('e60bb2fd72d625aebc47b56bc60af04ddb47f723', null, null, '1416818190', '0', '2130706433', '1', '1');
@@ -607,12 +609,14 @@ CREATE TABLE `fdo_order` (
   `finish_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '订单完成时间',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '-1删除 0禁用 1正常',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='订单表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='订单表';
 
 -- ----------------------------
 -- Records of fdo_order
 -- ----------------------------
 INSERT INTO `fdo_order` VALUES ('1', '12332543', '2', '85fce697249c4be2c1f86418da3b4842683afc65', '哈哈', '洛阳西工区紫金城', '13333333333', null, '31.00', '1', '0', '1416211831', '0', '0', '0', '1', '1416211796', '1', '0', '1416211831', '0', '0', '0', '0', '1');
+INSERT INTO `fdo_order` VALUES ('2', '1243795881', '2', '9d13d14aa6d313ed41399966205a308a31d162c6', '123123', '人民大街16号', '15888888888', '', '52.00', '1', '1418871387', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1');
+INSERT INTO `fdo_order` VALUES ('3', '1218581070', '2', '9d13d14aa6d313ed41399966205a308a31d162c6', '123123', '人民大街16号', '15888888888', '', '52.00', '1', '1418961496', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1');
 
 -- ----------------------------
 -- Table structure for `fdo_order_goods`
@@ -631,6 +635,10 @@ CREATE TABLE `fdo_order_goods` (
 -- Records of fdo_order_goods
 -- ----------------------------
 INSERT INTO `fdo_order_goods` VALUES ('1', '1', '3', '10.00', '30.00');
+INSERT INTO `fdo_order_goods` VALUES ('2', '1', '3', '10.00', '30.00');
+INSERT INTO `fdo_order_goods` VALUES ('2', '10', '2', '11.00', '22.00');
+INSERT INTO `fdo_order_goods` VALUES ('3', '1', '3', '10.00', '30.00');
+INSERT INTO `fdo_order_goods` VALUES ('3', '10', '2', '11.00', '22.00');
 
 -- ----------------------------
 -- Table structure for `fdo_payment`
