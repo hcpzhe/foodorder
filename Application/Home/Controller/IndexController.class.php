@@ -75,7 +75,7 @@ class IndexController extends HomeBaseController {
 		if (false === $model->myAdd($data)) {
 			$this->error($model->getError());
 		}
-		$this->success('下单成功');
+		$this->success('下单成功',U('order?cfm=0'));
 		//跳转至"我的订单"页面
 	}
 	
@@ -98,9 +98,38 @@ class IndexController extends HomeBaseController {
 		}
 	}
 	
-	//我的订单
-	public function order() {
+	/**
+	 * 订单筛选列表
+	 * 存在 主键id 或 sn 则忽略其他查询条件
+	 * @param number $cfm		confirm 客户收货确认 0-否 1-是(订单完结)
+	 * @param number $unr		unreceived 用户未收货申请1-是,0-否;必须在收货截止时间内才能申请
+	 */
+	public function order($cfm=null,$unr=null) {
 		if (!MID) $this->error("非法操作!!!");
+		$map = array();
+		$map['member_id'] = MID;
+		$map['status'] = 1; //状态正常的订单
+		if (isset($cfm) && in_array($cfm, \Manage\Model\OrderModel::$S_confirm)) {
+			$map['confirm'] = $cfm;
+		}
+		if (isset($unr) && in_array($unr, \Manage\Model\OrderModel::$S_unreceived)) {
+			$map['unreceived'] = $unr;
+		}
+		$model = new Model('Order');
+		$list = $model->where($map)->order("add_time DESC")->select();
+		$this->assign('list', $list); //列表
 		
+		if (!empty($list)) {
+			$store_M = new Model('Store');
+			$store_ids = field_unique($list, 'store_id');
+			$map = array('id'=>array('in',$store_ids));
+			$storelist = $store_M->where($map)->getField('id,store_name');
+			$this->assign('storelist',$storelist); //列表用到的店铺, ID为key索引
+		}
+		
+		// 记录当前列表页的cookie
+		cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
+		
+		$this->display();
 	}
 }

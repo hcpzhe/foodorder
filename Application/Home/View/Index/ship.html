@@ -207,9 +207,9 @@ $(function($) {
 		storage_cart = new Object();
 	}
 	
+	//确认下单
 	$("#bulidOdrForm").on("submit",function(){
-		var data={success_alert:true};
-		data.data = {
+		var data = {
 				mid : LS.get("id"),
 				store_id : storeid,
 				goods : storage_cart[storeid],
@@ -217,8 +217,26 @@ $(function($) {
 				address : storage_address[defaultAdd].address,
 				phone : storage_address[defaultAdd].phone,
 				order_note : $(".RSodremark").html()
-		};
-		$(this).RSsubmit(data);
+		};	
+		$.ajax({
+			cache: false,
+			type:  this.method,
+			url: this.action,
+			data: data,
+			async: false, //同步请求, 其它操作必须等待请求完成才可以执行
+			success: function(dd) {
+				if (dd.status == 1) {
+					//成功
+					delete storage_cart[storeid];
+					LS.set("cart",JSON.stringify(storage_cart));
+					alert(dd.info);
+				}else {
+					alert(dd.info);
+				}
+				
+				if (dd.url) window.location.href = dd.url;
+			}
+		});
 		return false;
 	});
 });
