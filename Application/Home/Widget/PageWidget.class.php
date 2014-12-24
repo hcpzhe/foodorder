@@ -25,7 +25,7 @@ class PageWidget extends HomeBaseController {
 			$str .= '
 			<div class="col-xs-3 text-center '.$tmp.'">
 				<a class="icon" href="'.U($k).'"><i class="fa '.$v['icon'].'"></i></a>
-				<a href="#">'.$v['name'].'</a>
+				<a href="'.U($k).'">'.$v['name'].'</a>
 			</div>';
 		}
 		$str .= '

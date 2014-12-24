@@ -509,6 +509,25 @@ body{
 	height: auto; font-size:16px;
 }
 /****************************************/
+/******我的订单******************************/
+/* 订单页面头部 */
+.RS_odr_top a{
+	display: block;
+	height: 30px;
+	line-height: 30px;
+}
+.RS_odr_top a.active {
+	border-bottom: 2px #FF4A30 solid;
+	color: #FF4A30;
+}
+.RS_odrlist_content .RS_list_dl dt {
+	color: #999;
+}
+.RS_odrlist_content .RS_list_dl dt p {
+	color: #FF4A30;
+	
+}
+/****************************************/
 
 textarea {
 	max-width: 100%;

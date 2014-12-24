@@ -1,73 +1,35 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <include file="Public/header" />
-<body style="padding-top:92px;padding-bottom:50px;">
+<body style="padding-top:82px;padding-bottom:50px;">
 <div class="RS_topbar navbar navbar-inverse navbar-fixed-top " role="navigation">
 	<div class="RS_topbar_mid">
 		<div class="RS_topbar_mid_auto">
-			<form class="form-horizontal" action="{:U('Store/lists')}" method="get">
-			<fieldset>
-				<div class="input-group">
-					<input name="keywords" type="text" class="form-control" placeholder="请输入商家名、商品等">
-					<span class="input-group-btn">
-						<button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
-					</span>
-				</div>
-			</fieldset>
-			</form>
+			我的订单
 		</div>
 	</div>
 	<div class="RS_topbar_left">
 		<a class="RS_navbar_back" href="{:U('Index/index')}"><i class="fa fa-chevron-left"></i>返回</a>
 	</div>
-	<div class="RS_topbar_right">
-		<a class="RS_navbar_cart" href="#"><i class="fa fa-shopping-cart"></i></a>
-	</div>
 </div>
 <div class="RS_list_top">
 	<div class="container-fluid">
-		<form class="form-horizontal" action="#" method="get">
-		<fieldset>
-		<div class="row">
-			<div class="col-xs-6 text-center">
-				<ul class="nav nav-pills nav-stacked">
-					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-							<i class="fa fa-cutlery"></i> 口味 <span class="caret"></span>
-						</a>
-						<ul class="dropdown-menu">
-							<li><a href="{:U('Store/lists')}">不限口味</a></li>
-							<!-- <foreach name="attrval" item="vo" key="ky"> -->
-							<li><a href="{:U('Store/lists?attrs='.$ky)}">{$vo}</a></li>
-							<!-- </foreach> -->
-						</ul>
-					</li>
-				</ul>
+		<div class="row RS_odr_top">
+			<div class="col-xs-4 text-center">
+				<a class="active" href="{:U('order')}">全部</a>
 			</div>
-			<div class="col-xs-6 text-center">
-				<ul class="nav nav-pills nav-stacked">
-					<li class="dropdown">
-						<a class="dropdown-toggle"
-						data-toggle="dropdown" href="#" aria-expanded="false">
-							<i class="fa fa-clock-o"></i> 起送价 <span class="caret"></span>
-						</a>
-						<ul class="dropdown-menu">
-							<li><a href="{:U('Store/lists?minsd=0')}">不限</a></li>
-							<li><a href="{:U('Store/lists?minsd=10')}">10元以下</a></li>
-							<li><a href="{:U('Store/lists?minsd=20')}">20元以下</a></li>
-							<li><a href="{:U('Store/lists?minsd=30')}">30元以下</a></li>
-						</ul>
-					</li>
-				</ul>
+			<div class="col-xs-4 text-center">
+				<a class="" href="{:U('order?ship=0')}">待发货</a>
+			</div>
+			<div class="col-xs-4 text-center">
+				<a class="" href="{:U('order?cfm=0')}">待收货</a>
 			</div>
 		</div>
-		</fieldset>
-		</form>
 	</div>
 </div>
 <div class="page-content">
 	<div class="row">
-		<div class="col-xs-12 RS_list_content">
+		<div class="col-xs-12 RS_list_content RS_odrlist_content">
 		<!-- <if condition="empty($list)"> -->
 			<div class="well">
 				找不到店铺
@@ -92,8 +54,8 @@
 			<!-- <foreach name="list" item="vo"> -->
 			<dl class="RS_list_dl">
 				<dt>
-					{$vo['store_name']}
-					<p><a href="#"><i class="fa fa-heart"></i></a></p>
+					<a href="{:U('Store/goods?sid='.$vo['store_id'])}"><i class="fa fa-archive"></i> {$storelist[$vo['store_id']]}</a> <i class="fa fa-angle-right"></i>
+					<p>待商家发货</p>
 				</dt>
 				<dd>
 					<a href="{:U('goods?sid='.$vo['id'])}">
@@ -125,7 +87,7 @@
 		</div>
 	</div>
 </div>
-{:W('Page/foot',array(''))}
+{:W('Page/foot',array('Index/order'))}
 
 <!-- JS script include start -->
 <!--[if !IE]> -->

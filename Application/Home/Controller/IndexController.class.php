@@ -103,8 +103,9 @@ class IndexController extends HomeBaseController {
 	 * 存在 主键id 或 sn 则忽略其他查询条件
 	 * @param number $cfm		confirm 客户收货确认 0-否 1-是(订单完结)
 	 * @param number $unr		unreceived 用户未收货申请1-是,0-否;必须在收货截止时间内才能申请
+	 * @param number $ship		ship_status 配送状态 0-未开始 1-配送中
 	 */
-	public function order($cfm=null,$unr=null) {
+	public function order($cfm=null,$unr=null,$ship=null) {
 		if (!MID) $this->error("非法操作!!!");
 		$map = array();
 		$map['member_id'] = MID;
@@ -114,6 +115,9 @@ class IndexController extends HomeBaseController {
 		}
 		if (isset($unr) && in_array($unr, \Manage\Model\OrderModel::$S_unreceived)) {
 			$map['unreceived'] = $unr;
+		}
+		if (isset($ship) && in_array($ship, \Manage\Model\OrderModel::$S_ship_status)) {
+			$map['ship_status'] = $ship;
 		}
 		$model = new Model('Order');
 		$list = $model->where($map)->order("add_time DESC")->select();
