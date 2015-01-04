@@ -525,7 +525,34 @@ body{
 }
 .RS_odrlist_content .RS_list_dl dt p {
 	color: #FF4A30;
-	
+}
+.RS_odrlist_imgbox {
+	position: absolute;
+	width: 50px;
+	height: 50px;
+	text-align: center;
+	overflow: hidden;
+}
+.RS_odrlist_imgbox-block-right {
+	margin-left: 108px;
+	height: 50px;
+}
+.RS_odrlist_infotext {
+	height: 40px;
+	line-height: 40px;
+	margin: 5px 0 ;
+	font-size: 15px;
+	overflow: hidden;
+}
+.RS_odrlist_btns {
+	width: 100%;
+	display: table;
+	text-align: right;
+}
+.RS_odrlist_btns .btn {
+	width: 100px;
+	color: #fff;
+	float: right;
 }
 /****************************************/
 

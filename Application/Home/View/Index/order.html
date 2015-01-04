@@ -16,13 +16,13 @@
 	<div class="container-fluid">
 		<div class="row RS_odr_top">
 			<div class="col-xs-4 text-center">
-				<a class="active" href="{:U('order')}">全部</a>
+				<a class="<if condition="$condition eq 0">active</if>" href="{:U('order')}">全部</a>
 			</div>
 			<div class="col-xs-4 text-center">
-				<a class="" href="{:U('order?ship=0')}">待发货</a>
+				<a class="<if condition="$condition eq 1">active</if>" href="{:U('order?ship=0')}">待发货</a>
 			</div>
 			<div class="col-xs-4 text-center">
-				<a class="" href="{:U('order?cfm=0')}">待收货</a>
+				<a class="<if condition="$condition eq 2">active</if>" href="{:U('order?ship=1&cfm=0')}">待收货</a>
 			</div>
 		</div>
 	</div>
@@ -32,24 +32,8 @@
 		<div class="col-xs-12 RS_list_content RS_odrlist_content">
 		<!-- <if condition="empty($list)"> -->
 			<div class="well">
-				找不到店铺
-				<p class="jump">
-					页面自动 <a id="href" href="javascript:history.back(-1);">跳转</a> 等待时间： <b id="wait">2</b>
-				</p>
+				<i class="fa fa-frown-o"></i>还没有订单, 快快去下单吧~
 			</div>
-			<script type="text/javascript">
-				(function() {
-					var wait = document.getElementById('wait'), href = document.getElementById('href').href;
-					var interval = setInterval(function() {
-						var time = --wait.innerHTML;
-						if (time <= 0) {
-							location.href = href;
-							clearInterval(interval);
-						}
-						;
-					}, 1000);
-				})();
-			</script>
 		<!-- <else /> -->
 			<!-- <foreach name="list" item="vo"> -->
 			<dl class="RS_list_dl">
@@ -58,28 +42,24 @@
 					<p>待商家发货</p>
 				</dt>
 				<dd>
-					<a href="{:U('goods?sid='.$vo['id'])}">
-						<div class="RS_list_imgbox">
+					<a href="{:U('Order/info?oid='.$vo['id'])}">
+						<div class="RS_odrlist_imgbox">
 							<!-- <if condition="$vo['store_logo']"> -->
 							<img src="__ROOT__{$vo['store_logo']}" style="height: 100%;" />
 							<!-- <else /> -->
 							<img src="__IMG__/none.png" style="height: 100%;" />
 							<!-- </if> -->
 						</div>
-						<div class="RS_list_imgbox-block-right">
-							<div class="text-block">{$vo['address']}</div>
-							<div class="price">
-								<strong>{$vo['min_send']}</strong><span class="strong-color">元起送</span>
-								<span class="line-right">
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star-half-o"></i>
-									<i class="fa fa-star-o"></i>
-									<i class="fa fa-star-o"></i>
-								</span>
+						<div class="RS_odrlist_imgbox-block-right">
+							<div class="RS_odrlist_infotext">
+								共{:get_num_odr($vo['id'])}件商品&nbsp;&nbsp;&nbsp;总计：<b>¥{$vo['amount']}</b>
 							</div>
 						</div>
 					</a>
+					<div class="RS_odrlist_btns">
+						<a href="#" class="btn btn-warning">取消订单</a>
+						<a href="{:U('Order/info?oid='.$vo['id'])}" class="btn btn-info">查看订单</a>
+					</div>
 				</dd>
 			</dl>
 			<!-- </foreach> -->

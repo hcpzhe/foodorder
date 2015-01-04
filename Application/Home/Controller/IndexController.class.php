@@ -119,6 +119,16 @@ class IndexController extends HomeBaseController {
 		if (isset($ship) && in_array($ship, \Manage\Model\OrderModel::$S_ship_status)) {
 			$map['ship_status'] = $ship;
 		}
+		/*************///筛选状态
+		if ($map['ship_status'] === '0') {
+			$condition = '1';
+		}else if ($map['confirm'] === '0'){
+			$condition = '2';
+		}else {
+			$condition = '0';
+		}
+		$this->assign('condition',$condition);//筛选状态
+		/**************/
 		$model = new Model('Order');
 		$list = $model->where($map)->order("add_time DESC")->select();
 		$this->assign('list', $list); //列表
