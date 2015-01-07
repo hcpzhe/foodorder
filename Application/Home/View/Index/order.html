@@ -52,12 +52,12 @@
 						</div>
 						<div class="RS_odrlist_imgbox-block-right">
 							<div class="RS_odrlist_infotext">
-								共{:get_num_odr($vo['id'])}件商品&nbsp;&nbsp;&nbsp;总计：<b>¥{$vo['amount']}</b>
+								共{:get_num_odr($vo['id'])}件商品&nbsp;&nbsp;&nbsp;总计：<b>￥{$vo['amount']}</b>
 							</div>
 						</div>
 					</a>
 					<div class="RS_odrlist_btns">
-						<a href="#" class="btn btn-warning">取消订单</a>
+						<a href="{:U('Order/cancel?oid='.$vo['id'])}" class="btn btn-warning bat_a_confirm">取消订单</a>
 						<a href="{:U('Order/info?oid='.$vo['id'])}" class="btn btn-info">查看订单</a>
 					</div>
 				</dd>
@@ -86,5 +86,17 @@
 
 <script src="__PUBLIC__/twbs.3.3.1/js/bootstrap.min.js"></script>
 <!-- JS script include start end -->
+<script src="__JS__/RSsubmit.js"></script>
+<script type="text/javascript">
+$(function($) {
+	$(".bat_a_confirm").click(function() {
+		event.preventDefault();
+		if(confirm("确定要进行此项操作吗？")) {
+			var data = {success_alert:false,reload:true};
+			$(this).RSsubmit(data);
+		}
+	});
+});
+</script>
 </body>
 </html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<include file="Public/header" />
+<body style="padding-top:51px;padding-bottom:50px;">
+<div class="RS_topbar navbar navbar-inverse navbar-fixed-top " role="navigation">
+	<div class="RS_topbar_mid">
+		<div class="RS_topbar_mid_auto">
+			订单详情
+		</div>
+	</div>
+	<div class="RS_topbar_left">
+		<a class="RS_navbar_back" href="{:U('Index/order')}"><i class="fa fa-chevron-left"></i>返回</a>
+	</div>
+</div>
+<div class="page-content RS_odrinfo_main">
+	<div class="row">
+		<div class="col-xs-12 RS_oi_status">
+			<i class="fa fa-file-text-o"></i>
+			<div class="RS_io_s_text">{$status_str}</div>
+			<div>订单金额：<b>￥ {$info['amount']}</b></div>
+		</div>
+		<div class="col-xs-12 RS_oi_address">
+			<i class="fa fa-map-marker"></i>
+			<div class="RS_io_s_text">收货人：{$info['buyer_name']} / {$info['phone']}</div>
+			<div>收货地址：{$info['address']}</div>
+		</div>
+		<div class="col-xs-12 RS_oi_blank"></div>
+		<div class="col-xs-12 RS_oi_goods">
+			<div class="RS_oi_goods_sname">
+				<a href="{:U('Store/goods?sid='.$vo['store_id'])}"><i class="fa fa-archive"></i> {$storeinfo['store_name']}</a> <i class="fa fa-angle-right"></i>
+			</div>
+			<!-- <foreach name="goodslist" item="vo"> -->
+			<div class="RS_oi_goodsli">
+				<div class="RS_oi_gli_img">
+					<!-- <if condition="$vo['image']"> -->
+					<img src="__ROOT__{$vo['image']}">
+					<!-- <else /> -->
+					<img src="__IMG__/none.png">
+					<!-- </if> -->
+				</div>
+				<div class="RS_oi_gli_info row">
+					<div class="col-xs-8">
+						{$vo['goods_name']}
+					</div>
+					<div class="col-xs-4 text-right price">
+						￥ {$vo['price']}<br>
+						x {$vo['quantity']}
+					</div>
+				</div>
+				
+			</div>
+			<!-- </foreach> -->
+			<div class="RS_oi_total">
+				<div class="row">
+					<div class="col-xs-5">总计金额：</div>
+					<div class="col-xs-7 text-right price">￥ {$info['amount']}</div>
+				</div>
+			</div>
+			<div class="RS_oi_seller">
+				<div>卖家：{$storeinfo['store_name']}</div>
+				<div>
+					<a href="tel:{$storeinfo['tel']}" class="btn btn-info"><i class="fa fa-phone"></i> 联系卖家</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{:W('Page/foot',array('Index/index'))}
+<!-- JS script include start -->
+<!--[if !IE]> -->
+<script src="__JS__/jquery.2.1.1.min.js"></script>
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script src="__JS__/jquery.1.11.1.min.js"></script>
+<![endif]-->
+
+<!--[if IE]>
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='__JS__/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+
+<script src="__PUBLIC__/twbs.3.3.1/js/bootstrap.min.js"></script>
+<!-- JS script include start end -->
+<script src="__JS__/localstorge.package.js"></script>
+
+<script type="text/javascript">
+var mytokenurl = "{:U('Index/bulidMem?tk='.session('__HmId__'))}";
+</script>
+
+</body>
+</html>

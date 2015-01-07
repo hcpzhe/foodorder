@@ -75,7 +75,7 @@ class IndexController extends HomeBaseController {
 		if (false === $model->myAdd($data)) {
 			$this->error($model->getError());
 		}
-		$this->success('下单成功',U('order?cfm=0'));
+		$this->success('下单成功',U('order?ship=0'));
 		//跳转至"我的订单"页面
 	}
 	
@@ -106,7 +106,7 @@ class IndexController extends HomeBaseController {
 	 * @param number $ship		ship_status 配送状态 0-未开始 1-配送中
 	 */
 	public function order($cfm=null,$unr=null,$ship=null) {
-		if (!MID) $this->error("非法操作!!!");
+		if (!MID) $this->redirect('Index/index');
 		$map = array();
 		$map['member_id'] = MID;
 		$map['status'] = 1; //状态正常的订单

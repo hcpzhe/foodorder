@@ -91,7 +91,7 @@ class MemberModel extends \Manage\Model\MemberModel {
 				);
 			}else {
 				$data = array(
-						'id'         => $mid,
+						'id'         => $this->_memberId(),
 						'logins'     => '1',
 						'reg_time' => NOW_TIME,
 						'last_ip'    => get_client_ip(1)
