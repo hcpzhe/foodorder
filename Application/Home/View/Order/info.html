@@ -57,15 +57,22 @@
 				</div>
 			</div>
 			<div class="RS_oi_seller">
-				<div>卖家：{$storeinfo['store_name']}</div>
+				<p>卖家：{$storeinfo['store_name']}</p>
 				<div>
 					<a href="tel:{$storeinfo['tel']}" class="btn btn-info"><i class="fa fa-phone"></i> 联系卖家</a>
 				</div>
 			</div>
+			<div class="RS_oi_numbers">
+				<div>订单号：{$info['order_sn']}</div>
+				<div>下单时间：{:date('Y-m-d H:i',$info['add_time'])}</div>
+				<!-- <if condition="$timeshow[1] GT 0"> -->
+				<div>{$timeshow[0]}：{:date('Y-m-d H:i',$timeshow[1])}</div>
+				<!-- </if> -->
+			</div>
 		</div>
 	</div>
 </div>
-{:W('Page/foot',array('Index/index'))}
+{:W('Page/foot',array(''))}
 <!-- JS script include start -->
 <!--[if !IE]> -->
 <script src="__JS__/jquery.2.1.1.min.js"></script>

@@ -118,6 +118,7 @@ class OrderController extends StoreBaseController {
 		if ($order['ship_status'] == '1') $this->error('已经发货, 无需重复发货');
 		
 		$model->ship_status = '1';
+		$model->store_status = '1';
 		$model->ship_time = NOW_TIME;
 		$model->update_time = NOW_TIME;
 		if (false ===$model->where("`id`=$oid")->save()) $this->error('发货失败, 请重试');

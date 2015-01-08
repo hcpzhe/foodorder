@@ -39,7 +39,15 @@
 			<dl class="RS_list_dl">
 				<dt>
 					<a href="{:U('Store/goods?sid='.$vo['store_id'])}"><i class="fa fa-archive"></i> {$storelist[$vo['store_id']]}</a> <i class="fa fa-angle-right"></i>
-					<p>待商家发货</p>
+					<p>
+						<!-- <if condition="$vo['ship_status'] ELT 0"> -->
+						待发货
+						<!-- <elseif condition="$vo['confirm'] ELT 0"/> -->
+						待收货
+						<!-- <else /> -->
+						交易完成
+						<!-- </if> -->
+					</p>
 				</dt>
 				<dd>
 					<a href="{:U('Order/info?oid='.$vo['id'])}">
@@ -57,7 +65,11 @@
 						</div>
 					</a>
 					<div class="RS_odrlist_btns">
+						<!-- <if condition="$vo['ship_status'] ELT 0"> -->
 						<a href="{:U('Order/cancel?oid='.$vo['id'])}" class="btn btn-warning bat_a_confirm">取消订单</a>
+						<!-- <elseif condition="$vo['confirm'] ELT 0"/> -->
+						<a href="{:U('Order/confirm?oid='.$vo['id'])}" class="btn btn-warning bat_a_confirm">确认收货</a>
+						<!-- </if> -->
 						<a href="{:U('Order/info?oid='.$vo['id'])}" class="btn btn-info">查看订单</a>
 					</div>
 				</dd>

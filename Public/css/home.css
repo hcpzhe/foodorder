@@ -636,6 +636,11 @@ body{
 	border-top: 1px #DBDBDB solid;
 	padding: 10px 0;
 }
+.RS_oi_numbers {
+	border-top: 1px #DBDBDB solid;
+	padding: 10px 0;
+	color: #999;
+}
 /****************************************/
 
 textarea {
