@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<include file="Public/header" />
+<body style="padding-top:51px;padding-bottom:50px;">
+<div class="RS_topbar navbar navbar-inverse navbar-fixed-top " role="navigation">
+	<div class="RS_topbar_mid">
+		<div class="RS_topbar_mid_auto">
+			我的收藏
+		</div>
+	</div>
+	<div class="RS_topbar_left">
+		<a class="RS_navbar_back" href="{:U('Index/index')}"><i class="fa fa-chevron-left"></i>返回</a>
+	</div>
+</div>
+<div class="page-content">
+	<div class="row">
+		<div class="col-xs-12 RS_heart_content">
+		</div>
+	</div>
+</div>
+{:W('Page/foot',array('Index/heart'))}
+
+<!-- JS script include start -->
+<!--[if !IE]> -->
+<script src="__JS__/jquery.2.1.1.min.js"></script>
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script src="__JS__/jquery.1.11.1.min.js"></script>
+<![endif]-->
+
+<!--[if IE]>
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='__JS__/jquery1x.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+
+<script src="__PUBLIC__/twbs.3.3.1/js/bootstrap.min.js"></script>
+<!-- JS script include start end -->
+<script src="__JS__/localstorge.package.js"></script>
+<script type="text/javascript">
+var mytokenurl = "{:U('Index/bulidMem?tk='.session('__HmId__'))}";
+var storage_like;
+$(function($) {
+	storage_like = LS.get("like");
+	try {
+		storage_like = JSON.parse(storage_like);
+		if(typeof(storage_like) != 'object' || storage_like == null) {
+			storage_like = new Object();
+		}
+	} catch (e) {
+		storage_like = new Object();
+	}
+	$.ajax({
+		cache: false,
+		type: 'post',
+		url: "{:U('Index/heart')}",
+		data: {sids:storage_like},
+		async: false, //同步请求, 其它操作必须等待请求完成才可以执行
+		error: function(request) {
+			var html = '<div class="alert alert-dismissable alert-danger text-center">';
+			html += '<i class="fa fa-frown-o"></i> 还没有收藏任何店铺, 快去逛逛吧~~';
+			html += '</div>';
+			$(".RS_heart_content").html(html);
+		},
+		success: function(dd) {
+			var html='';
+			if (dd.status == 1) {
+				//成功
+				html = dd.info;
+			}else {
+				html = '<div class="alert alert-dismissable alert-danger text-center">';
+				html += '<i class="fa fa-frown-o"></i> 还没有收藏任何店铺, 快去逛逛吧~';
+				html += '</div>';
+			}
+			
+			$(".RS_heart_content").html(html);
+		}
+	});
+	$(".RS_cancel_heart").on("click",function() {
+		var delid = this.dataset.sid;
+		try {
+			delete storage_like[delid];
+			$(this).parents(".RS_heart_dl").hide("normal");
+			LS.set("like",JSON.stringify(storage_like));
+		} catch (e) {}
+		return false;
+	});
+});
+</script>
+</body>
+</html>

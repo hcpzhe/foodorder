@@ -27,7 +27,7 @@ class StoreController extends HomeBaseController {
 		$map['status'] = array('EGT',0);
 		//TODO 暂时只匹配店铺名称
 		if (isset($keyword)) {
-			$map['store_name'] =array('like', '%'.$name.'%');
+			$map['store_name'] =array('like', '%'.$keyword.'%');
 		}
 		$map['is_close'] = '0';
 		$map['min_send'] = array('EGT', (int)$minsd); //起送价

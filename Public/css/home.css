@@ -43,6 +43,22 @@ body{
 }
 /********************************/
 /*************导定制航条************/
+@media (max-width: 767px) {
+	.navbar-toggle {
+		position: absolute;
+		z-index: 2;
+	}
+	.navbar-brand {
+		width: 100%;
+		text-align: center;
+		display: block;
+		position: relative;
+		z-index: 1;
+	}
+	.navbar-brand>img {
+		display: inline;
+	}
+}
 .navbar {
 	margin-bottom: 0px;
 }
@@ -176,7 +192,7 @@ body{
 	height: 100%;
 }
 .RS_topbar_mid_auto {
-	margin: 8px 60px 8px 80px;
+	margin: 8px 0 8px 80px;
 }
 .RS_topbar_mid_auto, .RS_topbar_mid_auto a {
 	color : #fff;
@@ -229,6 +245,9 @@ body{
 	background: #ddd;
 	padding: 0;
 }
+.RS_list_content .alert {
+	margin-bottom: 0;
+}
 .RS_list_content a:hover, .RS_list_content a:focus{
 	text-decoration: none;
 }
@@ -243,6 +262,13 @@ body{
 .RS_list_dl dt {
 	padding: 5px 15px;
 	border-bottom: 1px #DBDBDB solid;
+}
+.RS_list_dl dt .RS_s_like {
+	font-size: 16px;
+	color: red;
+	cursor: pointer;
+	line-height:20px;
+	float: right;
 }
 .RS_list_dl dt p {
 	margin: 0;
@@ -534,7 +560,7 @@ body{
 	overflow: hidden;
 }
 .RS_odrlist_imgbox-block-right {
-	margin-left: 108px;
+	margin-left: 78px;
 	height: 50px;
 }
 .RS_odrlist_infotext {
@@ -640,6 +666,49 @@ body{
 	border-top: 1px #DBDBDB solid;
 	padding: 10px 0;
 	color: #999;
+}
+/****************************************/
+/*********我的收藏****************************/
+.RS_heart_content {
+	padding: 0;
+}
+.RS_heart_content .RS_heart_dl {
+	border-bottom: 1px #DBDBDB solid;
+	margin: 0;
+}
+.RS_heart_dl dd{
+	margin: 10px 0;
+	padding: 0 15px;
+}
+.RS_heart_dl a.RSsinfo {
+	float: left;
+	display: block;
+	position: relative;
+	height: 50px;
+	width: 70%;
+	overflow: hidden;
+}
+.RS_heart_dl a.RSsinfo .RS_store_img {
+	width: 50px;
+	height: 50px;
+	overflow: hidden;
+	vertical-align: middle;
+	border: 1px solid #ddd;
+	position: absolute;
+}
+.RS_heart_dl a.RSsinfo .RS_store_img img {
+	width: 100%;
+	position: absolute;left: 50%;top: 50%;
+	-webkit-transform: translate(-50%,-50%);
+	-ms-transform: translate(-50%,-50%);
+	-moz-transform: translate(-50%,-50%)
+}
+.RS_heart_dl a.RSsinfo .RS_store_text {
+	margin-left: 60px;
+	padding-right: 5px;
+}
+.RS_heart_dl .RSbtns {
+	float: left;
 }
 /****************************************/
 

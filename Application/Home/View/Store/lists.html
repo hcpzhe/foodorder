@@ -8,7 +8,7 @@
 			<form class="form-horizontal" action="{:U('Store/lists')}" method="get">
 			<fieldset>
 				<div class="input-group">
-					<input name="keywords" type="text" class="form-control" placeholder="请输入商家名、商品等">
+					<input name="keyword" type="text" class="form-control" placeholder="请输入商家名、商品等">
 					<span class="input-group-btn">
 						<button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
 					</span>
@@ -20,9 +20,11 @@
 	<div class="RS_topbar_left">
 		<a class="RS_navbar_back" href="{:U('Index/index')}"><i class="fa fa-chevron-left"></i>返回</a>
 	</div>
+	<!-- 
 	<div class="RS_topbar_right">
 		<a class="RS_navbar_cart" href="#"><i class="fa fa-shopping-cart"></i></a>
 	</div>
+	 -->
 </div>
 <div class="RS_list_top">
 	<div class="container-fluid">
@@ -69,7 +71,7 @@
 	<div class="row">
 		<div class="col-xs-12 RS_list_content">
 		<!-- <if condition="empty($list)"> -->
-			<div class="well">
+			<div class="alert alert-dismissable alert-danger text-center">
 				找不到店铺
 				<p class="jump">
 					页面自动 <a id="href" href="javascript:history.back(-1);">跳转</a> 等待时间： <b id="wait">2</b>
@@ -90,10 +92,10 @@
 			</script>
 		<!-- <else /> -->
 			<!-- <foreach name="list" item="vo"> -->
-			<dl class="RS_list_dl">
+			<dl class="RS_list_dl" data-sid="{$vo['id']}">
 				<dt>
 					{$vo['store_name']}
-					<p><a href="#"><i class="fa fa-heart"></i></a></p>
+					<i class="RS_s_like fa fa-heart-o"></i>
 				</dt>
 				<dd>
 					<a href="{:U('goods?sid='.$vo['id'])}">
@@ -127,7 +129,7 @@
 		</div>
 	</div>
 </div>
-{:W('Page/foot',array(''))}
+{:W('Page/foot',array('Store/lists'))}
 
 <!-- JS script include start -->
 <!--[if !IE]> -->
@@ -146,5 +148,45 @@
 
 <script src="__PUBLIC__/twbs.3.3.1/js/bootstrap.min.js"></script>
 <!-- JS script include start end -->
+<script src="__JS__/localstorge.package.js"></script>
+<script type="text/javascript">
+var mytokenurl = "{:U('Index/bulidMem?tk='.session('__HmId__'))}";
+var storage_like;
+$(function($) {
+	storage_like = LS.get("like");
+	try {
+		storage_like = JSON.parse(storage_like);
+		if(typeof(storage_like) != 'object' || storage_like == null) {
+			storage_like = new Object();
+		}
+	} catch (e) {
+		storage_like = new Object();
+	}
+	$.each(storage_like,function(k,v) {
+		var $ele = $(".RS_list_dl[data-sid="+v+"]").find(".RS_s_like");
+		$ele.removeClass("fa-heart-o");
+		$ele.addClass("fa-heart");
+	});
+	
+	$(".RS_s_like").on("click",function() {
+		var delid = $(this).parents(".RS_list_dl").attr("data-sid");
+		if ( $(this).hasClass("fa-heart") ) {
+			//已收藏的, 要取消收藏
+			try {
+				delete storage_like[delid];
+			} catch (e) {}
+			$(this).removeClass("fa-heart");
+			$(this).addClass("fa-heart-o");
+		}else {
+			//未收藏的, 要添加收藏
+			storage_like[delid] = delid;
+			$(this).removeClass("fa-heart-o");
+			$(this).addClass("fa-heart");
+		}
+		LS.set("like",JSON.stringify(storage_like));
+		return false;
+	});
+});
+</script>
 </body>
 </html>

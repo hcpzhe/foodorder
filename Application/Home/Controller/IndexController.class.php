@@ -146,4 +146,50 @@ class IndexController extends HomeBaseController {
 		
 		$this->display();
 	}
+	
+	
+	/**
+	 * 我的收藏
+	 * @param array $sids		当前用户收藏的店铺ID
+	 */
+	public function heart($sids=null) {
+		if (!is_array($sids)) {
+			$this->display();
+		}else {
+			if (empty($sids)) $this->error('还没有收藏任何店铺, 快去逛逛吧~');
+			$order = 'is_recom DESC, sort ASC, id ASC';
+			$map = array(
+					'status' => '1',
+					'id' => array('in',$sids)
+			);
+			$store_M = new Model('Store');
+			$list = $store_M->where($map)->order($order)->select();
+			if (empty($list)) $this->error('还没有收藏任何店铺, 快去逛逛吧~');
+			$str = '';
+			foreach ($list as $vo) {
+				$str .= '
+				<dl class="RS_heart_dl">
+					<dd class="row">
+						<a class="RSsinfo" href="'.U('goods?sid='.$vo['id']).'">
+							<div class="RS_store_img">';
+				if (!empty($vo['store_logo'])) {
+					$str .= '
+								<img src="'.__ROOT__.$vo['store_logo'].'">';
+				}else {
+					$str .= '
+								<img src="'.__ROOT__.'/Public/images/none.png">';
+				}
+				$str .= '
+							</div>
+							<div class="RS_store_text">'.$vo['store_name'].'</div>
+						</a>
+						<div class="RSbtns">
+							<a class="btn btn-danger RS_cancel_heart" href="#" data-sid="'.$vo['id'].'">取消收藏</a>
+						</div>
+					</dd>
+				</dl>';
+			}
+			$this->success($str);
+		}
+	}
 }

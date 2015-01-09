@@ -12,9 +12,10 @@ class PageWidget extends HomeBaseController {
 	public function foot($key='Index/index') {
 		$arr = array(
 				'Index/index' => array('icon'=>'fa-home','name'=>'首页'),
+				'Store/lists' => array('icon'=>'fa-cutlery','name'=>'去点餐'),
 				'Index/heart' => array('icon'=>'fa-heart-o','name'=>'我的收藏'),
 				'Index/order' => array('icon'=>'fa-file-text-o','name'=>'我的订单'),
-				'Index/user' => array('icon'=>'fa-user','name'=>'个人中心'),
+				//'Index/user' => array('icon'=>'fa-user','name'=>'个人中心'),
 		);
 		$str = '
 <div class="navbar navbar-default navbar-fixed-bottom" role="navigation">
