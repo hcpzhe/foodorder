@@ -61,7 +61,7 @@ class OrderModel extends Model {
     protected $_auto = array(
 			array('order_sn','_orderSn',self::MODEL_INSERT,'callback'),
         	array('add_time', NOW_TIME, self::MODEL_INSERT),//订单创建时间
-        	array('update_time', NOW_TIME, self::MODEL_UPDATE),//订单更新时间
+        	array('update_time', NOW_TIME, self::MODEL_BOTH),//订单更新时间
         	array('pay_time', 0, self::MODEL_INSERT),//付款时间
         	array('unreceived', 0, self::MODEL_INSERT),//用户未收货申请  必须在收货截止时间内才能申请
     );

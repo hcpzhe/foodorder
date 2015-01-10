@@ -170,7 +170,7 @@ class IndexController extends HomeBaseController {
 				$str .= '
 				<dl class="RS_heart_dl">
 					<dd class="row">
-						<a class="RSsinfo" href="'.U('goods?sid='.$vo['id']).'">
+						<a class="RSsinfo" href="'.U('Store/goods?sid='.$vo['id']).'">
 							<div class="RS_store_img">';
 				if (!empty($vo['store_logo'])) {
 					$str .= '
