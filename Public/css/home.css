@@ -534,6 +534,18 @@ body{
 .RS_ship .form-group .form-control {
 	height: auto; font-size:16px;
 }
+
+.RS_ship .RS_geo_group .btn {
+	height: 36px ;
+	margin-right: 0 ;
+	color: #FF4A30 ;
+}
+.RS_ship .RS_geo_ready,.RS_ship .RS_geo_loading {
+	color: #FF4A30 ;
+}
+.RS_ship .RS_geo_loading {
+	display: none;
+}
 /****************************************/
 /******我的订单******************************/
 /* 订单页面头部 */

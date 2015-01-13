@@ -16,10 +16,7 @@
 <div class="page-content default-page-content">
 	<div class="RS_ship" onclick="togglepage('b');">
 		<div class="RS_ship_box row" id="RS_cur_ads">
-			<div>
-				<p>添加送餐地址</p>
-				<p>啊啊啊啊 / 133333333333</p>
-			</div>
+			<div>添加送餐地址</div>
 		</div>
 	</div>
 	<div class="RS_ship" onclick="togglepage('d');">
@@ -92,12 +89,19 @@
 			<div class="form-group">
 				<input class="form-control" placeholder="请填写您的姓名" name="buyer" type="text" value="">
 			</div>
-			<div class="form-group">
-				<input class="form-control" placeholder="请填写详细送餐地址" name="address" type="text" value="">
+			<div class="form-group input-group RS_geo_group">
+				<input class="form-control" id="RSgeo" placeholder="请填写详细送餐地址" name="address" type="text" value="">
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button">
+						<i class="RS_geo_ready fa fa-crosshairs fa-2x"></i>
+						<i class="RS_geo_loading fa fa-spinner fa-spin fa-2x"></i>
+					</button>
+				</span>
 			</div>
 			<div class="form-group">
 				<input class="form-control" placeholder="请填写能够联系到您的手机号" name="phone" type="text" value="">
 			</div>
+			
 	</div>
 	<div class="RS_cart_confirm row">
 		<button class="RS_70btn btn btn-success" type="submit">新增地址</button>
@@ -152,7 +156,7 @@
 <!-- JS script include start end -->
 <script src="__JS__/localstorge.package.js"></script>
 <script src="__JS__/RSsubmit.js"></script>
-
+<script src="http://api.map.baidu.com/api?v=2.0&ak=36pTbjjmTtlrSjYdSzvrXU9R"></script>
 <script type="text/javascript">
 var mytokenurl = "{:U('Index/bulidMem?tk='.session('__HmId__'))}";
 var storeid = {$_REQUEST['sid']};
@@ -162,8 +166,13 @@ var cart = {
 		num : 0 //总数量,只用于当前页面显示计算	不用做订单统计
 }; //购物车
 var storage_address,defaultAdd;
+var geolocation;
+
 
 $(function($) {
+	getmylocaltion();
+	$(".RS_geo_ready").on("click",getmylocaltion);
+	
 	storage_address = LS.get("address");
 	try {
 		storage_address = JSON.parse(storage_address);
@@ -221,6 +230,40 @@ $(function($) {
 		return false;
 	});
 });
+
+function getmylocaltion() {
+	$("#RSgeo").prop("readonly",true);
+	$(".RS_geo_ready").hide();
+	$(".RS_geo_loading").show();
+	
+	geolocation = new BMap.Geolocation();
+	geolocation.getCurrentPosition(function(r){
+		if(this.getStatus() == BMAP_STATUS_SUCCESS){
+			var myGeo = new BMap.Geocoder(); 
+			myGeo.getLocation(r.point, function(result){
+				if (result){
+					$("#RSgeo").val(result.address);
+				}
+			});
+		}
+		else {
+			alert('failed'+this.getStatus());
+		}
+		$("#RSgeo").prop("readonly",false);
+		$(".RS_geo_loading").hide();
+		$(".RS_geo_ready").show();
+	},{enableHighAccuracy: true})
+	//关于状态码
+	//BMAP_STATUS_SUCCESS	检索成功。对应数值“0”。
+	//BMAP_STATUS_CITY_LIST	城市列表。对应数值“1”。
+	//BMAP_STATUS_UNKNOWN_LOCATION	位置结果未知。对应数值“2”。
+	//BMAP_STATUS_UNKNOWN_ROUTE	导航结果未知。对应数值“3”。
+	//BMAP_STATUS_INVALID_KEY	非法密钥。对应数值“4”。
+	//BMAP_STATUS_INVALID_REQUEST	非法请求。对应数值“5”。
+	//BMAP_STATUS_PERMISSION_DENIED	没有权限。对应数值“6”。(自 1.1 新增)
+	//BMAP_STATUS_SERVICE_UNAVAILABLE	服务不可用。对应数值“7”。(自 1.1 新增)
+	//BMAP_STATUS_TIMEOUT	超时。对应数值“8”。(自 1.1 新增)
+}
 
 function togglepage(group) {
 	$("div[ng-group]").hide();
