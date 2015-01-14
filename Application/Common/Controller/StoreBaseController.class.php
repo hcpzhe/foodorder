@@ -14,18 +14,18 @@ abstract class StoreBaseController extends Controller {
 	 * 需要登录的控制器extends别的基类
 	 */
 	protected function _initialize() {
-		//defined('STID') or define('STID',is_login());
-		if (!defined('STID')) {
-			define('STID',2);
-			$store = M('Store')->find(STID);
-			$auth = array(
-					'id'		=> $store['id'],
-					'account'	=> $store['account'],
-					'logins'	=> $store['logins'],
-					'last_ip'	=> $store['last_ip']
-			);
-			session('user_auth', $auth);
-		}
+		defined('STID') or define('STID',is_login());
+// 		if (!defined('STID')) {
+// 			define('STID',2);
+// 			$store = M('Store')->find(STID);
+// 			$auth = array(
+// 					'id'		=> $store['id'],
+// 					'account'	=> $store['account'],
+// 					'logins'	=> $store['logins'],
+// 					'last_ip'	=> $store['last_ip']
+// 			);
+// 			session('user_auth', $auth);
+// 		}
 		if (! STID) { // 还没登录 跳转到登录页面
 			$this->redirect(C('LOGIN_URL'));
 		}

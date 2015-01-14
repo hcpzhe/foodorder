@@ -9,8 +9,8 @@ use Common\Model\ConfigModel;
 abstract class ManageBaseController extends Controller {
 	
 	protected function _initialize() {
-		//defined('UID') or define('UID',is_login());
-		defined('UID') or define('UID',1); //调试使用
+		defined('UID') or define('UID',is_login());
+		//defined('UID') or define('UID',1); //调试使用
         if( !UID ){// 还没登录 跳转到登录页面
             $this->redirect(C('LOGIN_URL'));
         }
