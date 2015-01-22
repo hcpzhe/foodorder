@@ -81,7 +81,7 @@ class StoreController extends ManageBaseController {
 		$info = $model->where($map)->find();
 		$this->assign('info',$info);
 		
-		cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
+		//cookie(C('CURRENT_URL_NAME'),$_SERVER['REQUEST_URI']);
 		$this->display();
 	}
 	

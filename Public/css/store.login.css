@@ -1,7 +1,7 @@
 @CHARSET "UTF-8";
 
 body{
-	background:url(../images/store_login_bg.png) repeat fixed!important;
+	background:url(../images/store_login_bg.png) #999897 no-repeat fixed!important
 }
 
 #login-wraper {

@@ -163,7 +163,7 @@
 			<div class="col-sm-9">
 				<input type="text" name="min_send" value="{$info['min_send']}" class="col-xs-1" />
 				<span class="help-inline col-xs-12 col-sm-7">
-					<span class="middle">单位: 元</span>
+					<span class="middle">单位: 元; 0位小数</span>
 				</span>
 			</div>
 		</div>
@@ -214,6 +214,9 @@
 			<div class="col-sm-3">
 				<input type="file" id="store_logo_fileinput" name="store_logo" />
 			</div>
+			<span class="help-inline col-xs-12 col-sm-6">
+				<span class="middle">最大上传2Mb的图片文件; 图片宽高比建议为1:1</span>
+			</span>
 		</div>
 		<!-- <if condition="$info['store_logo']"> -->
 		<div class="form-group">
@@ -239,7 +242,7 @@
 		</div>
 		<div class="form-group">
 			<label class="col-sm-3 control-label"> 上次登录IP </label>
-			<label class="col-sm-9">{$info['last_ip']}</label>
+			<label class="col-sm-9">{:long2ip($info['last_ip'])}</label>
 		</div>
 		<div class="form-group">
 			<label class="col-sm-3 control-label"> 登录次数 </label>

@@ -36,7 +36,7 @@ class MemberController extends ManageBaseController {
 		}
 		/******************/
 		
-		$list = $this->_lists($model,$map);
+		$list = $this->_lists($model,$map,'reg_time desc');
 		$this->assign('list', $list); //列表
 		$this->assign('now_status',$now_status); //当前页面筛选的状态
 		// 记录当前列表页的cookie

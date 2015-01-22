@@ -30,7 +30,10 @@ class StoreController extends HomeBaseController {
 			$map['store_name'] =array('like', '%'.$keyword.'%');
 		}
 		$map['is_close'] = '0';
-		$map['min_send'] = array('EGT', (int)$minsd); //起送价
+		$minsd = (int)$minsd;
+		if ($minsd > 0) {
+			$map['min_send'] = array('ELT', $minsd); //起送价
+		}
 		/******************/
 		if (isset($attrs)) {
 			$attrs = explode(',', $attrs);

@@ -33,6 +33,6 @@ class IndexController extends StoreBaseController {
 		if (false === $user_M->chgPwd($org, $new)) {
 			$this->error($user_M->getError());
 		}
-		$this->success('密码修改成功！');
+		$this->success('密码修改成功！',U('Info/info'));
 	}
 }
