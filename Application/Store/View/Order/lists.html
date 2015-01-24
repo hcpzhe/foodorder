@@ -59,6 +59,7 @@
 						<span class="label label-danger">未支付</span>
 						<!-- </if> -->
 					</td>
+					<!-- <if condition="$vo['status'] eq 1"> -->
 					<td>
 						<!-- <if condition="$vo['store_status'] eq 1"> -->
 						<span class="label label-info">已接收</span>
@@ -84,6 +85,9 @@
 						<button class="RSeditAmount btn btn-warning btn-sm" data-oid="{$vo['id']}" data-amt="{$vo['amount']}" >修改金额</button>
 						<a class="btn btn-primary btn-sm" href="{:U('read?id='.$vo['id'])}" target="main">查看订单</a>
 					</td>
+					<!-- <else /> -->
+					<td colspan="4">订单已取消</td>
+					<!-- </if> -->
 				</tr>
 				<!-- </foreach> -->
 				</tbody>

@@ -123,6 +123,15 @@ $(function($) {
 		}
 		jiesuan();
 	});
+	
+	$(".RS_menu_cart").on("click",function(){
+		//判断起送价是否达到要求
+		if (cart.fee < minsend || cart.fee<=0) {
+			//未达到要求
+			alert('未到到配送要求, 请继续选购~');
+			event.preventDefault();
+		}
+	});
 });
 //购物车初始化
 function initcart() {

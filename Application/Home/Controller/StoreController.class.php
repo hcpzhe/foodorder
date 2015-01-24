@@ -25,9 +25,23 @@ class StoreController extends HomeBaseController {
 		$order = 'is_recom DESC, sort ASC, id ASC';
 		//查询条件 处理
 		$map['status'] = array('EGT',0);
-		//TODO 暂时只匹配店铺名称
 		if (isset($keyword)) {
-			$map['store_name'] =array('like', '%'.$keyword.'%');
+			$this->assign('so_keyword',$keyword);
+			$so_map = array();
+			$so_map['_logic'] = 'or';
+			//匹配店铺名称
+			$so_map['store_name'] =array('like', '%'.$keyword.'%');
+			//匹配商品名称
+			$goods_M = new Model('Goods');
+			$so_goods_map = array(
+					'goods_name' => array('like', '%'.$keyword.'%'),
+					'status' => 1
+			);
+			$so_goods_store_ids = $goods_M->where($so_goods_map)->getField('store_id',true);
+			$so_goods_store_ids = array_unique($so_goods_store_ids);
+			if (!empty($so_goods_store_ids)) $so_map['id'] = array('in',$so_goods_store_ids);
+			
+			$map['_complex'] = $so_map;
 		}
 		$map['is_close'] = '0';
 		$minsd = (int)$minsd;
@@ -41,14 +55,15 @@ class StoreController extends HomeBaseController {
 			$tmp_store_ids = $StoreAttr_M->getStoreByAttr($attrs);
 			if (!empty($tmp_store_ids)) {
 				$map['id'] = array('in', $tmp_store_ids);
-				$list = $this->_lists($model,$map,$order);
+				$list = $model->where($map)->order($order)->select();
+				//$list = $this->_lists($model,$map,$order);
 			}else {
 				$list = array();
 			}
 		}else {
-			$list = $this->_lists($model,$map,$order);
+			$list = $model->where($map)->order($order)->select();
+			//$list = $this->_lists($model,$map,$order);
 		}
-		
 		$this->assign('list', $list); //列表
 		
 		// 记录当前列表页的cookie

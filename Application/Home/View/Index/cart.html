@@ -86,7 +86,7 @@ $(function($) {
 		cartgoods(this,1);
 	});
 	
-	$(".RS_cart").on("submit","#RSformcart",function(){
+	$(".RS_cart").on("submit","#RSformcart",function() {
 		this.totalprice.value = $("#RS_totalprice").html();
 	});
 });
@@ -110,6 +110,10 @@ function cartgoods(element,num) {
 		tmpprice += num * element.dataset.price;
 		$("#RS_totalnum").html(tmpnum);
 		$("#RS_totalprice").html(tmpprice.toFixed(2));
+		if (tmpnum <= 0) {
+			//购物车中没有商品的时候, 要显示没有商品
+			$(".RS_cart").html('<div class="alert alert-dismissable alert-danger text-center"><i class="fa fa-shopping-cart"></i> 购物车是空的,快快去订餐吧</div>');
+		}
 	}else {
 		//页面商品数量小于0时, 隐藏此元素, 并且storge中也要删除
 		try {delete storage_cart[storeid][goodsid];}catch(e){}

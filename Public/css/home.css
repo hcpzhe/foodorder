@@ -498,6 +498,17 @@ body{
 .RS_ship .RS_ship_box p {
 	margin: 0;
 }
+#address_list .RS_ship .RS_ship_box p.phone {
+	padding: 6px 0;
+}
+#address_list .RS_ship .RS_ship_address_del i {
+	float: none;
+	font-size: inherit;
+	color: #fff;
+}
+#address_list .RS_ship .RS_ship_address_del .btn {
+	margin-right: 10px;
+}
 .RS_ship .RS_ship_box div {
 	padding: 0;
 }
