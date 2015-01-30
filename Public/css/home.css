@@ -75,8 +75,23 @@ body{
 	padding:0 0 24px 0;
 }
 .navbar-inverse {
-	background-color: #FF4A30;
-	border-color: #FF4A30;
+	filter: progid: DXImageTransform.Microsoft.gradient(startColorstr = '#ff9700', endColorstr = '#eb4f32');
+	/*INNER ELEMENTS MUST NOT BREAK THIS ELEMENTS BOUNDARIES*/
+	/*Element must have a height (not auto)*/
+	/*All filters must be placed together*/
+	-ms-filter: "progid: DXImageTransform.Microsoft.gradient(startColorstr = '#ff9700', endColorstr = '#eb4f32')";
+	/*Element must have a height (not auto)*/
+	/*All filters must be placed together*/
+	background-image: -moz-linear-gradient(top, #ff9700, #eb4f32);
+	background-image: -ms-linear-gradient(top, #ff9700, #eb4f32);
+	background-image: -o-linear-gradient(top, #ff9700, #eb4f32);
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#ff9700), to(#eb4f32));
+	background-image: -webkit-linear-gradient(top, #ff9700, #eb4f32);
+	background-image: linear-gradient(top, #ff9700, #eb4f32);
+	/*--IE9 DOES NOT SUPPORT GRADIENT BACKGROUNDS--*/
+	
+	/*background-color: #FF4A30;*/
+	border-color: #eb4f32;
 }
 .navbar-inverse .navbar-brand {
 	color: #fff;
@@ -149,9 +164,19 @@ body{
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
-.RS_idx_cate a {
+.RS_idx_cate_li {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.RS_idx_cate_li_box {
+	border: 1px #DBDBDB solid;
+	border-radius: 15px;
+	padding: 10px;
+}
+.RS_idx_cate_word {
 	color: #4c4c4c;
-	font-size: 0.8em;
+	font-size: 1.1em;
+	line-height: 30px;
 }
 /**********************************/
 /*************首页底部***************/
@@ -172,7 +197,7 @@ body{
 	height: 31px;
 }
 .RS_idx_foot .active a {
-	color: #FF4A30;
+	color: #eb4f32;
 }
 /**********************************/
 /*************列表页顶部定制***************/
@@ -349,7 +374,7 @@ body{
 	color: #666;
 }
 .RS_goods ul.nav-tabs li.active a {
-	border-left: 2px solid #FF4A30;
+	border-left: 2px solid #eb4f32;
 	border-right: 1px solid transparent;
 }
 .RS_goods .tab-content {
@@ -526,13 +551,13 @@ body{
 	text-align: right;
 }
 .RS_ship_box_total {
-	color: #FF4A30;
+	color: #eb4f32;
 }
 .RS_ship .RS_ship_payments {
 	font-size: 14px;
 }
 .RS_ship .RS_ship_payments i.active {
-	color: #FF4A30;
+	color: #eb4f32;
 }
 .RS_ship_address_del {
 	position: absolute;
@@ -549,10 +574,10 @@ body{
 .RS_ship .RS_geo_group .btn {
 	height: 36px ;
 	margin-right: 0 ;
-	color: #FF4A30 ;
+	color: #eb4f32 ;
 }
 .RS_ship .RS_geo_ready,.RS_ship .RS_geo_loading {
-	color: #FF4A30 ;
+	color: #eb4f32 ;
 }
 .RS_ship .RS_geo_loading {
 	display: none;
@@ -566,14 +591,14 @@ body{
 	line-height: 30px;
 }
 .RS_odr_top a.active {
-	border-bottom: 2px #FF4A30 solid;
-	color: #FF4A30;
+	border-bottom: 2px #eb4f32 solid;
+	color: #eb4f32;
 }
 .RS_odrlist_content .RS_list_dl dt {
 	color: #999;
 }
 .RS_odrlist_content .RS_list_dl dt p {
-	color: #FF4A30;
+	color: #eb4f32;
 }
 .RS_odrlist_imgbox {
 	position: absolute;
@@ -678,7 +703,7 @@ body{
 	padding: 10px 0;
 }
 .RS_oi_total .price {
-	color: #FF4A30;
+	color: #eb4f32;
 	font-weight: bold;
 }
 .RS_oi_seller {
